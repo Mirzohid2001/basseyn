@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Вопросы и ответы (FAQ){% endblock %}
+{% block content %}
+<h2 class="mb-4">Вопросы и ответы (FAQ)</h2>
+<div class="accordion" id="faqAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="faq1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                Как заказать бассейн?
+            </button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                Выберите нужный товар на сайте и оформите заявку через форму заказа. Менеджер свяжется с вами.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="faq2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                Какие гарантии на оборудование?
+            </button>
+        </h2>
+        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                На все оборудование действует гарантия производителя, подробности уточняйте у менеджера.
+            </div>
+        </div>
+    </div>
+    <!-- Yana savollar qo‘shing -->
+</div>
+{% endblock %}

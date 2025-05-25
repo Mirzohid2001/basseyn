@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        {% if project.images.all %}
+            <img src="{{ project.images.first.image.url }}" class="img-fluid rounded mb-3" alt="{{ project.title }}">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <h2>{{ project.title }}</h2>
+        <div class="mb-3">{{ project.description|linebreaks }}</div>
+        <div class="mb-3"><b>Дата завершения:</b> {{ project.date_completed|date:"d.m.Y" }}</div>
+    </div>
+</div>
+{% endblock %}

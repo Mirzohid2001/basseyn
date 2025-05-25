@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Спасибо за заказ!{% endblock %}
+{% block content %}
+<div class="alert alert-success text-center my-5 py-5">
+    <h2>Спасибо!</h2>
+    <p>Ваш заказ успешно отправлен.<br>Мы свяжемся с вами в ближайшее время.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-3">На главную</a>
+</div>
+{% endblock %}

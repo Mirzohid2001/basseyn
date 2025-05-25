@@ -1,0 +1,831 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-content fade-in">
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">Главная</a>
+                <span class="separator">•</span>
+                <a href="{% url 'product_list' %}">Каталог</a>
+                <span class="separator">•</span>
+                <span class="current">{{ product.name }}</span>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Product Detail Section -->
+<section class="product-detail-section">
+    <div class="container">
+        <div class="product-detail-layout">
+            <!-- Product Images -->
+            <div class="product-images fade-in">
+                <div class="main-image">
+                    {% if product.images.first %}
+                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                             class="main-product-image" id="main-image">
+                    {% else %}
+                        <div class="image-placeholder">
+                            <i class="fas fa-swimming-pool"></i>
+                            <p>Изображение недоступно</p>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="image-zoom-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <span>Увеличить</span>
+                    </div>
+                </div>
+                
+                {% if product.images.count > 1 %}
+                <div class="image-thumbnails">
+                    {% for image in product.images.all %}
+                        <div class="thumbnail {% if forloop.first %}active{% endif %}" 
+                             onclick="changeMainImage('{{ image.image.url }}')">
+                            <img src="{{ image.image.url }}" alt="{{ product.name }}">
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Product Info -->
+            <div class="product-info fade-in">
+                <div class="product-header">
+                    {% if product.category %}
+                        <div class="product-category">{{ product.category.name }}</div>
+                    {% endif %}
+                    <h1 class="product-title">{{ product.name }}</h1>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-text">5.0 (124 отзыва)</span>
+                    </div>
+                </div>
+                
+                <div class="product-price">
+                    <span class="price-label">Цена:</span>
+                    <span class="price-value">${{ product.price|floatformat:0 }}</span>
+                    <span class="price-note">* Окончательная цена после консультации</span>
+                </div>
+                
+                <div class="product-description">
+                    {{ product.description|linebreaks }}
+                </div>
+                
+                <div class="product-features">
+                    <h3 class="features-title">Особенности:</h3>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Премиум качество</li>
+                        <li><i class="fas fa-check"></i> Профессиональная установка</li>
+                        <li><i class="fas fa-check"></i> Гарантия 5 лет</li>
+                        <li><i class="fas fa-check"></i> Техническая поддержка</li>
+                    </ul>
+                </div>
+                
+                <div class="product-actions">
+                    <a href="{% url 'order_create' %}?product={{ product.id }}" 
+                       class="btn btn-primary btn-large">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Заказать сейчас</span>
+                    </a>
+                    <button class="btn btn-outline btn-large" onclick="shareProduct()">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Поделиться</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Specifications -->
+<section class="specifications-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Технические характеристики</h2>
+        </div>
+        
+        <div class="specifications-grid fade-in">
+            <div class="spec-item">
+                <div class="spec-icon">
+                    <i class="fas fa-ruler-combined"></i>
+                </div>
+                <div class="spec-content">
+                    <h4>Размеры</h4>
+                    <p>Индивидуальные размеры</p>
+                </div>
+            </div>
+            
+            <div class="spec-item">
+                <div class="spec-icon">
+                    <i class="fas fa-water"></i>
+                </div>
+                <div class="spec-content">
+                    <h4>Материал</h4>
+                    <p>Высококачественные материалы</p>
+                </div>
+            </div>
+            
+            <div class="spec-item">
+                <div class="spec-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="spec-content">
+                    <h4>Гарантия</h4>
+                    <p>5 лет полной гарантии</p>
+                </div>
+            </div>
+            
+            <div class="spec-item">
+                <div class="spec-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="spec-content">
+                    <h4>Установка</h4>
+                    <p>Профессиональный монтаж</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+{% if related_products %}
+<section class="related-products-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Похожие товары</h2>
+            <p class="section-subtitle">Другие товары из этой категории</p>
+        </div>
+        
+        <div class="related-products-grid card-container">
+            {% for product in related_products %}
+            <div class="product-card card fade-in">
+                <div class="product-image">
+                    {% if product.images.first %}
+                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="product-placeholder">
+                            <i class="fas fa-swimming-pool"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="product-info">
+                    {% if product.category %}
+                        <div class="product-category">{{ product.category.name }}</div>
+                    {% endif %}
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <div class="product-price">${{ product.price|floatformat:0 }}</div>
+                    <div class="product-actions">
+                        <a href="{% url 'product_detail' product.id %}" class="btn-product btn-primary">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content text-center fade-in">
+            <h2 class="cta-title">Готовы заказать?</h2>
+            <p class="cta-subtitle">
+                Получите персональную консультацию и точный расчет стоимости
+            </p>
+            <div class="cta-buttons">
+                <a href="{% url 'order_create' %}?product={{ product.id }}" class="btn btn-primary btn-large">
+                    <span>Заказать консультацию</span>
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="{% url 'product_list' %}" class="btn btn-secondary btn-large">
+                    <span>Смотреть каталог</span>
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6rem 0 2rem;
+    position: relative;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.breadcrumbs a:hover {
+    color: white;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+.current {
+    color: white;
+    font-weight: 500;
+}
+
+/* Product Detail */
+.product-detail-section {
+    padding: 4rem 0;
+    background: white;
+}
+
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Product Images */
+.product-images {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.main-image {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    margin-bottom: 2rem;
+    cursor: zoom-in;
+}
+
+.main-product-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.main-image:hover .main-product-image {
+    transform: scale(1.05);
+}
+
+.image-zoom-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.main-image:hover .image-zoom-overlay {
+    opacity: 1;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.image-placeholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.image-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: var(--transition-normal);
+}
+
+.thumbnail.active {
+    border-color: var(--primary-color);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Product Info */
+.product-header {
+    margin-bottom: 2rem;
+}
+
+.product-category {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.product-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.2;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stars {
+    color: #fbbf24;
+    font-size: 1.2rem;
+}
+
+.rating-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.product-price {
+    background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.price-label {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.price-value {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.price-note {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.product-description {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.product-features {
+    margin-bottom: 3rem;
+}
+
+.features-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.features-list {
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-secondary);
+}
+
+.features-list i {
+    color: #10b981;
+    width: 20px;
+}
+
+.product-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+/* Specifications */
+.specifications-section {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+}
+
+.specifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.spec-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.spec-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.spec-content h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.spec-content p {
+    color: var(--text-secondary);
+}
+
+/* Related Products */
+.related-products-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+.related-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.product-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.product-card .product-image {
+    height: 250px;
+    overflow: hidden;
+}
+
+.product-card .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.1);
+}
+
+.product-card .product-info {
+    padding: 2rem;
+}
+
+.product-card .product-category {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.product-card .product-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.product-card .product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    background: none;
+    padding: 0;
+    border: none;
+}
+
+.btn-product {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-product.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.btn-product:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: white;
+    padding: 6rem 0;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 3rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .product-images {
+        position: static;
+    }
+    
+    .product-title {
+        font-size: 2rem;
+    }
+    
+    .price-value {
+        font-size: 2rem;
+    }
+    
+    .product-actions {
+        flex-direction: column;
+    }
+    
+    .specifications-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .spec-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .related-products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeMainImage(imageUrl) {
+    const mainImage = document.getElementById('main-image');
+    mainImage.src = imageUrl;
+    
+    // Update active thumbnail
+    document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+    });
+    event.target.closest('.thumbnail').classList.add('active');
+}
+
+function shareProduct() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ product.name }}',
+            text: 'Посмотрите этот замечательный товар на Водопадов',
+            url: window.location.href
+        });
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        navigator.clipboard.writeText(window.location.href);
+        alert('Ссылка скопирована в буфер обмена!');
+    }
+}
+
+// Image zoom functionality
+document.querySelector('.main-image').addEventListener('click', function() {
+    const img = this.querySelector('img');
+    if (img) {
+        const modal = document.createElement('div');
+        modal.className = 'image-modal';
+        modal.innerHTML = `
+            <div class="modal-backdrop" onclick="this.parentElement.remove()">
+                <div class="modal-content">
+                    <img src="${img.src}" alt="${img.alt}">
+                    <button class="modal-close" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Animate modal
+        gsap.fromTo(modal, {
+            opacity: 0
+        }, {
+            opacity: 1,
+            duration: 0.3
+        });
+        
+        gsap.fromTo(modal.querySelector('.modal-content'), {
+            scale: 0.8
+        }, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    }
+});
+</script>
+
+<style>
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-backdrop {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    cursor: default;
+}
+
+.modal-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+}
+
+.modal-close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-normal);
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+</style>
+{% endblock %}

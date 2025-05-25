@@ -1,0 +1,898 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Контакты - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">Контакты</h1>
+            <p class="page-subtitle">Свяжитесь с нами любым удобным способом</p>
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">Главная</a>
+                <span class="separator">•</span>
+                <span class="current">Контакты</span>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-layout">
+            <!-- Contact Form -->
+            <div class="contact-form-container fade-in">
+                <div class="form-header">
+                    <h2 class="form-title">Напишите нам</h2>
+                    <p class="form-subtitle">Заполните форму и мы свяжемся с вами в течение часа</p>
+                </div>
+                
+                <form class="modern-form contact-form" action="{% url 'contact_request' %}" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="name" class="form-label required">Ваше имя</label>
+                        <input type="text" id="name" name="name" class="form-input" 
+                               placeholder="Введите ваше имя" required>
+                        <span class="form-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="form-label required">Номер телефона</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" 
+                               placeholder="+998 (90) 123-45-67" required>
+                        <span class="form-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email (необязательно)</label>
+                        <input type="email" id="email" name="email" class="form-input" 
+                               placeholder="your@email.com">
+                        <span class="form-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Тема сообщения</label>
+                        <select id="subject" name="subject" class="form-select">
+                            <option value="">Выберите тему</option>
+                            <option value="consultation">Консультация</option>
+                            <option value="order">Заказ услуги</option>
+                            <option value="support">Техническая поддержка</option>
+                            <option value="complaint">Жалоба</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Ваше сообщение</label>
+                        <textarea id="message" name="message" class="form-textarea" rows="5" 
+                                  placeholder="Расскажите подробнее о вашем вопросе или проекте..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit" data-original-text="Отправить сообщение">
+                            <span>Отправить сообщение</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        
+                        <p class="privacy-text">
+                            Нажимая кнопку "Отправить", вы соглашаетесь с 
+                            <a href="#" class="privacy-link">политикой конфиденциальности</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="contact-info-container fade-in">
+                <div class="info-header">
+                    <h3 class="info-title">Наши контакты</h3>
+                    <p class="info-subtitle">Мы всегда готовы помочь</p>
+                </div>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Адрес офиса</h4>
+                            <p>{% if contact.address %}{{ contact.address }}{% else %}г. Ташкент, ул. Мустакиллик 1, офис 101{% endif %}</p>
+                            <small>Пн-Пт: 9:00-18:00, Сб: 9:00-15:00</small>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Телефон</h4>
+                            <p>{% if contact.phone %}{{ contact.phone }}{% else %}+998 (90) 123-45-67{% endif %}</p>
+                            <small>Ежедневно с 8:00 до 22:00</small>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Email</h4>
+                            <p>{% if contact.email %}{{ contact.email }}{% else %}info@vodopaddov.uz{% endif %}</p>
+                            <small>Отвечаем в течение 2 часов</small>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Telegram</h4>
+                            <p>@vodopaddov_uz</p>
+                            <small>Быстрая связь в мессенджере</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-connect">
+                    <h4>Мы в социальных сетях</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="social-link youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section">
+    <div class="container">
+        <div class="map-header text-center fade-in">
+            <h2 class="section-title">Как нас найти</h2>
+            <p class="section-subtitle">Мы находимся в центре Ташкента</p>
+        </div>
+        
+        <div class="map-container fade-in">
+            <div class="map-placeholder">
+                <div class="map-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3>Интерактивная карта</h3>
+                <p>Здесь будет размещена карта с нашим местоположением</p>
+                <button class="btn btn-primary" onclick="loadMap()">
+                    <span>Загрузить карту</span>
+                    <i class="fas fa-map"></i>
+                </button>
+            </div>
+            
+            <!-- Real map would be loaded here -->
+            <div id="map" class="map-embed" style="display: none;">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.7979417305!2d69.2406!3d41.2995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDE3JzU4LjIiTiA2OcKwMTQnMjYuMiJF!5e0!3m2!1sen!2s!4v1234567890"
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+        
+        <div class="location-details">
+            <div class="location-card fade-in">
+                <div class="location-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="location-content">
+                    <h3>Как добраться</h3>
+                    <p>Ближайшие станции метро: "Мустакиллик майдони" (5 мин пешком), "Пахтакор" (8 мин пешком)</p>
+                </div>
+            </div>
+            
+            <div class="location-card fade-in">
+                <div class="location-icon">
+                    <i class="fas fa-parking"></i>
+                </div>
+                <div class="location-content">
+                    <h3>Парковка</h3>
+                    <p>Бесплатная парковка для клиентов во дворе здания</p>
+                </div>
+            </div>
+            
+            <div class="location-card fade-in">
+                <div class="location-icon">
+                    <i class="fas fa-universal-access"></i>
+                </div>
+                <div class="location-content">
+                    <h3>Доступность</h3>
+                    <p>Офис оборудован для людей с ограниченными возможностями</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Часто задаваемые вопросы</h2>
+        </div>
+        
+        <div class="faq-list">
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Как быстро вы отвечаете на сообщения?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Мы стараемся отвечать на все сообщения в течение 2 часов в рабочее время. В выходные дни - в течение 24 часов.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Можно ли записаться на консультацию?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, вы можете записаться на бесплатную консультацию по телефону или через форму на сайте. Консультации проводятся как в офисе, так и на объекте.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Работаете ли вы в выходные дни?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Офис работает в субботу до 15:00. Воскресенье - выходной. Однако наша служба поддержки доступна 7 дней в неделю.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="75" cy="75" r="15" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>');
+    opacity: 0.5;
+    animation: float 20s ease-in-out infinite;
+}
+
+.page-header-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.page-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.breadcrumbs a:hover {
+    color: white;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+.current {
+    color: white;
+    font-weight: 500;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 4rem 0;
+    background: #f8fafc;
+}
+
+.contact-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Contact Form */
+.contact-form-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    height: fit-content;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.form-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-label.required::after {
+    content: '*';
+    color: #ef4444;
+    margin-left: 0.25rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    background: white;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-error {
+    color: #ef4444;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: block;
+    min-height: 1.2rem;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 3rem;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+}
+
+.btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.privacy-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.privacy-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Contact Info */
+.contact-info-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.info-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.info-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.info-subtitle {
+    color: var(--text-secondary);
+}
+
+.contact-methods {
+    margin-bottom: 2rem;
+}
+
+.contact-method {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.contact-method:last-child {
+    border-bottom: none;
+}
+
+.method-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.method-content h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.method-content p {
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.method-content small {
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.social-connect {
+    padding-top: 2rem;
+    border-top: 2px solid #e2e8f0;
+    text-align: center;
+}
+
+.social-connect h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-link {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: var(--transition-normal);
+    font-size: 1.2rem;
+}
+
+.social-link.facebook { background: #1877f2; }
+.social-link.instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+.social-link.telegram { background: #0088cc; }
+.social-link.youtube { background: #ff0000; }
+
+.social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Map Section */
+.map-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+.map-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.map-container {
+    margin-bottom: 4rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    background: white;
+}
+
+.map-placeholder {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.map-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.map-placeholder h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.map-placeholder p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.map-embed {
+    width: 100%;
+    height: 450px;
+}
+
+.location-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.location-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: var(--transition-normal);
+}
+
+.location-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.location-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.location-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.location-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-normal);
+}
+
+.faq-question:hover {
+    background: #f8fafc;
+}
+
+.faq-question h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.faq-question i {
+    color: var(--primary-color);
+    transition: var(--transition-normal);
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0 2rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: var(--transition-normal);
+}
+
+.faq-item.active .faq-answer {
+    padding: 0 2rem 2rem;
+    max-height: 200px;
+}
+
+.faq-answer p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .contact-form-container,
+    .contact-info-container {
+        padding: 2rem;
+    }
+    
+    .contact-info-container {
+        position: static;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+    }
+    
+    .contact-method {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .social-links {
+        flex-wrap: wrap;
+    }
+    
+    .location-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .location-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-form-container,
+    .contact-info-container {
+        padding: 1.5rem;
+    }
+    
+    .btn-submit {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+    
+    .breadcrumbs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.contact-form');
+    const phoneInput = document.getElementById('phone');
+    
+    // Phone number formatting
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.startsWith('998')) {
+            value = value.slice(3);
+        }
+        
+        if (value.length >= 2) {
+            value = `+998 (${value.slice(0, 2)}) ${value.slice(2, 5)}-${value.slice(5, 7)}-${value.slice(7, 9)}`;
+        } else if (value.length > 0) {
+            value = `+998 (${value}`;
+        }
+        
+        e.target.value = value;
+    });
+});
+
+function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    const isActive = faqItem.classList.contains('active');
+    
+    // Close all FAQ items
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Open clicked item if it wasn't active
+    if (!isActive) {
+        faqItem.classList.add('active');
+    }
+}
+
+function loadMap() {
+    const placeholder = document.querySelector('.map-placeholder');
+    const mapEmbed = document.getElementById('map');
+    
+    // Hide placeholder and show map
+    placeholder.style.display = 'none';
+    mapEmbed.style.display = 'block';
+    
+    // Animate map loading
+    gsap.fromTo(mapEmbed, {
+        opacity: 0,
+        scale: 0.95
+    }, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        ease: 'power2.out'
+    });
+}
+</script>
+{% endblock %}

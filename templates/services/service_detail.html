@@ -1,0 +1,958 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ service.name }} - Услуги - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-content fade-in">
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">Главная</a>
+                <span class="separator">•</span>
+                <a href="{% url 'service_list' %}">Услуги</a>
+                <span class="separator">•</span>
+                <span class="current">{{ service.name }}</span>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Service Detail Section -->
+<section class="service-detail-section">
+    <div class="container">
+        <div class="service-detail-layout">
+            <!-- Service Images -->
+            <div class="service-images fade-in">
+                <div class="main-image">
+                    {% if service.images.first %}
+                        <img src="{{ service.images.first.image.url }}" alt="{{ service.name }}" 
+                             class="main-service-image" id="main-image">
+                    {% else %}
+                        <div class="image-placeholder">
+                            <i class="fas fa-tools"></i>
+                            <p>Изображение недоступно</p>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="image-zoom-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <span>Увеличить</span>
+                    </div>
+                </div>
+                
+                {% if service.images.count > 1 %}
+                <div class="image-thumbnails">
+                    {% for image in service.images.all %}
+                        <div class="thumbnail {% if forloop.first %}active{% endif %}" 
+                             onclick="changeMainImage('{{ image.image.url }}')">
+                            <img src="{{ image.image.url }}" alt="{{ service.name }}">
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Service Info -->
+            <div class="service-info fade-in">
+                <div class="service-header">
+                    <div class="service-badge">Профессиональная услуга</div>
+                    <h1 class="service-title">{{ service.name }}</h1>
+                    <div class="service-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-text">5.0 (98 отзывов)</span>
+                    </div>
+                </div>
+                
+                <div class="service-price">
+                    <span class="price-label">Стоимость:</span>
+                    {% if service.price %}
+                        <span class="price-value">от ${{ service.price|floatformat:0 }}</span>
+                    {% else %}
+                        <span class="price-value">По запросу</span>
+                    {% endif %}
+                    <span class="price-note">* Точная стоимость рассчитывается индивидуально</span>
+                </div>
+                
+                <div class="service-description">
+                    {{ service.description|linebreaks }}
+                </div>
+                
+                <div class="service-features">
+                    <h3 class="features-title">Что включено:</h3>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Бесплатная консультация</li>
+                        <li><i class="fas fa-check"></i> Профессиональная команда</li>
+                        <li><i class="fas fa-check"></i> Качественные материалы</li>
+                        <li><i class="fas fa-check"></i> Гарантия на работы</li>
+                        <li><i class="fas fa-check"></i> Поддержка после завершения</li>
+                    </ul>
+                </div>
+                
+                <div class="service-actions">
+                    <a href="{% url 'order_create' %}?service={{ service.id }}" 
+                       class="btn btn-primary btn-large">
+                        <i class="fas fa-phone"></i>
+                        <span>Заказать услугу</span>
+                    </a>
+                    <button class="btn btn-outline btn-large" onclick="shareService()">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Поделиться</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Process -->
+<section class="process-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Этапы выполнения услуги</h2>
+            <p class="section-subtitle">Пошаговый процесс от начала до завершения</p>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step fade-in">
+                <div class="step-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Консультация</h3>
+                    <p>Обсуждение ваших потребностей и требований к услуге</p>
+                </div>
+                <div class="step-number">01</div>
+            </div>
+            
+            <div class="step-connector"></div>
+            
+            <div class="process-step fade-in">
+                <div class="step-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Планирование</h3>
+                    <p>Составление детального плана работ и согласование сроков</p>
+                </div>
+                <div class="step-number">02</div>
+            </div>
+            
+            <div class="step-connector"></div>
+            
+            <div class="process-step fade-in">
+                <div class="step-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Выполнение</h3>
+                    <p>Профессиональное выполнение работ с контролем качества</p>
+                </div>
+                <div class="step-number">03</div>
+            </div>
+            
+            <div class="step-connector"></div>
+            
+            <div class="process-step fade-in">
+                <div class="step-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="step-content">
+                    <h3>Завершение</h3>
+                    <p>Проверка результата и передача готового проекта</p>
+                </div>
+                <div class="step-number">04</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Service Benefits -->
+<section class="benefits-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Преимущества нашей услуги</h2>
+        </div>
+        
+        <div class="benefits-grid">
+            <div class="benefit-item fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3>Опыт и экспертиза</h3>
+                <p>Более 15 лет успешной работы в области обслуживания бассейнов</p>
+            </div>
+            
+            <div class="benefit-item fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Соблюдение сроков</h3>
+                <p>Гарантируем выполнение работ в оговоренные сроки</p>
+            </div>
+            
+            <div class="benefit-item fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Гарантия качества</h3>
+                <p>Предоставляем расширенную гарантию на все выполненные работы</p>
+            </div>
+            
+            <div class="benefit-item fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>Поддержка 24/7</h3>
+                <p>Круглосуточная техническая поддержка и консультации</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Часто задаваемые вопросы</h2>
+        </div>
+        
+        <div class="faq-list">
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Сколько времени занимает выполнение услуги?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Время выполнения зависит от сложности проекта. Обычно от 1 до 7 рабочих дней. Точные сроки обсуждаются на этапе консультации.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Предоставляете ли вы гарантию на работы?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, мы предоставляем гарантию на все виды работ от 1 до 5 лет в зависимости от типа услуги.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Можно ли заказать услугу в выходные дни?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Да, мы работаем 7 дней в неделю. Возможны дополнительные расходы за работу в выходные и праздничные дни.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content text-center fade-in">
+            <h2 class="cta-title">Готовы заказать услугу?</h2>
+            <p class="cta-subtitle">
+                Получите бесплатную консультацию и персональное предложение
+            </p>
+            <div class="cta-buttons">
+                <a href="{% url 'order_create' %}?service={{ service.id }}" class="btn btn-primary btn-large">
+                    <span>Заказать сейчас</span>
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="{% url 'service_list' %}" class="btn btn-secondary btn-large">
+                    <span>Все услуги</span>
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6rem 0 2rem;
+    position: relative;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.breadcrumbs a:hover {
+    color: white;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+.current {
+    color: white;
+    font-weight: 500;
+}
+
+/* Service Detail */
+.service-detail-section {
+    padding: 4rem 0;
+    background: white;
+}
+
+.service-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Service Images */
+.service-images {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.main-image {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    margin-bottom: 2rem;
+    cursor: zoom-in;
+}
+
+.main-service-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.main-image:hover .main-service-image {
+    transform: scale(1.05);
+}
+
+.image-zoom-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.main-image:hover .image-zoom-overlay {
+    opacity: 1;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.image-placeholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.image-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: var(--transition-normal);
+}
+
+.thumbnail.active {
+    border-color: var(--primary-color);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Service Info */
+.service-header {
+    margin-bottom: 2rem;
+}
+
+.service-badge {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.service-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.2;
+}
+
+.service-rating {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stars {
+    color: #fbbf24;
+    font-size: 1.2rem;
+}
+
+.rating-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.service-price {
+    background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.price-label {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.price-value {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.price-note {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.service-description {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.service-features {
+    margin-bottom: 3rem;
+}
+
+.features-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.features-list {
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-secondary);
+}
+
+.features-list i {
+    color: #10b981;
+    width: 20px;
+}
+
+.service-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+/* Process Section */
+.process-section {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+}
+
+.process-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.process-step {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    position: relative;
+    z-index: 2;
+    min-width: 200px;
+}
+
+.process-step:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.step-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.step-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.step-number {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+    background: var(--secondary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.step-connector {
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    margin: 0 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Benefits Section */
+.benefits-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+}
+
+.benefit-item {
+    text-align: center;
+    padding: 2rem;
+}
+
+.benefit-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.benefit-item h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.benefit-item p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-normal);
+}
+
+.faq-question:hover {
+    background: #f8fafc;
+}
+
+.faq-question h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.faq-question i {
+    color: var(--primary-color);
+    transition: var(--transition-normal);
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0 2rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: var(--transition-normal);
+}
+
+.faq-item.active .faq-answer {
+    padding: 0 2rem 2rem;
+    max-height: 200px;
+}
+
+.faq-answer p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: white;
+    padding: 6rem 0;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 3rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .service-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .service-images {
+        position: static;
+    }
+    
+    .service-title {
+        font-size: 2rem;
+    }
+    
+    .price-value {
+        font-size: 2rem;
+    }
+    
+    .service-actions {
+        flex-direction: column;
+    }
+    
+    .process-steps {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .step-connector {
+        display: none;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeMainImage(imageUrl) {
+    const mainImage = document.getElementById('main-image');
+    mainImage.src = imageUrl;
+    
+    // Update active thumbnail
+    document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.classList.remove('active');
+    });
+    event.target.closest('.thumbnail').classList.add('active');
+}
+
+function shareService() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ service.name }}',
+            text: 'Посмотрите эту услугу на Водопадов',
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Ссылка скопирована в буфер обмена!');
+    }
+}
+
+function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    const isActive = faqItem.classList.contains('active');
+    
+    // Close all FAQ items
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // Open clicked item if it wasn't active
+    if (!isActive) {
+        faqItem.classList.add('active');
+    }
+}
+
+// Image zoom functionality
+document.querySelector('.main-image').addEventListener('click', function() {
+    const img = this.querySelector('img');
+    if (img) {
+        const modal = document.createElement('div');
+        modal.className = 'image-modal';
+        modal.innerHTML = `
+            <div class="modal-backdrop" onclick="this.parentElement.remove()">
+                <div class="modal-content">
+                    <img src="${img.src}" alt="${img.alt}">
+                    <button class="modal-close" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Animate modal
+        gsap.fromTo(modal, {
+            opacity: 0
+        }, {
+            opacity: 1,
+            duration: 0.3
+        });
+        
+        gsap.fromTo(modal.querySelector('.modal-content'), {
+            scale: 0.8
+        }, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    }
+});
+</script>
+
+<style>
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-backdrop {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    cursor: default;
+}
+
+.modal-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+}
+
+.modal-close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-normal);
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+</style>
+{% endblock %}

@@ -1,0 +1,901 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}О нас - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">О компании Водопадов</h1>
+            <p class="page-subtitle">Лидеры в области создания элитных бассейнов и водных комплексов</p>
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">Главная</a>
+                <span class="separator">•</span>
+                <span class="current">О нас</span>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Company Story -->
+<section class="story-section">
+    <div class="container">
+        <div class="story-layout">
+            <div class="story-content fade-in">
+                <div class="story-header">
+                    <span class="story-tag">Наша история</span>
+                    <h2 class="story-title">{% if about.title %}{{ about.title }}{% else %}15 лет создания водных шедевров{% endif %}</h2>
+                </div>
+                
+                <div class="story-text">
+                    {% if about.content %}
+                        {{ about.content|safe }}
+                    {% else %}
+                        <p>Компания "Водопадов" была основана в 2009 году с простой, но амбициозной миссией - создавать не просто бассейны, а настоящие произведения искусства, которые станут центром комфорта и роскоши в каждом доме.</p>
+                        
+                        <p>За 15 лет работы мы реализовали более 500 проектов различной сложности - от небольших семейных бассейнов до масштабных водных комплексов для отелей и спа-центров. Наша команда профессионалов постоянно совершенствует свои навыки и следит за последними тенденциями в области дизайна и технологий.</p>
+                        
+                        <p>Мы гордимся тем, что каждый наш проект уникален и создается с учетом индивидуальных потребностей и пожеланий клиента. Качество, надежность и безупречный сервис - вот три столпа, на которых строится репутация нашей компании.</p>
+                    {% endif %}
+                </div>
+                
+                <div class="story-highlights">
+                    <div class="highlight-item">
+                        <div class="highlight-number">500+</div>
+                        <div class="highlight-text">Реализованных проектов</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-number">15</div>
+                        <div class="highlight-text">Лет на рынке</div>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-number">100%</div>
+                        <div class="highlight-text">Довольных клиентов</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="story-image fade-in">
+                {% if about.image %}
+                    <img src="{{ about.image.url }}" alt="{{ about.title }}" class="main-image">
+                {% else %}
+                    <div class="image-placeholder">
+                        <i class="fas fa-building"></i>
+                        <p>Фото офиса компании</p>
+                    </div>
+                {% endif %}
+                
+                <div class="image-overlay">
+                    <div class="overlay-content">
+                        <h3>Наш офис в Ташкенте</h3>
+                        <p>Современный офис в центре города с выставочным залом</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="mission-section">
+    <div class="container">
+        <div class="mission-grid">
+            <div class="mission-card fade-in">
+                <div class="mission-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>Наша миссия</h3>
+                <p>Создавать уникальные водные пространства, которые превращают обычные дома в оазисы комфорта и роскоши, принося радость и удовольствие нашим клиентам каждый день.</p>
+            </div>
+            
+            <div class="mission-card fade-in">
+                <div class="mission-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Наше видение</h3>
+                <p>Стать ведущей компанией в Центральной Азии по созданию элитных бассейнов и водных комплексов, устанавливая новые стандарты качества и инноваций в отрасли.</p>
+            </div>
+            
+            <div class="mission-card fade-in">
+                <div class="mission-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Наши ценности</h3>
+                <p>Качество, инновации, честность и клиентоориентированность - основа всех наших решений. Мы верим, что каждый проект должен быть выполнен с максимальной заботой и вниманием к деталям.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Наша команда</h2>
+            <p class="section-subtitle">Профессионалы с многолетним опытом в области дизайна и строительства бассейнов</p>
+        </div>
+        
+        <div class="team-grid">
+            <div class="team-member fade-in">
+                <div class="member-image">
+                    <div class="member-placeholder">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="member-overlay">
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Алексей Петров</h3>
+                    <span class="member-position">Генеральный директор</span>
+                    <p>15 лет опыта в строительной отрасли. Руководит стратегическим развитием компании и контролирует качество всех проектов.</p>
+                </div>
+            </div>
+            
+            <div class="team-member fade-in">
+                <div class="member-image">
+                    <div class="member-placeholder">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="member-overlay">
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Марина Козлова</h3>
+                    <span class="member-position">Главный дизайнер</span>
+                    <p>Создает уникальные дизайн-проекты бассейнов. 12 лет опыта в архитектуре и ландшафтном дизайне.</p>
+                </div>
+            </div>
+            
+            <div class="team-member fade-in">
+                <div class="member-image">
+                    <div class="member-placeholder">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="member-overlay">
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Дмитрий Волков</h3>
+                    <span class="member-position">Технический директор</span>
+                    <p>Отвечает за техническую реализацию проектов и инновационные решения. 10 лет опыта в гидротехнике.</p>
+                </div>
+            </div>
+            
+            <div class="team-member fade-in">
+                <div class="member-image">
+                    <div class="member-placeholder">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="member-overlay">
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3>Елена Смирнова</h3>
+                    <span class="member-position">Менеджер проектов</span>
+                    <p>Координирует все этапы строительства и обеспечивает соблюдение сроков. 8 лет в управлении проектами.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievements -->
+<section class="achievements-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Наши достижения</h2>
+            <p class="section-subtitle">Признание профессионального сообщества и благодарность клиентов</p>
+        </div>
+        
+        <div class="achievements-grid">
+            <div class="achievement-item fade-in">
+                <div class="achievement-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>"Лучший проект года"</h3>
+                <p>Премия Ассоциации строителей Узбекистана за инновационный дизайн бассейна (2023)</p>
+            </div>
+            
+            <div class="achievement-item fade-in">
+                <div class="achievement-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h3>"Качество и надежность"</h3>
+                <p>Сертификат качества ISO 9001:2015 за безупречное качество строительных работ (2022)</p>
+            </div>
+            
+            <div class="achievement-item fade-in">
+                <div class="achievement-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>"Выбор клиентов"</h3>
+                <p>Рейтинг 5.0 звезд на основе 200+ отзывов клиентов на независимых платформах</p>
+            </div>
+            
+            <div class="achievement-item fade-in">
+                <div class="achievement-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3>"Инновации в дизайне"</h3>
+                <p>Победитель конкурса архитектурных решений "Ташкент Сити 2023"</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Certifications -->
+<section class="certifications-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Сертификаты и лицензии</h2>
+            <p class="section-subtitle">Официальные документы, подтверждающие нашу квалификацию</p>
+        </div>
+        
+        <div class="certifications-grid">
+            <div class="certification-card fade-in">
+                <div class="cert-placeholder">
+                    <i class="fas fa-certificate"></i>
+                    <h4>Лицензия на строительство</h4>
+                    <p>№ СТР-2023-001</p>
+                </div>
+            </div>
+            
+            <div class="certification-card fade-in">
+                <div class="cert-placeholder">
+                    <i class="fas fa-certificate"></i>
+                    <h4>ISO 9001:2015</h4>
+                    <p>Система менеджмента качества</p>
+                </div>
+            </div>
+            
+            <div class="certification-card fade-in">
+                <div class="cert-placeholder">
+                    <i class="fas fa-certificate"></i>
+                    <h4>Экологический сертификат</h4>
+                    <p>Соответствие эко-стандартам</p>
+                </div>
+            </div>
+            
+            <div class="certification-card fade-in">
+                <div class="cert-placeholder">
+                    <i class="fas fa-certificate"></i>
+                    <h4>Сертификат безопасности</h4>
+                    <p>Соблюдение норм безопасности</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content text-center fade-in">
+            <h2 class="cta-title">Хотите узнать больше?</h2>
+            <p class="cta-subtitle">
+                Приходите к нам в офис на бесплатную консультацию или свяжитесь любым удобным способом
+            </p>
+            <div class="cta-buttons">
+                <a href="{% url 'contacts' %}" class="btn btn-primary btn-large">
+                    <span>Наши контакты</span>
+                    <i class="fas fa-map-marker-alt"></i>
+                </a>
+                <a href="{% url 'order_create' %}" class="btn btn-secondary btn-large">
+                    <span>Консультация</span>
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{% if about.meta_description %}{{ about.meta_description }}{% else %}Водопадов - ведущая компания по созданию элитных бассейнов в Узбекистане. 15 лет опыта, более 500 реализованных проектов, команда профессионалов.{% endif %}">
+
+<style>
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="30" cy="30" r="25" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="70" cy="70" r="20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>');
+    opacity: 0.5;
+    animation: float 25s ease-in-out infinite;
+}
+
+.page-header-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.page-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.breadcrumbs a:hover {
+    color: white;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+.current {
+    color: white;
+    font-weight: 500;
+}
+
+/* Story Section */
+.story-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+.story-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.story-header {
+    margin-bottom: 2rem;
+}
+
+.story-tag {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.story-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+    line-height: 1.2;
+}
+
+.story-text {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+}
+
+.story-text p {
+    margin-bottom: 1.5rem;
+}
+
+.story-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.highlight-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--primary-color);
+}
+
+.highlight-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 0.5rem;
+}
+
+.highlight-text {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.story-image {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+.main-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.story-image:hover .main-image {
+    transform: scale(1.05);
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 500px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.image-placeholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 2rem;
+    color: white;
+    transform: translateY(100%);
+    transition: var(--transition-normal);
+}
+
+.story-image:hover .image-overlay {
+    transform: translateY(0);
+}
+
+.overlay-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Mission Section */
+.mission-section {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+}
+
+.mission-card {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.mission-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-gradient);
+    opacity: 0.05;
+    transition: var(--transition-normal);
+}
+
+.mission-card:hover::before {
+    left: 0;
+}
+
+.mission-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.mission-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.mission-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.mission-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Team Section */
+.team-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+}
+
+.team-member {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.member-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.member-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 4rem;
+}
+
+.member-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(102, 126, 234, 0.9);
+    opacity: 0;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-member:hover .member-overlay {
+    opacity: 1;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+.member-info {
+    padding: 2rem;
+    text-align: center;
+}
+
+.member-info h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.member-position {
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.member-info p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+/* Achievements Section */
+.achievements-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+}
+
+.achievement-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: var(--transition-normal);
+}
+
+.achievement-item:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.achievement-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.achievement-item h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.achievement-item p {
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* Certifications Section */
+.certifications-section {
+    padding: 6rem 0;
+    background: #f8fafc;
+}
+
+.certifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.certification-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.certification-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.cert-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cert-placeholder i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.cert-placeholder h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.cert-placeholder p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: white;
+    padding: 6rem 0;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .story-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .story-image {
+        order: -1;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+    }
+    
+    .story-highlights {
+        grid-template-columns: 1fr;
+    }
+    
+    .mission-grid,
+    .team-grid,
+    .achievements-grid,
+    .certifications-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .breadcrumbs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .highlight-number {
+        font-size: 2rem;
+    }
+}
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-30px); }
+}
+</style>
+{% endblock %} 

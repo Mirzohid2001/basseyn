@@ -1,0 +1,812 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Водопадов — Элитные Бассейны и Водные Комплексы{% endblock %}
+
+{% block content %}
+<!-- Features Section -->
+<section class="section features-section" id="features">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Почему выбирают нас</h2>
+            <p class="section-subtitle">Мы создаем не просто бассейны, а произведения искусства</p>
+        </div>
+        
+        <div class="features-grid card-container">
+            <div class="feature-card card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-drafting-compass"></i>
+                </div>
+                <h3 class="feature-title">Индивидуальный дизайн</h3>
+                <p class="feature-description">
+                    Каждый проект создается с учетом ваших пожеланий и особенностей участка. 
+                    Наши дизайнеры воплотят любую вашу мечту в реальность.
+                </p>
+            </div>
+            
+            <div class="feature-card card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3 class="feature-title">Премиум оборудование</h3>
+                <p class="feature-description">
+                    Используем только проверенное оборудование ведущих мировых производителей. 
+                    Гарантируем долговечность и безупречную работу.
+                </p>
+            </div>
+            
+            <div class="feature-card card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Полная гарантия</h3>
+                <p class="feature-description">
+                    Предоставляем расширенную гарантию на все виды работ и оборудование. 
+                    Наша поддержка 24/7 всегда готова помочь.
+                </p>
+            </div>
+            
+            <div class="feature-card card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="feature-title">Точные сроки</h3>
+                <p class="feature-description">
+                    Соблюдаем договорные сроки без компромиссов. Наша команда профессионалов 
+                    работает эффективно и качественно.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="section portfolio-section" id="portfolio">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Наши проекты</h2>
+            <p class="section-subtitle">Галерея реализованных водных комплексов</p>
+        </div>
+        
+        <div class="portfolio-grid card-container">
+            <div class="portfolio-item card fade-in">
+                <div class="portfolio-image">
+                    <div class="portfolio-icon">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-content">
+                            <h3>Infinity Pool</h3>
+                            <p>Частная резиденция, Ташкент</p>
+                            <a href="{% url 'product_list' %}" class="btn btn-primary">
+                                <span>Подробнее</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio-item card fade-in">
+                <div class="portfolio-image">
+                    <div class="portfolio-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-content">
+                            <h3>SPA Комплекс</h3>
+                            <p>Отель класса люкс</p>
+                            <a href="{% url 'product_list' %}" class="btn btn-primary">
+                                <span>Подробнее</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio-item card fade-in">
+                <div class="portfolio-image">
+                    <div class="portfolio-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-content">
+                            <h3>Семейный бассейн</h3>
+                            <p>Загородный дом</p>
+                            <a href="{% url 'product_list' %}" class="btn btn-primary">
+                                <span>Подробнее</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio-item card fade-in">
+                <div class="portfolio-image">
+                    <div class="portfolio-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-content">
+                            <h3>Аквапарк</h3>
+                            <p>Развлекательный комплекс</p>
+                            <a href="{% url 'product_list' %}" class="btn btn-primary">
+                                <span>Подробнее</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="portfolio-item card fade-in">
+                <div class="portfolio-image">
+                    <div class="portfolio-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="portfolio-overlay">
+                        <div class="portfolio-content">
+                            <h3>Коммерческий бассейн</h3>
+                            <p>Фитнес центр</p>
+                            <a href="{% url 'product_list' %}" class="btn btn-primary">
+                                <span>Подробнее</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center fade-in" style="margin-top: 3rem;">
+            <a href="{% url 'product_list' %}" class="btn btn-primary btn-large">
+                <span>Смотреть каталог</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="section categories-section" id="categories">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Категории товаров</h2>
+            <p class="section-subtitle">Выберите интересующую вас категорию</p>
+        </div>
+        
+        <div class="categories-grid card-container">
+            {% for category in categories %}
+            <div class="category-card card fade-in">
+                <div class="category-visual">
+                    {% if category.image %}
+                        <div class="category-image">
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                        </div>
+                    {% else %}
+                        <div class="category-icon">
+                            {% if "бассейн" in category.name|lower %}
+                                <i class="fas fa-swimming-pool"></i>
+                            {% elif "оборудование" in category.name|lower or "насос" in category.name|lower or "фильтр" in category.name|lower %}
+                                <i class="fas fa-tools"></i>
+                            {% elif "химия" in category.name|lower or "химические" in category.name|lower %}
+                                <i class="fas fa-flask"></i>
+                            {% elif "нагрев" in category.name|lower or "обогрев" in category.name|lower %}
+                                <i class="fas fa-thermometer-half"></i>
+                            {% elif "аксессуар" in category.name|lower or "покрыт" in category.name|lower %}
+                                <i class="fas fa-umbrella-beach"></i>
+                            {% elif "освещение" in category.name|lower or "свет" in category.name|lower %}
+                                <i class="fas fa-lightbulb"></i>
+                            {% elif "спа" in category.name|lower or "джакузи" in category.name|lower %}
+                                <i class="fas fa-spa"></i>
+                            {% elif "очистк" in category.name|lower or "чистк" in category.name|lower %}
+                                <i class="fas fa-filter"></i>
+                            {% else %}
+                                <i class="fas fa-water"></i>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <h3 class="category-title">{{ category.name }}</h3>
+                <p class="category-description">
+                    {% if category.description %}
+                        {{ category.description|truncatewords:10 }}
+                    {% else %}
+                        Качественные товары категории {{ category.name|lower }}
+                    {% endif %}
+                </p>
+                <div class="category-count">{{ category.product_count }} товар{% if category.product_count == 1 %}{% elif category.product_count < 5 %}а{% else %}ов{% endif %}</div>
+                <a href="{% url 'product_list' %}?category={{ category.id }}" class="category-link">
+                    <span>Смотреть товары</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            {% empty %}
+            <!-- Fallback если нет категорий -->
+            <div class="category-card card fade-in">
+                <div class="category-visual">
+                    <div class="category-icon">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                </div>
+                <h3 class="category-title">Бассейны</h3>
+                <p class="category-description">Различные типы бассейнов для дома и дачи</p>
+                <div class="category-count">Смотреть все</div>
+                <a href="{% url 'product_list' %}" class="category-link">
+                    <span>Смотреть товары</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="category-card card fade-in">
+                <div class="category-visual">
+                    <div class="category-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                </div>
+                <h3 class="category-title">Оборудование</h3>
+                <p class="category-description">Насосы, фильтры и системы очистки</p>
+                <div class="category-count">Смотреть все</div>
+                <a href="{% url 'product_list' %}" class="category-link">
+                    <span>Смотреть товары</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center fade-in" style="margin-top: 3rem;">
+            <a href="{% url 'product_list' %}" class="btn btn-secondary btn-large">
+                <span>Все категории</span>
+                <i class="fas fa-th-large"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="section services-section" id="services">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Наши услуги</h2>
+            <p class="section-subtitle">Полный спектр работ от проектирования до обслуживания</p>
+        </div>
+        
+        <div class="services-grid card-container">
+            <div class="service-card card fade-in">
+                <div class="service-number">01</div>
+                <h3 class="service-title">Проектирование</h3>
+                <p class="service-description">
+                    3D моделирование, архитектурные решения, ландшафтный дизайн
+                </p>
+                <ul class="service-features">
+                    <li>3D визуализация</li>
+                    <li>Техническая документация</li>
+                    <li>Согласование проекта</li>
+                </ul>
+                <a href="{% url 'service_list' %}" class="service-link">
+                    <span>Узнать больше</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="service-card card fade-in">
+                <div class="service-number">02</div>
+                <h3 class="service-title">Строительство</h3>
+                <p class="service-description">
+                    Земляные работы, монтаж конструкций, отделочные работы
+                </p>
+                <ul class="service-features">
+                    <li>Земляные работы</li>
+                    <li>Монтаж оборудования</li>
+                    <li>Отделка и декор</li>
+                </ul>
+                <a href="{% url 'service_list' %}" class="service-link">
+                    <span>Узнать больше</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="service-card card fade-in">
+                <div class="service-number">03</div>
+                <h3 class="service-title">Обслуживание</h3>
+                <p class="service-description">
+                    Регулярное обслуживание, ремонт, модернизация оборудования
+                </p>
+                <ul class="service-features">
+                    <li>Техническое обслуживание</li>
+                    <li>Химическая обработка</li>
+                    <li>Ремонт и модернизация</li>
+                </ul>
+                <a href="{% url 'service_list' %}" class="service-link">
+                    <span>Узнать больше</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section cta-section" id="cta">
+    <div class="container">
+        <div class="cta-content text-center fade-in">
+            <h2 class="cta-title">Готовы создать бассейн мечты?</h2>
+            <p class="cta-subtitle">
+                Получите бесплатную консультацию и персональное предложение уже сегодня
+            </p>
+            <div class="cta-buttons">
+                <a href="{% url 'order_create' %}" class="btn btn-primary btn-large">
+                    <span>Заказать консультацию</span>
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="{% url 'product_list' %}" class="btn btn-secondary btn-large">
+                    <span>Смотреть каталог</span>
+                    <i class="fas fa-catalog"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Home Page Specific Styles */
+.features-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.feature-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Portfolio Section */
+.portfolio-section {
+    background: white;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.portfolio-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.portfolio-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-icon {
+    font-size: 6rem;
+    color: var(--primary-color);
+    transition: var(--transition-slow);
+}
+
+.portfolio-item:hover .portfolio-icon {
+    transform: scale(1.2);
+    color: white;
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+    opacity: 0;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-content {
+    text-align: center;
+    color: white;
+    transform: translateY(20px);
+    transition: var(--transition-normal);
+}
+
+.portfolio-item:hover .portfolio-content {
+    transform: translateY(0);
+}
+
+.portfolio-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.portfolio-content p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+/* Services Section */
+.services-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.service-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 3rem 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: var(--transition-normal);
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.service-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.service-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.service-description {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.service-features {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.service-features li {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 0;
+    position: relative;
+    padding-left: 2rem;
+}
+
+.service-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #4facfe;
+    font-weight: bold;
+}
+
+.service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+}
+
+.service-link:hover {
+    color: #4facfe;
+    transform: translateX(5px);
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: white;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+}
+
+/* Section Styles */
+.section {
+    padding: 6rem 0;
+}
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-primary);
+}
+
+.services-section .section-title {
+    color: white;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.services-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .section {
+        padding: 4rem 0;
+    }
+    
+    .features-grid,
+    .portfolio-grid,
+    .services-grid,
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .cta-title {
+        font-size: 2rem;
+    }
+}
+
+/* Categories Section */
+.categories-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.category-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transition: var(--transition-normal);
+}
+
+.category-card:hover::before {
+    transform: scaleX(1);
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.category-visual {
+    margin-bottom: 1.5rem;
+}
+
+.category-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    transition: var(--transition-normal);
+}
+
+.category-card:hover .category-icon {
+    background: var(--primary-gradient);
+    color: white;
+    transform: scale(1.1);
+}
+
+.category-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.category-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-normal);
+}
+
+.category-card:hover .category-image {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.category-card:hover .category-image img {
+    transform: scale(1.1);
+}
+
+.category-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+}
+
+.category-description {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.category-count {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.category-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-md);
+}
+
+.category-link:hover {
+    background: var(--primary-gradient);
+    color: white;
+    transform: translateX(5px);
+    border-color: transparent;
+}
+</style>
+{% endblock %}

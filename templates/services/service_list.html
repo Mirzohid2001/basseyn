@@ -1,0 +1,625 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Услуги - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">Наши услуги</h1>
+            <p class="page-subtitle">Полный спектр услуг от проектирования до обслуживания бассейнов</p>
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">Главная</a>
+                <span class="separator">•</span>
+                <span class="current">Услуги</span>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Services Introduction -->
+<section class="services-intro">
+    <div class="container">
+        <div class="intro-content text-center fade-in">
+            <h2 class="intro-title">Профессиональные решения для вашего бассейна</h2>
+            <p class="intro-text">
+                От концепции до реализации - мы предоставляем комплексные услуги по созданию 
+                и обслуживанию бассейнов любой сложности. Наша команда экспертов гарантирует 
+                высочайшее качество на каждом этапе работы.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Services Grid -->
+<section class="services-section">
+    <div class="container">
+        <div class="services-grid card-container">
+            {% for service in services %}
+            <div class="service-card card fade-in">
+                <div class="service-image">
+                    {% if service.images.first %}
+                        <img src="{{ service.images.first.image.url }}" alt="{{ service.name }}" 
+                             data-src="{{ service.images.first.image.url }}">
+                    {% else %}
+                        <div class="service-placeholder">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="service-overlay">
+                        <div class="service-overlay-content">
+                            <h3>{{ service.name }}</h3>
+                            <p>{{ service.description|truncatechars:100 }}</p>
+                            <a href="{% url 'service_detail' service.id %}" class="btn btn-primary">
+                                <span>Подробнее</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-info">
+                    <div class="service-header">
+                        <h3 class="service-name">{{ service.name }}</h3>
+                        {% if service.price %}
+                            <div class="service-price">от ${{ service.price|floatformat:0 }}</div>
+                        {% else %}
+                            <div class="service-price">По запросу</div>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="service-description">{{ service.description|truncatechars:120 }}</p>
+                    
+                    <div class="service-features">
+                        <div class="feature-tag">Профессионально</div>
+                        <div class="feature-tag">Качественно</div>
+                        <div class="feature-tag">Быстро</div>
+                    </div>
+                    
+                    <div class="service-actions">
+                        <a href="{% url 'service_detail' service.id %}" class="btn-service btn-primary">
+                            Подробнее
+                        </a>
+                        <a href="{% url 'order_create' %}?service={{ service.id }}" class="btn-service btn-outline">
+                            Заказать
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <i class="fas fa-tools"></i>
+                <h3>Услуги временно недоступны</h3>
+                <p>Мы работаем над обновлением списка услуг. Пожалуйста, свяжитесь с нами для получения информации.</p>
+                <a href="{% url 'order_create' %}" class="btn btn-primary">
+                    <span>Связаться с нами</span>
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="process-section">
+    <div class="container">
+        <div class="section-header text-center fade-in">
+            <h2 class="section-title">Как мы работаем</h2>
+            <p class="section-subtitle">Простой и прозрачный процесс от заявки до завершения проекта</p>
+        </div>
+        
+        <div class="process-timeline">
+            <div class="process-step fade-in">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Консультация</h3>
+                    <p>Бесплатная консультация и обсуждение ваших потребностей</p>
+                </div>
+            </div>
+            
+            <div class="process-step fade-in">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Планирование</h3>
+                    <p>Разработка индивидуального плана и сметы работ</p>
+                </div>
+            </div>
+            
+            <div class="process-step fade-in">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Выполнение</h3>
+                    <p>Профессиональное выполнение работ в согласованные сроки</p>
+                </div>
+            </div>
+            
+            <div class="process-step fade-in">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h3>Сдача</h3>
+                    <p>Проверка качества и передача готового проекта заказчику</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content text-center fade-in">
+            <h2 class="cta-title">Готовы начать проект?</h2>
+            <p class="cta-subtitle">
+                Получите бесплатную консультацию и персональное предложение по вашему проекту
+            </p>
+            <div class="cta-buttons">
+                <a href="{% url 'order_create' %}" class="btn btn-primary btn-large">
+                    <span>Получить консультацию</span>
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="{% url 'contacts' %}" class="btn btn-secondary btn-large">
+                    <span>Наши контакты</span>
+                    <i class="fas fa-map-marker-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="80" cy="30" r="15" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><circle cx="50" cy="70" r="12" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/></svg>');
+    opacity: 0.5;
+    animation: float 15s ease-in-out infinite;
+}
+
+.page-header-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.page-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.breadcrumbs a:hover {
+    color: white;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+.current {
+    color: white;
+    font-weight: 500;
+}
+
+/* Services Introduction */
+.services-intro {
+    padding: 4rem 0;
+    background: white;
+}
+
+.intro-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.intro-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', serif;
+}
+
+.intro-text {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+/* Services Section */
+.services-section {
+    padding: 4rem 0 6rem;
+    background: #f8fafc;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 3rem;
+}
+
+/* Service Card */
+.service-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.service-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.service-card:hover .service-image img {
+    transform: scale(1.1);
+}
+
+.service-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 4rem;
+}
+
+.service-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+    opacity: 0;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.service-card:hover .service-overlay {
+    opacity: 1;
+}
+
+.service-overlay-content {
+    text-align: center;
+    color: white;
+    transform: translateY(20px);
+    transition: var(--transition-normal);
+}
+
+.service-card:hover .service-overlay-content {
+    transform: translateY(0);
+}
+
+.service-overlay-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.service-overlay-content p {
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.service-info {
+    padding: 2.5rem;
+}
+
+.service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.service-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.service-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    white-space: nowrap;
+}
+
+.service-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.service-features {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.feature-tag {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.service-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-service {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-service.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.btn-service.btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-service:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-service.btn-outline:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Process Section */
+.process-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+.process-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+}
+
+.process-step {
+    text-align: center;
+    position: relative;
+}
+
+.step-number {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 auto 2rem;
+    color: white;
+    font-family: 'Playfair Display', serif;
+}
+
+.step-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.step-content p {
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: white;
+    padding: 6rem 0;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.cta-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-secondary);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2.5rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .service-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .service-actions {
+        flex-direction: column;
+    }
+    
+    .process-timeline {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .service-info {
+        padding: 2rem;
+    }
+    
+    .breadcrumbs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+</style>
+{% endblock %}

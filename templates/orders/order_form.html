@@ -1,0 +1,729 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Оформить заказ - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">Оформление заказа</h1>
+            <p class="page-subtitle">Заполните форму и наши специалисты свяжутся с вами в течение часа</p>
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">Главная</a>
+                <span class="separator">•</span>
+                <span class="current">Заказ</span>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Order Form Section -->
+<section class="order-section">
+    <div class="container">
+        <div class="order-layout">
+            <!-- Order Form -->
+            <div class="order-form-container fade-in">
+                <div class="form-header">
+                    <h2 class="form-title">Данные для заказа</h2>
+                    <p class="form-subtitle">Все поля обязательны для заполнения</p>
+                </div>
+                
+                <form class="modern-form order-form" action="{% url 'order_create' %}" method="post">
+                    {% csrf_token %}
+                    
+                    <!-- Client Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Контактная информация
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="client_name" class="form-label required">Ваше имя</label>
+                            <input type="text" id="client_name" name="client_name" class="form-input" 
+                                   placeholder="Введите ваше имя" required>
+                            <span class="form-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="client_phone" class="form-label required">Номер телефона</label>
+                            <input type="tel" id="client_phone" name="client_phone" class="form-input" 
+                                   placeholder="+998 (90) 123-45-67" required>
+                            <span class="form-error"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Product/Service Selection -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-shopping-cart"></i>
+                            Выберите товар или услугу
+                        </h3>
+                        
+                        <div class="selection-tabs">
+                            <button type="button" class="tab-btn active" data-tab="products">
+                                <i class="fas fa-swimming-pool"></i>
+                                Товары
+                            </button>
+                            <button type="button" class="tab-btn" data-tab="services">
+                                <i class="fas fa-tools"></i>
+                                Услуги
+                            </button>
+                        </div>
+                        
+                        <div class="tab-content active" id="products-tab">
+                            <div class="form-group">
+                                <label for="product" class="form-label">Выберите товар</label>
+                                <select id="product" name="product" class="form-select">
+                                    <option value="">-- Выберите товар --</option>
+                                    {% for product in products %}
+                                        <option value="{{ product.id }}" 
+                                                data-price="{{ product.price }}"
+                                                {% if request.GET.product == product.id|stringformat:"s" %}selected{% endif %}>
+                                            {{ product.name }} - ${{ product.price|floatformat:0 }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="services-tab">
+                            <div class="form-group">
+                                <label for="service" class="form-label">Выберите услугу</label>
+                                <select id="service" name="service" class="form-select">
+                                    <option value="">-- Выберите услугу --</option>
+                                    {% for service in services %}
+                                        <option value="{{ service.id }}" 
+                                                data-price="{{ service.price|default:'0' }}">
+                                            {{ service.name }}
+                                            {% if service.price %} - ${{ service.price|floatformat:0 }}{% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-comment"></i>
+                            Дополнительная информация
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label for="comment" class="form-label">Комментарий к заказу</label>
+                            <textarea id="comment" name="comment" class="form-textarea" rows="4" 
+                                      placeholder="Укажите дополнительные пожелания, адрес доставки или другую важную информацию..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit" data-original-text="Отправить заказ">
+                            <span>Отправить заказ</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        
+                        <p class="privacy-text">
+                            Нажимая кнопку "Отправить заказ", вы соглашаетесь с 
+                            <a href="#" class="privacy-link">политикой конфиденциальности</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="order-summary fade-in">
+                <div class="summary-header">
+                    <h3 class="summary-title">Сводка заказа</h3>
+                </div>
+                
+                <div class="summary-content">
+                    <div class="summary-item" id="selected-item">
+                        <div class="item-placeholder">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>Выберите товар или услугу</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-price" id="total-price" style="display: none;">
+                        <div class="price-row">
+                            <span>Стоимость:</span>
+                            <span class="price-value">$0</span>
+                        </div>
+                        <div class="price-note">
+                            * Окончательная стоимость будет рассчитана после консультации
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-features">
+                    <h4 class="features-title">Что вы получите:</h4>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Бесплатная консультация</li>
+                        <li><i class="fas fa-check"></i> Индивидуальный расчет</li>
+                        <li><i class="fas fa-check"></i> Гарантия качества</li>
+                        <li><i class="fas fa-check"></i> Поддержка 24/7</li>
+                    </ul>
+                </div>
+                
+                <div class="contact-info">
+                    <h4 class="contact-title">Нужна помощь?</h4>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+998 (90) 123-45-67</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@vodopaddov.uz</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.page-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+.current {
+    color: white;
+    font-weight: 500;
+}
+
+/* Order Section */
+.order-section {
+    padding: 4rem 0;
+    background: #f8fafc;
+}
+
+.order-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Order Form */
+.order-form-container {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    height: fit-content;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.form-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.form-section {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.section-title i {
+    color: var(--primary-color);
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-label.required::after {
+    content: '*';
+    color: #ef4444;
+    margin-left: 0.25rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    background: white;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-error {
+    color: #ef4444;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: block;
+    min-height: 1.2rem;
+}
+
+/* Tabs */
+.selection-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tab-btn.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+.tab-btn:hover:not(.active) {
+    border-color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Submit Button */
+.form-actions {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 3rem;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+}
+
+.btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.privacy-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.privacy-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Order Summary */
+.order-summary {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.summary-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.summary-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.summary-content {
+    margin-bottom: 2rem;
+}
+
+.summary-item {
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    background: #f8fafc;
+    margin-bottom: 1rem;
+}
+
+.item-placeholder {
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.item-placeholder i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.selected-item {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.item-name {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.item-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.summary-price {
+    padding: 1rem;
+    background: #f0f8ff;
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--primary-color);
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.price-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.price-note {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Features */
+.summary-features {
+    margin-bottom: 2rem;
+}
+
+.features-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.features-list {
+    list-style: none;
+}
+
+.features-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+}
+
+.features-list i {
+    color: #10b981;
+    font-size: 0.9rem;
+}
+
+/* Contact Info */
+.contact-info {
+    padding-top: 2rem;
+    border-top: 2px solid #e2e8f0;
+}
+
+.contact-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+}
+
+.contact-item i {
+    color: var(--primary-color);
+    width: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .order-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .order-form-container,
+    .order-summary {
+        padding: 2rem;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .selection-tabs {
+        flex-direction: column;
+    }
+    
+    .order-summary {
+        position: static;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-form-container,
+    .order-summary {
+        padding: 1.5rem;
+    }
+    
+    .btn-submit {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.order-form');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const productSelect = document.getElementById('product');
+    const serviceSelect = document.getElementById('service');
+    const selectedItem = document.getElementById('selected-item');
+    const totalPrice = document.getElementById('total-price');
+    
+    // Tab switching
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.dataset.tab;
+            
+            // Update tabs
+            tabBtns.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(t => t.classList.remove('active'));
+            
+            btn.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Clear other selection
+            if (tabName === 'products') {
+                serviceSelect.value = '';
+            } else {
+                productSelect.value = '';
+            }
+            
+            updateSummary();
+        });
+    });
+    
+    // Product/Service selection
+    productSelect.addEventListener('change', () => {
+        serviceSelect.value = '';
+        updateSummary();
+    });
+    
+    serviceSelect.addEventListener('change', () => {
+        productSelect.value = '';
+        updateSummary();
+    });
+    
+    function updateSummary() {
+        const product = productSelect.selectedOptions[0];
+        const service = serviceSelect.selectedOptions[0];
+        
+        if (product && product.value) {
+            showSelection(product.textContent, product.dataset.price);
+        } else if (service && service.value) {
+            showSelection(service.textContent, service.dataset.price || '0');
+        } else {
+            hideSelection();
+        }
+    }
+    
+    function showSelection(name, price) {
+        selectedItem.innerHTML = `
+            <div class="selected-item">
+                <div class="item-name">${name}</div>
+                <div class="item-price">$${parseFloat(price).toLocaleString()}</div>
+            </div>
+        `;
+        
+        if (price && price !== '0') {
+            totalPrice.style.display = 'block';
+            totalPrice.querySelector('.price-value').textContent = `$${parseFloat(price).toLocaleString()}`;
+        } else {
+            totalPrice.style.display = 'none';
+        }
+    }
+    
+    function hideSelection() {
+        selectedItem.innerHTML = `
+            <div class="item-placeholder">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Выберите товар или услугу</p>
+            </div>
+        `;
+        totalPrice.style.display = 'none';
+    }
+    
+    // Phone number formatting
+    const phoneInput = document.getElementById('client_phone');
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.startsWith('998')) {
+            value = value.slice(3);
+        }
+        
+        if (value.length >= 2) {
+            value = `+998 (${value.slice(0, 2)}) ${value.slice(2, 5)}-${value.slice(5, 7)}-${value.slice(7, 9)}`;
+        } else if (value.length > 0) {
+            value = `+998 (${value}`;
+        }
+        
+        e.target.value = value;
+    });
+    
+    // Initialize with URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const productParam = urlParams.get('product');
+    if (productParam) {
+        productSelect.value = productParam;
+        updateSummary();
+    }
+});
+</script>
+{% endblock %}
