@@ -1,7 +1,7 @@
 # main/views.py
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
-from .models import InfoPage, ContactInfo, About
+from .models import InfoPage, ContactInfo, About, Banner
 from products.models import Category
 
 def home(request):
@@ -10,8 +10,12 @@ def home(request):
         product_count=Count('products')
     ).filter(product_count__gt=0)[:6]  # Берем только категории с товарами, максимум 6
     
+    # Получаем активные баннеры
+    banners = Banner.objects.filter(is_active=True)
+    
     context = {
-        'categories': categories
+        'categories': categories,
+        'banners': banners
     }
     return render(request, "main/home.html", context)
 

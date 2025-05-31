@@ -4,62 +4,6 @@
 {% block title %}Водопадов — Элитные Бассейны и Водные Комплексы{% endblock %}
 
 {% block content %}
-<!-- Features Section -->
-<section class="section features-section" id="features">
-    <div class="container">
-        <div class="section-header text-center fade-in">
-            <h2 class="section-title">Почему выбирают нас</h2>
-            <p class="section-subtitle">Мы создаем не просто бассейны, а произведения искусства</p>
-        </div>
-        
-        <div class="features-grid card-container">
-            <div class="feature-card card fade-in">
-                <div class="feature-icon">
-                    <i class="fas fa-drafting-compass"></i>
-                </div>
-                <h3 class="feature-title">Индивидуальный дизайн</h3>
-                <p class="feature-description">
-                    Каждый проект создается с учетом ваших пожеланий и особенностей участка. 
-                    Наши дизайнеры воплотят любую вашу мечту в реальность.
-                </p>
-            </div>
-            
-            <div class="feature-card card fade-in">
-                <div class="feature-icon">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <h3 class="feature-title">Премиум оборудование</h3>
-                <p class="feature-description">
-                    Используем только проверенное оборудование ведущих мировых производителей. 
-                    Гарантируем долговечность и безупречную работу.
-                </p>
-            </div>
-            
-            <div class="feature-card card fade-in">
-                <div class="feature-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <h3 class="feature-title">Полная гарантия</h3>
-                <p class="feature-description">
-                    Предоставляем расширенную гарантию на все виды работ и оборудование. 
-                    Наша поддержка 24/7 всегда готова помочь.
-                </p>
-            </div>
-            
-            <div class="feature-card card fade-in">
-                <div class="feature-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <h3 class="feature-title">Точные сроки</h3>
-                <p class="feature-description">
-                    Соблюдаем договорные сроки без компромиссов. Наша команда профессионалов 
-                    работает эффективно и качественно.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Portfolio Section -->
 <section class="section portfolio-section" id="portfolio">
     <div class="container">
@@ -349,62 +293,42 @@
         </div>
     </div>
 </section>
+
+<!-- Promo Banners Section -->
+{% if banners %}
+<section class="section promo-banners-section">
+    <div class="container">
+        <div class="promo-banners-grid">
+            {% for banner in banners %}
+            <div class="promo-banner fade-in" 
+                 {% if banner.background_color %}style="background-color: {{ banner.background_color }};"{% endif %}>
+                {% if banner.image %}
+                <div class="banner-image">
+                    <img src="{{ banner.image.url }}" alt="{{ banner.title }}">
+                </div>
+                {% endif %}
+                <div class="banner-content">
+                    <h3 class="banner-title">{{ banner.title }}</h3>
+                    {% if banner.subtitle %}
+                    <p class="banner-subtitle">{{ banner.subtitle }}</p>
+                    {% endif %}
+                    {% if banner.link %}
+                    <a href="{{ banner.link }}" class="banner-link">
+                        <span>{{ banner.link_text }}</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}
 
 {% block extra_head %}
 <style>
-/* Home Page Specific Styles */
-.features-section {
-    background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 4rem;
-}
-
-.feature-card {
-    background: white;
-    padding: 3rem 2rem;
-    border-radius: var(--radius-lg);
-    text-align: center;
-    box-shadow: var(--shadow-md);
-    transition: var(--transition-normal);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-xl);
-}
-
-.feature-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--primary-gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 2rem;
-    font-size: 2rem;
-    color: white;
-}
-
-.feature-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-}
-
-.feature-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
 /* Portfolio Section */
 .portfolio-section {
     background: white;
@@ -647,7 +571,6 @@
         padding: 4rem 0;
     }
     
-    .features-grid,
     .portfolio-grid,
     .services-grid,
     .categories-grid {
@@ -671,7 +594,7 @@
 
 /* Categories Section */
 .categories-section {
-    background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+    background: linear-gradient(135deg, #f0f8ff 0%, #e0f7ff 100%);
 }
 
 .categories-grid {
@@ -721,7 +644,7 @@
 .category-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    background: linear-gradient(135deg, rgba(0, 153, 204, 0.1), rgba(0, 102, 153, 0.1));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -807,6 +730,99 @@
     color: white;
     transform: translateX(5px);
     border-color: transparent;
+}
+
+/* Promo Banners Section */
+.promo-banners-section {
+    padding: 4rem 0;
+    background: #f8fafc;
+}
+
+.promo-banners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.promo-banner {
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.promo-banner:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.banner-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.banner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.promo-banner:hover .banner-image img {
+    transform: scale(1.1);
+}
+
+.banner-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.banner-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.banner-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.banner-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    transition: var(--transition-normal);
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+.banner-link:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+    .promo-banners-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 {% endblock %}

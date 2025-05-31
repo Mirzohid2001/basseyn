@@ -66,10 +66,10 @@
                     <i class="fas fa-tools"></i>
                     <span>Услуги</span>
                 </a>
-                <a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                <!-- <a href="{% url 'about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
                     <i class="fas fa-info-circle"></i>
                     <span>О нас</span>
-                </a>
+                </a> -->
                 <a href="{% url 'contacts' %}" class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}">
                     <i class="fas fa-envelope"></i>
                     <span>Контакты</span>
@@ -115,7 +115,9 @@
                     </h1>
                     <p class="hero-subtitle">
                         Превращаем мечты о роскошном бассейне в реальность с помощью 
-                        передовых технологий и безупречного дизайна
+                        передовых технологий и безупречного дизайна. Мы создаем уникальные водные комплексы, 
+                        которые становятся центром комфорта и роскоши в вашем доме. 
+                        Каждый проект разрабатывается индивидуально с учетом всех ваших пожеланий.
                     </p>
                     <div class="hero-buttons">
                         <a href="{% url 'product_list' %}" class="btn btn-primary">
@@ -126,21 +128,6 @@
                             <span>Консультация</span>
                             <i class="fas fa-phone"></i>
                         </a>
-                    </div>
-                </div>
-                
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="500">0</div>
-                        <div class="stat-label">Проектов</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="15">0</div>
-                        <div class="stat-label">Лет опыта</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-count="100">0</div>
-                        <div class="stat-label">% Качество</div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ContactInfo, InfoPage, About
+from .models import ContactInfo, InfoPage, About, Banner
 
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
@@ -14,4 +14,12 @@ class InfoPageAdmin(admin.ModelAdmin):
 class AboutAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'updated_at')
     search_fields = ('title', 'content')
+    readonly_fields = ('created_at', 'updated_at')
+
+@admin.register(Banner)
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ('title', 'is_active', 'order', 'created_at')
+    list_filter = ('is_active',)
+    search_fields = ('title', 'subtitle')
+    list_editable = ('is_active', 'order')
     readonly_fields = ('created_at', 'updated_at')
