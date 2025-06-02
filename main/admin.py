@@ -3,7 +3,7 @@ from .models import ContactInfo, InfoPage, About, Banner
 
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
-    list_display = ("address", "phone", "email")
+    list_display = ("address", "phone", "email","telegram")
 
 @admin.register(InfoPage)
 class InfoPageAdmin(admin.ModelAdmin):

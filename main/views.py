@@ -12,10 +12,12 @@ def home(request):
     
     # Получаем активные баннеры
     banners = Banner.objects.filter(is_active=True)
-    
+    contact = ContactInfo.objects.first()
+
     context = {
         'categories': categories,
-        'banners': banners
+        'banners': banners,
+        'contact':contact
     }
     return render(request, "main/home.html", context)
 

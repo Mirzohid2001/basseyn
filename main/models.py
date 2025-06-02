@@ -4,6 +4,7 @@ class ContactInfo(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=50)
     email = models.EmailField()
+    telegram = models.CharField(max_length=100)
 
     def __str__(self):
         return self.address

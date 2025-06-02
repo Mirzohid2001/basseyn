@@ -128,15 +128,22 @@
                     </div>
                     
                     <div class="contact-method">
-                        <div class="method-icon">
-                            <i class="fab fa-telegram"></i>
-                        </div>
-                        <div class="method-content">
-                            <h4>Telegram</h4>
-                            <p>@vodopaddov_uz</p>
-                            <small>Быстрая связь в мессенджере</small>
-                        </div>
-                    </div>
+    <div class="method-icon">
+        <i class="fab fa-telegram"></i>
+    </div>
+    <div class="method-content">
+        <h4>Telegram</h4>
+        <p>
+            {% if contact and contact.telegram %}
+                {{ contact.telegram }}
+            {% else %}
+                @vodopadof
+            {% endif %}
+        </p>
+        <small>Быстрая связь в мессенджере</small>
+    </div>
+</div>
+
                 </div>
                 
                 <div class="social-connect">
@@ -148,7 +155,7 @@
                         <a href="#" class="social-link instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="social-link telegram">
+                        <a href="https://t.me/vodopadof" class="social-link telegram">
                             <i class="fab fa-telegram"></i>
                         </a>
                         <a href="#" class="social-link youtube">
