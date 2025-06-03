@@ -82,7 +82,7 @@
                                         <option value="{{ product.id }}" 
                                                 data-price="{{ product.price }}"
                                                 {% if request.GET.product == product.id|stringformat:"s" %}selected{% endif %}>
-                                            {{ product.name }} - ${{ product.price|floatformat:0 }}
+                                            {{ product.name }} - ₽{{ product.price|floatformat:0 }}
                                         </option>
                                     {% endfor %}
                                 </select>
@@ -98,7 +98,7 @@
                                         <option value="{{ service.id }}" 
                                                 data-price="{{ service.price|default:'0' }}">
                                             {{ service.name }}
-                                            {% if service.price %} - ${{ service.price|floatformat:0 }}{% endif %}
+                                            {% if service.price %} - ₽{{ service.price|floatformat:0 }}{% endif %}
                                         </option>
                                     {% endfor %}
                                 </select>
@@ -152,7 +152,7 @@
                     <div class="summary-price" id="total-price" style="display: none;">
                         <div class="price-row">
                             <span>Стоимость:</span>
-                            <span class="price-value">$0</span>
+                            <span class="price-value">₽0</span>
                         </div>
                         <div class="price-note">
                             * Окончательная стоимость будет рассчитана после консультации

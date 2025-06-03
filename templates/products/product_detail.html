@@ -75,7 +75,7 @@
                 
                 <div class="product-price">
                     <span class="price-label">Цена:</span>
-                    <span class="price-value">${{ product.price|floatformat:0 }}</span>
+                    <span class="price-value">₽{{ product.price|floatformat:0 }}</span>
                     <span class="price-note">* Окончательная цена после консультации</span>
                 </div>
                 
@@ -187,7 +187,7 @@
                         <div class="product-category">{{ product.category.name }}</div>
                     {% endif %}
                     <h3 class="product-name">{{ product.name }}</h3>
-                    <div class="product-price">${{ product.price|floatformat:0 }}</div>
+                    <div class="product-price">₽{{ product.price|floatformat:0 }}</div>
                     <div class="product-actions">
                         <a href="{% url 'product_detail' product.id %}" class="btn-product btn-primary">
                             Подробнее
@@ -742,7 +742,7 @@ document.querySelector('.main-image').addEventListener('click', function() {
         modal.innerHTML = `
             <div class="modal-backdrop" onclick="this.parentElement.remove()">
                 <div class="modal-content">
-                    <img src="${img.src}" alt="${img.alt}">
+                    <img src="₽{img.src}" alt="${img.alt}">
                     <button class="modal-close" onclick="this.parentElement.parentElement.remove()">
                         <i class="fas fa-times"></i>
                     </button>

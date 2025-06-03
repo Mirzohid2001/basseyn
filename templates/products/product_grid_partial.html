@@ -26,7 +26,7 @@
             <p class="product-description">{{ product.short_description }}</p>
         {% endif %}
         
-        <div class="product-price">${{ product.price|floatformat:0 }}</div>
+        <div class="product-price">₽{{ product.price|floatformat:0 }}</div>
         
         <div class="product-actions">
             <a href="{% url 'product_detail' product.id %}" class="btn-product btn-primary">

@@ -65,7 +65,7 @@
                     <div class="service-header">
                         <h3 class="service-name">{{ service.name }}</h3>
                         {% if service.price %}
-                            <div class="service-price">от ${{ service.price|floatformat:0 }}</div>
+                            <div class="service-price">от ₽{{ service.price|floatformat:0 }}</div>
                         {% else %}
                             <div class="service-price">По запросу</div>
                         {% endif %}
