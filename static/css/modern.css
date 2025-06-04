@@ -133,11 +133,17 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 1000;
     transition: var(--transition-normal);
+}
+.hero-title,
+.hero-subtitle,
+.hero-content p,
+.hero-buttons .btn {
+    text-shadow: 0 2px 12px rgba(0,0,0,0.35), 0 0px 1px rgba(0,0,0,0.15);
 }
 
 .navbar.scrolled {
@@ -164,16 +170,21 @@ body {
 }
 
 .brand-logo {
-    width: 50px;
-    height: 50px;
-    background: var(--primary-gradient);
-    border-radius: 50%;
+    width: auto;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.5rem;
-    box-shadow: var(--shadow-md);
+    border-radius: 50%;
+    background: none;       /* убираем фон */
+    box-shadow: none;       /* убираем тень, если была */
+    overflow: visible;
+}
+.logo-img {
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
+    display: block;
 }
 
 .brand-text .brand-name {
@@ -302,8 +313,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.1;
+    opacity: 1 !important;
+    z-index: 0;
 }
+
+
 
 .animated-pool {
     position: absolute;
@@ -1461,4 +1475,5 @@ body {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-} 
+}
+
