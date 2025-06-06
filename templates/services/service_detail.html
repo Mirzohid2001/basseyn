@@ -74,7 +74,7 @@
                 <div class="service-price">
                     <span class="price-label">Стоимость:</span>
                     {% if service.price %}
-                        <span class="price-value">от ${{ service.price|floatformat:0 }}</span>
+                        <span class="price-value">от ₽{{ service.price|floatformat:0 }}</span>
                     {% else %}
                         <span class="price-value">По запросу</span>
                     {% endif %}

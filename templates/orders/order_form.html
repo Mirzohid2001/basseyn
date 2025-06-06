@@ -50,7 +50,7 @@
                         <div class="form-group">
                             <label for="client_phone" class="form-label required">Номер телефона</label>
                             <input type="tel" id="client_phone" name="client_phone" class="form-input" 
-                                   placeholder="+998 (90) 123-45-67" required>
+                                   placeholder="+7 123 123 123" required>
                             <span class="form-error"></span>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                     <h4 class="contact-title">Нужна помощь?</h4>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <span>+998 (90) 123-45-67</span>
+                        <span>+7 123 123 123</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
@@ -684,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (price && price !== '0') {
             totalPrice.style.display = 'block';
-            totalPrice.querySelector('.price-value').textContent = `$${parseFloat(price).toLocaleString()}`;
+            totalPrice.querySelector('.price-value').textContent = `₽${parseFloat(price).toLocaleString()}`;
         } else {
             totalPrice.style.display = 'none';
         }
