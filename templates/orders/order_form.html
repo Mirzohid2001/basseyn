@@ -704,14 +704,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneInput = document.getElementById('client_phone');
     phoneInput.addEventListener('input', function(e) {
         let value = e.target.value.replace(/\D/g, '');
-        if (value.startsWith('998')) {
+        if (value.startsWith('7')) {
             value = value.slice(3);
         }
         
-        if (value.length >= 2) {
-            value = `+998 (${value.slice(0, 2)}) ${value.slice(2, 5)}-${value.slice(5, 7)}-${value.slice(7, 9)}`;
+        if (value.length >= 1) {
+            value = `+7 (${value.slice(0, 2)}) ${value.slice(2, 5)}-${value.slice(5, 7)}-${value.slice(7, 9)}`;
         } else if (value.length > 0) {
-            value = `+998 (${value}`;
+            value = `+7 (${value}`;
         }
         
         e.target.value = value;

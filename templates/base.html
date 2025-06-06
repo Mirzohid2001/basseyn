@@ -97,7 +97,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section (only for home) -->
+
     {% if request.resolver_match.url_name == 'home' %}
 <section class="hero-section" id="hero">
     <div class="hero-background">
@@ -110,8 +110,6 @@
                 playsinline
                 preload="auto"
             >
-                {# Если есть WebM-версия, лучше добавить её первой: #}
-                {# <source src="/media/pools.webm" type="video/webm"> #}
 
                 <source src="/media/pools.mp4" type="video/mp4">
                 Ваш браузер не поддерживает HTML5-видео.
@@ -129,18 +127,18 @@
                     <span class="title-line gradient-text">Водные Шедевры</span>
                     <span class="title-line">Для Вашего Дома</span>
                 </h1>
-                <p class="hero-subtitle">
+                <p class="hero-subtitle gradient-text">
                     Превращаем мечты о роскошном бассейне в реальность с помощью
                     передовых технологий и безупречного дизайна. Мы создаем уникальные
                     водные комплексы, которые становятся центром комфорта и роскоши в вашем доме.
                     Каждый проект разрабатывается индивидуально с учётом всех ваших пожеланий.
                 </p>
                 <div class="hero-buttons">
-                    <a href="{% url 'product_list' %}" class="btn btn-primary">
+                    <a href="{% url 'product_list' %}" class="btn btn-primary ">
                         <span>Смотреть каталог</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="{% url 'order_create' %}" class="btn btn-secondary">
+                    <a href="{% url 'order_create' %}" class="btn btn-secondary ">
                         <span>Консультация</span>
                         <i class="fas fa-phone"></i>
                     </a>
