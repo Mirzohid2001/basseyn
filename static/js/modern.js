@@ -214,23 +214,22 @@ class ModernSite {
         });
     }
     
-    // ===== AJAX FUNCTIONALITY =====
     setupAjax() {
-        // Setup CSRF token for Django
-        const csrfToken = this.getCookie('csrftoken');
+        // Initialize CAPTCHA
+        if (window.captchaHandler) {
+            window.captchaHandler.init('.captcha-protected-form');
+        }
         
-        // Order form AJAX
-        const orderForms = document.querySelectorAll('.order-form');
-        orderForms.forEach(form => {
+        // Order form
+        document.querySelectorAll('.order-form').forEach(form => {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 this.submitOrderForm(form);
             });
         });
         
-        // Contact form AJAX
-        const contactForms = document.querySelectorAll('.contact-form');
-        contactForms.forEach(form => {
+        // Contact form
+        document.querySelectorAll('.contact-form').forEach(form => {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 this.submitContactForm(form);
@@ -253,6 +252,21 @@ class ModernSite {
     async submitOrderForm(form) {
         const formData = new FormData(form);
         const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Add CAPTCHA data if available
+        const captchaContainer = form.querySelector('.captcha-container');
+        if (captchaContainer && window.captchaHandler) {
+            const sessionKey = window.captchaHandler.sessionKey;
+            const captchaInput = captchaContainer.querySelector('.captcha-input');
+            
+            if (!sessionKey || !captchaInput || !captchaInput.value.trim()) {
+                this.showNotification('Пожалуйста, заполните CAPTCHA', 'error');
+                return;
+            }
+            
+            formData.append('captcha_session_key', sessionKey);
+            formData.append('captcha_answer', captchaInput.value.trim());
+        }
         
         // Show loading state
         this.setButtonLoading(submitBtn, true);
@@ -283,7 +297,16 @@ class ModernSite {
                     repeat: 1
                 });
             } else {
-                this.showNotification('Произошла ошибка. Попробуйте еще раз.', 'error');
+                // Show specific error message if available
+                const errorMessage = data.error || 'Произошла ошибка. Попробуйте еще раз.';
+                this.showNotification(errorMessage, 'error');
+                
+                // If it's a CAPTCHA error, refresh the CAPTCHA
+                if (errorMessage.includes('CAPTCHA') && window.captchaHandler) {
+                    const questionEl = captchaContainer.querySelector('.captcha-question');
+                    const statusEl = captchaContainer.querySelector('.captcha-status');
+                    window.captchaHandler.loadCaptcha(questionEl, statusEl);
+                }
             }
         } catch (error) {
             this.showNotification('Произошла ошибка соединения.', 'error');
@@ -296,6 +319,21 @@ class ModernSite {
     async submitContactForm(form) {
         const formData = new FormData(form);
         const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Add CAPTCHA data if available
+        const captchaContainer = form.querySelector('.captcha-container');
+        if (captchaContainer && window.captchaHandler) {
+            const sessionKey = window.captchaHandler.sessionKey;
+            const captchaInput = captchaContainer.querySelector('.captcha-input');
+            
+            if (!sessionKey || !captchaInput || !captchaInput.value.trim()) {
+                this.showNotification('Пожалуйста, заполните CAPTCHA', 'error');
+                return;
+            }
+            
+            formData.append('captcha_session_key', sessionKey);
+            formData.append('captcha_answer', captchaInput.value.trim());
+        }
         
         this.setButtonLoading(submitBtn, true);
         
@@ -315,7 +353,16 @@ class ModernSite {
                 this.showNotification('Сообщение отправлено!', 'success');
                 form.reset();
             } else {
-                this.showNotification('Произошла ошибка. Попробуйте еще раз.', 'error');
+                // Show specific error message if available
+                const errorMessage = data.error || 'Произошла ошибка. Попробуйте еще раз.';
+                this.showNotification(errorMessage, 'error');
+                
+                // If it's a CAPTCHA error, refresh the CAPTCHA
+                if (errorMessage.includes('CAPTCHA') && window.captchaHandler) {
+                    const questionEl = captchaContainer.querySelector('.captcha-question');
+                    const statusEl = captchaContainer.querySelector('.captcha-status');
+                    window.captchaHandler.loadCaptcha(questionEl, statusEl);
+                }
             }
         } catch (error) {
             this.showNotification('Произошла ошибка соединения.', 'error');
