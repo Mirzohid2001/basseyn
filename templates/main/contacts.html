@@ -28,10 +28,18 @@
                 <div class="form-header">
                     <h2 class="form-title">Напишите нам</h2>
                     <p class="form-subtitle">Заполните форму и мы свяжемся с вами в течение часа</p>
+                    
+                    {% if error %}
+                    <div class="form-error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ error }}
+                    </div>
+                    {% endif %}
                 </div>
                 
                 <form class="modern-form contact-form" action="{% url 'contact_request' %}" method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="captcha_session_key" id="captcha_session_key" value="">
                     
                     <div class="form-group">
                         <label for="name" class="form-label required">Ваше имя</label>
@@ -72,6 +80,12 @@
                                   placeholder="Расскажите подробнее о вашем вопросе или проекте..."></textarea>
                     </div>
                     
+                    <!-- Captcha Container -->
+                    <div class="form-group">
+                        <label class="form-label required">Проверка безопасности</label>
+                        <div class="captcha-container" id="contact-captcha-container"></div>
+                    </div>
+                    
                     <div class="form-actions">
                         <button type="submit" class="btn-submit" data-original-text="Отправить сообщение">
                             <span>Отправить сообщение</span>
@@ -100,7 +114,7 @@
                         </div>
                         <div class="method-content">
                             <h4>Адрес офиса</h4>
-                            <p>{% if contact.address %}{{ contact.address }}{% else %}г. Ташкент, ул. Мустакиллик 1, офис 101{% endif %}</p>
+                            <p>{% if contact.address %}{{ contact.address }}{% else %}г. Санкт-Петербург, Невский проспект 1, офис 101{% endif %}</p>
                             <small>Пн-Пт: 9:00-18:00, Сб: 9:00-15:00</small>
                         </div>
                     </div>
@@ -111,7 +125,7 @@
                         </div>
                         <div class="method-content">
                             <h4>Телефон</h4>
-                            <p>{% if contact.phone %}{{ contact.phone }}{% else %}+998 (90) 123-45-67{% endif %}</p>
+                            <p>{% if contact.phone %}{{ contact.phone }}{% else %}+7 (812) 123-45-67{% endif %}</p>
                             <small>Ежедневно с 8:00 до 22:00</small>
                         </div>
                     </div>
@@ -122,7 +136,7 @@
                         </div>
                         <div class="method-content">
                             <h4>Email</h4>
-                            <p>{% if contact.email %}{{ contact.email }}{% else %}info@vodopaddov.uz{% endif %}</p>
+                            <p>{% if contact.email %}{{ contact.email }}{% else %}info@vodopaddov.ru{% endif %}</p>
                             <small>Отвечаем в течение 2 часов</small>
                         </div>
                     </div>
@@ -137,7 +151,7 @@
             {% if contact and contact.telegram %}
                 {{ contact.telegram }}
             {% else %}
-                @vodopadof
+                @vodopaddov
             {% endif %}
         </p>
         <small>Быстрая связь в мессенджере</small>
@@ -173,7 +187,7 @@
     <div class="container">
         <div class="map-header text-center fade-in">
             <h2 class="section-title">Как нас найти</h2>
-            <p class="section-subtitle">Мы находимся в центре Ташкента</p>
+            <p class="section-subtitle">Мы находимся в центре Санкт-Петербурга</p>
         </div>
         
         <div class="map-container fade-in">
@@ -183,7 +197,7 @@
                 </div>
                 <h3>Интерактивная карта</h3>
                 <p>Здесь будет размещена карта с нашим местоположением</p>
-                <button class="btn btn-primary" onclick="loadMap()">
+                <button class="btn btn-primary" onclick="loadMap()" style="background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);">
                     <span>Загрузить карту</span>
                     <i class="fas fa-map"></i>
                 </button>
@@ -192,7 +206,7 @@
             <!-- Real map would be loaded here -->
             <div id="map" class="map-embed" style="display: none;">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.7979417305!2d69.2406!3d41.2995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDE3JzU4LjIiTiA2OcKwMTQnMjYuMiJF!5e0!3m2!1sen!2s!4v1234567890"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1998.5991043651586!2d30.315494!3d59.938775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4696310fca5ba729%3A0xea9c53d4493c879f!2z0J3QtdCy0YHQutC40Lkg0L_RgNC-0YHQv9C10LrRgiwg0KHQsNC90LrRgi3Qn9C10YLQtdGA0LHRg9GA0LM!5e0!3m2!1sru!2sru!4v1623825179428!5m2!1sru!2sru"
                     width="100%" 
                     height="450" 
                     style="border:0;" 
@@ -203,37 +217,7 @@
             </div>
         </div>
         
-        <div class="location-details">
-            <div class="location-card fade-in">
-                <div class="location-icon">
-                    <i class="fas fa-route"></i>
-                </div>
-                <div class="location-content">
-                    <h3>Как добраться</h3>
-                    <p>Ближайшие станции метро: "Мустакиллик майдони" (5 мин пешком), "Пахтакор" (8 мин пешком)</p>
-                </div>
-            </div>
-            
-            <div class="location-card fade-in">
-                <div class="location-icon">
-                    <i class="fas fa-parking"></i>
-                </div>
-                <div class="location-content">
-                    <h3>Парковка</h3>
-                    <p>Бесплатная парковка для клиентов во дворе здания</p>
-                </div>
-            </div>
-            
-            <div class="location-card fade-in">
-                <div class="location-icon">
-                    <i class="fas fa-universal-access"></i>
-                </div>
-                <div class="location-content">
-                    <h3>Доступность</h3>
-                    <p>Офис оборудован для людей с ограниченными возможностями</p>
-                </div>
-            </div>
-        </div>
+
     </div>
 </section>
 
@@ -283,7 +267,7 @@
 <style>
 /* Page Header */
 .page-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
     color: white;
     padding: 8rem 0 4rem;
     position: relative;
@@ -421,8 +405,8 @@
 .form-select:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 153, 204, 0.1);
 }
 
 .form-textarea {
@@ -448,7 +432,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1.25rem 3rem;
-    background: var(--primary-gradient);
+    background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
     color: white;
     border: none;
     border-radius: var(--radius-md);
@@ -478,7 +462,7 @@
 }
 
 .privacy-link {
-    color: var(--primary-color);
+    color: #0099cc;
     text-decoration: none;
 }
 
@@ -530,7 +514,7 @@
 .method-icon {
     width: 50px;
     height: 50px;
-    background: var(--primary-gradient);
+    background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -592,7 +576,7 @@
 
 .social-link.facebook { background: #1877f2; }
 .social-link.instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
-.social-link.telegram { background: #0088cc; }
+.social-link.telegram { background: #0099cc; }
 .social-link.youtube { background: #ff0000; }
 
 .social-link:hover {
@@ -640,7 +624,7 @@
 .map-icon {
     width: 80px;
     height: 80px;
-    background: var(--primary-gradient);
+    background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -692,7 +676,7 @@
 .location-icon {
     width: 60px;
     height: 60px;
-    background: var(--primary-gradient);
+    background: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -754,7 +738,7 @@
 }
 
 .faq-question i {
-    color: var(--primary-color);
+    color: #0099cc;
     transition: var(--transition-normal);
 }
 
@@ -865,6 +849,38 @@ document.addEventListener('DOMContentLoaded', function() {
         
         e.target.value = value;
     });
+    
+    // Initialize captcha
+    const contactCaptcha = new CaptchaHandler({
+        formSelector: '.contact-form',
+        captchaContainerSelector: '#contact-captcha-container',
+        getCaptchaUrl: '{% url "captcha:get_captcha" %}',
+        verifyCaptchaUrl: '{% url "captcha:verify_captcha" %}',
+        autoInit: false,
+        onVerified: function() {
+            // Submit form on successful captcha verification
+            form.submit();
+        },
+        onError: function(message) {
+            console.error('Captcha error:', message);
+        }
+    });
+    
+    // Initialize captcha
+    contactCaptcha.init();
+    
+    // Override form submission to check captcha first
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!contactCaptcha.verified) {
+            contactCaptcha.verifyCaptcha();
+        } else {
+            form.submit();
+        }
+    });
+    
+    // Captcha session key ni saqlash
+    contactCaptcha.loadCaptcha();
 });
 
 function toggleFaq(element) {

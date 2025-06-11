@@ -14,6 +14,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/modern.css' %}">
+    <link rel="stylesheet" href="{% static 'css/captcha.css' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
 
     
@@ -50,7 +51,6 @@
                         <img src="{% static 'img/logo.png' %}" alt="Водопадов" class="logo-img">
 
                 </div>
-
             </div>
             
             <div class="nav-menu" id="nav-menu">
@@ -98,7 +98,6 @@
             </div>
         </div>
     </nav>
-
 
     {% if request.resolver_match.url_name == 'home' %}
 <section class="hero-section" id="hero">
@@ -157,12 +156,10 @@
 </section>
 {% endif %}
 
-
     <!-- Main Content -->
     <main class="main-content">
         {% block content %}{% endblock %}
     </main>
-
 
     <footer class="footer">
         <div class="footer-content">
@@ -238,7 +235,7 @@
                 {% if contact and contact.address %}
                     {{ contact.address }}
                 {% else %}
-                    Ташкент, Узбекистан
+                    Санкт-Петербург, Россия
                 {% endif %}
             </span>
         </div>
@@ -274,6 +271,7 @@
 
     <!-- Scripts -->
     <script src="{% static 'js/modern.js' %}"></script>
+    <script src="{% static 'js/captcha.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

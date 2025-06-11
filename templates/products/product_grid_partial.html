@@ -26,15 +26,16 @@
             <p class="product-description">{{ product.short_description }}</p>
         {% endif %}
         
-        <div class="product-price">₽{{ product.price|floatformat:0 }}</div>
-        
-        <div class="product-actions">
-            <a href="{% url 'product_detail' product.id %}" class="btn-product btn-primary">
-                Подробнее
-            </a>
-            <button class="btn-product btn-outline" onclick="quickOrder({{ product.id }})">
-                Заказать
-            </button>
+        <div class="product-price-actions">
+            <div class="product-price">₽{{ product.price|floatformat:0 }}</div>
+            <div class="product-actions">
+                <a href="{% url 'product_detail' product.id %}" class="btn-product btn-icon">
+                    <i class="fas fa-info-circle"></i>
+                </a>
+                <button class="btn-product btn-primary" onclick="quickOrder('{{ product.id }}')">
+                    <i class="fas fa-shopping-cart"></i> Заказать
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -66,6 +67,8 @@
 <script>
 function quickOrder(productId) {
     // Open quick order modal or redirect to order page
-    window.location.href = `{% url 'order_create' %}?product=${productId}`;
+    // productId string sifatida keladi, shuning uchun uni raqamga o'giramiz
+    const id = parseInt(productId);
+    window.location.href = `{% url 'order_create' %}?product=${id}`;
 }
 </script> 

@@ -28,10 +28,18 @@
                 <div class="form-header">
                     <h2 class="form-title">Данные для заказа</h2>
                     <p class="form-subtitle">Все поля обязательны для заполнения</p>
+                    
+                    {% if error %}
+                    <div class="form-error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ error }}
+                    </div>
+                    {% endif %}
                 </div>
                 
                 <form class="modern-form order-form" action="{% url 'order_create' %}" method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="captcha_session_key" id="captcha_session_key" value="">
                     
                     <!-- Client Information -->
                     <div class="form-section">
@@ -120,16 +128,27 @@
                         </div>
                     </div>
                     
+                    <!-- Captcha Section -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-shield-alt"></i>
+                            Защита от спама
+                        </h3>
+                        
+                        <div class="form-group">
+                            <div class="captcha-container" id="orderCaptcha"></div>
+                        </div>
+                    </div>
+                    
                     <!-- Submit Button -->
                     <div class="form-actions">
-                        <button type="submit" class="btn-submit" data-original-text="Отправить заказ">
-                            <span>Отправить заказ</span>
-                            <i class="fas fa-paper-plane"></i>
+                        <button type="button" id="submit-order" class="btn-submit" data-original-text="Отправить заказ">
+                            <span class="btn-text">Отправить заказ</span>
+                            <i class="fas fa-arrow-right"></i>
                         </button>
                         
                         <p class="privacy-text">
-                            Нажимая кнопку "Отправить заказ", вы соглашаетесь с 
-                            <a href="#" class="privacy-link">политикой конфиденциальности</a>
+                            Нажимая кнопку, вы соглашаетесь с <a href="#" class="privacy-link">политикой конфиденциальности</a>
                         </p>
                     </div>
                 </form>
@@ -618,14 +637,14 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('.order-form');
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const productSelect = document.getElementById('product');
-    const serviceSelect = document.getElementById('service');
-    const selectedItem = document.getElementById('selected-item');
-    const totalPrice = document.getElementById('total-price');
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.order-form');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const productSelect = document.getElementById('product');
+        const serviceSelect = document.getElementById('service');
+        const selectedItem = document.getElementById('selected-item');
+        const totalPrice = document.getElementById('total-price');
     
     // Tab switching
     tabBtns.forEach(btn => {
@@ -724,6 +743,44 @@ document.addEventListener('DOMContentLoaded', function() {
         productSelect.value = productParam;
         updateSummary();
     }
+    
+    // Captcha tizimini ishga tushirish
+    const orderCaptcha = new CaptchaHandler({
+        formSelector: '.order-form',
+        captchaContainerSelector: '#orderCaptcha',
+        getCaptchaUrl: '{% url "captcha:get_captcha" %}',
+        verifyCaptchaUrl: '{% url "captcha:verify_captcha" %}',
+        onVerified: function() {
+            // Captcha tekshirilgandan so'ng forma yuboriladi
+            form.submit();
+        },
+        onError: function(message) {
+            // Xato yuz berganda
+            console.error('Captcha error:', message);
+        }
+    });
+    
+    // Submit tugmasi hodisasi
+    document.getElementById('submit-order').addEventListener('click', function(e) {
+        e.preventDefault();
+        // Captcha tekshiruvi boshlash
+        if (!orderCaptcha.verified) {
+            orderCaptcha.verifyCaptcha();
+        } else {
+            form.submit();
+        }
+    });
+    
+    // Form submit hodisasi
+    form.addEventListener('submit', function(e) {
+        if (!orderCaptcha.verified) {
+            e.preventDefault();
+            orderCaptcha.verifyCaptcha();
+        }
+    });
+    
+    // Captcha session key ni saqlash
+    orderCaptcha.loadCaptcha();
 });
 </script>
 {% endblock %}

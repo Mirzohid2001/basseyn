@@ -1,17 +1,17 @@
 :root {
-    --primary: #4CAF50;
-    --primary-dark: #388E3C;
-    --primary-light: #C8E6C9;
-    --accent: #00BCD4;
-    --text: #2c3e50;
-    --text-light: #546e7a;
-    --bg-main: #f8f9fa;
+    --primary: #0099cc;
+    --primary-dark: #007399;
+    --primary-light: #b3e0f2;
+    --accent: #00b8e6;
+    --text: #333333;
+    --text-light: #999999;
+    --bg-main: #ffffff;
     --bg-card: #ffffff;
     --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.1);
     --shadow-soft-small: 0 5px 15px rgba(0, 0, 0, 0.05);
     --shadow-inset: inset 6px 6px 12px #d9dbe0, inset -6px -6px 12px #ffffff;
-    --gradient-primary: linear-gradient(145deg, #4CAF50, #66BB6A);
-    --gradient-hover: linear-gradient(145deg, #66BB6A, #4CAF50);
+    --gradient-primary: linear-gradient(135deg, #00b8e6 0%, #0099cc 100%);
+    --gradient-hover: linear-gradient(135deg, #0099cc 0%, #00b8e6 100%);
     --transition: all 0.3s ease;
 }
 
@@ -107,7 +107,7 @@ body {
     height: 300px;
     object-fit: cover;
     border-radius: 2.2rem;
-    box-shadow: 0 8px 38px #00e7a33c;
+    box-shadow: 0 8px 38px rgba(0, 229, 255, 0.24);
     transition: transform 0.22s, box-shadow 0.22s;
 }
 @media (max-width: 991px) {
@@ -127,13 +127,13 @@ body {
     font-weight: 600;
     border-radius: 50px;
     transition: var(--transition);
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 184, 212, 0.2);
 }
 
 .btn-primary:hover {
     background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 184, 212, 0.3);
 }
 
 /* Footer */
