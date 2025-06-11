@@ -61,11 +61,11 @@ class CaptchaHandler {
                         sessionKeyInput.value = this.sessionKey;
                     }
                 } else {
-                    this.handleError('Captcha yuklanmadi: ' + (data.error || 'Noma\'lum xato'));
+                    this.handleError('Captcha не загружена: ' + (data.error || 'Неизвестная ошибка'));
                 }
             })
             .catch(error => {
-                this.handleError('Captcha yuklanmadi: ' + error.message);
+                this.handleError('Captcha не загружена: ' + error.message);
             });
     }
     
@@ -78,7 +78,7 @@ class CaptchaHandler {
         // Sarlavha
         const title = document.createElement('h4');
         title.className = 'captcha-title';
-        title.textContent = 'Xavfsizlik tekshiruvi';
+        title.textContent = 'Проверка безопасности';
         this.captchaContainer.appendChild(title);
         
         if (data.type === 'text') {
@@ -93,7 +93,7 @@ class CaptchaHandler {
         const refreshButton = document.createElement('button');
         refreshButton.type = 'button';
         refreshButton.className = 'captcha-refresh-btn';
-        refreshButton.innerHTML = '<i class="fas fa-sync-alt"></i> Yangilash';
+        refreshButton.innerHTML = '<i class="fas fa-sync-alt"></i> Обновить';
         refreshButton.addEventListener('click', () => this.loadCaptcha());
         this.captchaContainer.appendChild(refreshButton);
     }
@@ -113,7 +113,7 @@ class CaptchaHandler {
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'captcha-input';
-        input.placeholder = 'Javobni kiriting';
+        input.placeholder = 'Введите ответ';
         input.required = true;
         input.setAttribute('data-captcha-answer', '');
         
@@ -123,7 +123,7 @@ class CaptchaHandler {
         const submitButton = document.createElement('button');
         submitButton.type = 'button';
         submitButton.className = 'captcha-submit-btn';
-        submitButton.textContent = 'Tasdiqlash';
+        submitButton.textContent = 'Подтвердить';
         submitButton.addEventListener('click', () => this.verifyCaptcha());
         this.captchaContainer.appendChild(submitButton);
     }
@@ -146,7 +146,7 @@ class CaptchaHandler {
             
             const img = document.createElement('img');
             img.src = image.url;
-            img.alt = 'Captcha rasm';
+            img.alt = 'Captcha фото';
             img.dataset.imageId = image.id;
             
             imageBox.appendChild(img);
@@ -179,7 +179,7 @@ class CaptchaHandler {
         const submitButton = document.createElement('button');
         submitButton.type = 'button';
         submitButton.className = 'captcha-submit-btn';
-        submitButton.textContent = 'Tasdiqlash';
+        submitButton.textContent = 'Подтвердить';
         submitButton.addEventListener('click', () => this.verifyCaptcha());
         this.captchaContainer.appendChild(submitButton);
     }
@@ -191,7 +191,7 @@ class CaptchaHandler {
         const answerInput = this.captchaContainer.querySelector('[data-captcha-answer]');
         
         if (!answerInput || !answerInput.value) {
-            this.handleError('Iltimos, javobni kiriting');
+            this.handleError('Пожалуйста, введите ответ');
             return;
         }
         
@@ -215,7 +215,7 @@ class CaptchaHandler {
         .then(data => {
             if (data.success) {
                 this.verified = true;
-                this.handleSuccess('Captcha muvaffaqiyatli tasdiqlandi');
+                this.handleSuccess('Captcha успешно пройдена');
                 
                 // Formani yuborish
                 if (typeof this.options.onVerified === 'function') {
@@ -225,12 +225,12 @@ class CaptchaHandler {
                 }
             } else {
                 this.verified = false;
-                this.handleError('Xato javob: ' + (data.error || 'Noma\'lum xato'));
+                this.handleError('Неправильный ответ: ' + (data.error || 'Неизвестная ошибка'));
                 this.loadCaptcha(); // Yangi captcha yuklash
             }
         })
         .catch(error => {
-            this.handleError('Tekshirish xatosi: ' + error.message);
+            this.handleError('Ошибка проверки: ' + error.message);
         });
     }
     

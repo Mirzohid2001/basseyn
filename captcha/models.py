@@ -6,13 +6,13 @@ import string
 
 class CaptchaImage(models.Model):
     """Rasmli captcha uchun tasvirlar"""
-    category = models.CharField(max_length=100, verbose_name="Kategoriya")
-    image = models.ImageField(upload_to='captcha_images/', verbose_name="Rasm")
-    is_active = models.BooleanField(default=True, verbose_name="Faol")
+    category = models.CharField(max_length=100, verbose_name="Категория")
+    image = models.ImageField(upload_to='captcha_images/', verbose_name="Фото")
+    is_active = models.BooleanField(default=True, verbose_name="Активно")
     
     class Meta:
-        verbose_name = "Captcha rasm"
-        verbose_name_plural = "Captcha rasmlar"
+        verbose_name = "Captcha фото"
+        verbose_name_plural = "Captcha фотографии"
     
     def __str__(self):
         return f"{self.category} - {self.id}"
@@ -20,19 +20,19 @@ class CaptchaImage(models.Model):
 class CaptchaQuestion(models.Model):
     """Matnli va rasmli savollar"""
     QUESTION_TYPES = (
-        ('text', 'Matnli savol'),
-        ('image', 'Rasmli savol'),
+        ('text', 'Текстовый вопрос'),
+        ('image', 'Вопрос с фотографией'),
     )
     
-    question_type = models.CharField(max_length=5, choices=QUESTION_TYPES, verbose_name="Savol turi")
-    question_text = models.CharField(max_length=255, verbose_name="Savol matni")
-    correct_answer = models.CharField(max_length=100, verbose_name="To'g'ri javob")
-    image_category = models.CharField(max_length=100, blank=True, null=True, verbose_name="Rasm kategoriyasi")
-    is_active = models.BooleanField(default=True, verbose_name="Faol")
+    question_type = models.CharField(max_length=5, choices=QUESTION_TYPES, verbose_name="Тип вопроса")
+    question_text = models.CharField(max_length=255, verbose_name="Текст вопроса")
+    correct_answer = models.CharField(max_length=100, verbose_name="Правильный ответ")
+    image_category = models.CharField(max_length=100, blank=True, null=True, verbose_name="Категория фото")
+    is_active = models.BooleanField(default=True, verbose_name="Активно")
     
     class Meta:
-        verbose_name = "Captcha savol"
-        verbose_name_plural = "Captcha savollar"
+        verbose_name = "Captcha вопрос"
+        verbose_name_plural = "Captcha вопросы"
     
     def __str__(self):
         return self.question_text
@@ -66,16 +66,16 @@ class CaptchaQuestion(models.Model):
 
 class CaptchaSession(models.Model):
     """Foydalanuvchi sessiyalarini boshqarish"""
-    session_key = models.CharField(max_length=40, unique=True, verbose_name="Sessiya kaliti")
-    question = models.ForeignKey(CaptchaQuestion, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Savol")
-    correct_answer = models.CharField(max_length=100, verbose_name="To'g'ri javob")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yaratilgan vaqt")
-    expires_at = models.DateTimeField(verbose_name="Tugash vaqti")
-    is_verified = models.BooleanField(default=False, verbose_name="Tekshirilgan")
+    session_key = models.CharField(max_length=40, unique=True, verbose_name="Ключ сессии")
+    question = models.ForeignKey(CaptchaQuestion, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Вопрос")
+    correct_answer = models.CharField(max_length=100, verbose_name="Правильный ответ")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
+    expires_at = models.DateTimeField(verbose_name="Время окончания")
+    is_verified = models.BooleanField(default=False, verbose_name="Проверен")
     
     class Meta:
-        verbose_name = "Captcha sessiya"
-        verbose_name_plural = "Captcha sessiyalar"
+        verbose_name = "Captcha сессия"
+        verbose_name_plural = "Captcha сессии"
     
     def __str__(self):
         return self.session_key

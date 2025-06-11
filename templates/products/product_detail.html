@@ -83,19 +83,11 @@
                     {{ product.description|linebreaks }}
                 </div>
                 
-                <div class="product-features">
-                    <h3 class="features-title">Особенности:</h3>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Премиум качество</li>
-                        <li><i class="fas fa-check"></i> Профессиональная установка</li>
-                        <li><i class="fas fa-check"></i> Гарантия 5 лет</li>
-                        <li><i class="fas fa-check"></i> Техническая поддержка</li>
-                    </ul>
-                </div>
+
                 
                 <div class="product-actions">
                     <a href="{% url 'order_create' %}?product={{ product.id }}" 
-                       class="btn btn-primary btn-large">
+                       class="btn btn-outline btn-large">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Заказать сейчас</span>
                     </a>
