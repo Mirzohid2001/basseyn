@@ -85,20 +85,10 @@
                     {{ service.description|linebreaks }}
                 </div>
                 
-                <div class="service-features">
-                    <h3 class="features-title">Что включено:</h3>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Бесплатная консультация</li>
-                        <li><i class="fas fa-check"></i> Профессиональная команда</li>
-                        <li><i class="fas fa-check"></i> Качественные материалы</li>
-                        <li><i class="fas fa-check"></i> Гарантия на работы</li>
-                        <li><i class="fas fa-check"></i> Поддержка после завершения</li>
-                    </ul>
-                </div>
-                
+                                
                 <div class="service-actions">
                     <a href="{% url 'order_create' %}?service={{ service.id }}" 
-                       class="btn btn-primary btn-large">
+                       class="btn btn-outline btn-large">
                         <i class="fas fa-phone"></i>
                         <span>Заказать услугу</span>
                     </a>
@@ -867,32 +857,45 @@ document.querySelector('.main-image').addEventListener('click', function() {
         const modal = document.createElement('div');
         modal.className = 'image-modal';
         modal.innerHTML = `
-            <div class="modal-backdrop" onclick="this.parentElement.remove()">
+            <div class="modal-backdrop" tabindex="0">
                 <div class="modal-content">
                     <img src="${img.src}" alt="${img.alt}">
-                    <button class="modal-close" onclick="this.parentElement.parentElement.remove()">
+                    <button class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove(); document.body.style.overflow='';">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
         `;
         document.body.appendChild(modal);
-        
+        document.body.style.overflow = 'hidden';
+
         // Animate modal
-        gsap.fromTo(modal, {
-            opacity: 0
-        }, {
-            opacity: 1,
-            duration: 0.3
-        });
-        
-        gsap.fromTo(modal.querySelector('.modal-content'), {
-            scale: 0.8
-        }, {
-            scale: 1,
-            duration: 0.3,
-            ease: 'power2.out'
-        });
+        gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+        gsap.fromTo(modal.querySelector('.modal-content'), { scale: 0.8 }, { scale: 1, duration: 0.3, ease: 'power2.out' });
+
+        // --- Добавляем поддержку ESC и "назад" ---
+        function closeModal() {
+            if (modal.parentElement) {
+                modal.remove();
+                document.body.style.overflow = '';
+                window.removeEventListener('popstate', closeModal);
+                window.removeEventListener('keydown', escListener);
+                history.back(); // возвращаемся на предыдущую страницу, если была добавлена запись
+            }
+        }
+        function escListener(e) {
+            if (e.key === "Escape") closeModal();
+        }
+        window.addEventListener('keydown', escListener);
+
+        // Добавляем в историю браузера (для кнопки "назад")
+        history.pushState({ modalOpen: true }, '');
+        window.addEventListener('popstate', closeModal);
+
+        // Закрытие по клику вне картинки
+        modal.querySelector('.modal-backdrop').onclick = function(e) {
+            if (e.target === this) closeModal();
+        };
     }
 });
 </script>

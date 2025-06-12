@@ -296,16 +296,25 @@ body {
     transition: var(--transition-normal);
 }
 
-/* ===== HERO SECTION ===== */
-.hero-section {
-    min-height: 100vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    background: none !important;
-    background: transparent !important;
+
+
+/* Гарантируем, что фон и видео внутри заполняют всю секцию */
+.hero-background,
+.hero-video-container,
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
+
+/* Само видео должно покрывать контейнер без полей */
+.bg-video {
+    object-fit: cover;
+    object-position: center center;
+}
+
 .hero-background {
     position: absolute;
     top: 0;
@@ -373,12 +382,7 @@ body {
     }
 }
 
-.hero-section {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-}
+
 .hero-content {
     position: absolute;
     top: 0;
@@ -1532,23 +1536,14 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    z-index: 1;
+
 }
-.bg-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 80% center;
-    display: block;
-    padding-top: 0; /* Bo'sh joyni yo'q qilish uchun padding-top 0 qilindi */
-}
+
 
 @media (max-width: 575px) {
     .hero-section {
-        min-height: 120vw; /* 200vw dan 120vw ga kamaytirildi */
-        padding-top: 30vw; /* 60vw dan 30vw ga kamaytirildi */
-        box-sizing: border-box;
+        min-height: 0 !important;
+        padding-top: 0 !important;
     }
     .hero-content {
         align-items: flex-start;
@@ -1561,11 +1556,7 @@ body {
     }
 }
 
-.hero-section {
-        min-height: auto;
-        padding-top: 30vw; /* 60vw dan 30vw ga kamaytirildi */
-        box-sizing: border-box;
-}
+
 
 .hero-subtitle {
     color: #fff !important;
@@ -1623,9 +1614,11 @@ body {
 
 .category-image-large {
     width: 100%;
-    height: 220px; /* или больше/меньше, по вашему вкусу */
+    aspect-ratio: 3/2;           /* Сохраняет пропорции (например, 3:2), работает во всех современных браузерах */
+    max-height: 220px;           /* Ограничение по высоте, чтобы сетка выглядела аккуратно */
+    min-height: 160px;           /* Минимальная высота, если нужно */
     overflow: hidden;
-    border-radius: 24px; /* плавные углы, можно убрать если нужны прямые */
+    border-radius: 24px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     margin-bottom: 1.2rem;
     background: #f7fafc;
@@ -1637,8 +1630,197 @@ body {
 .category-image-large img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover;           /* Обрезает и центрирует по размеру контейнера */
+    object-position: center;     /* Центр изображения */
     display: block;
+    transition: transform 0.3s;
+}
+
+.category-image-large img:hover {
+    transform: scale(1.05);
 }
 
 
+
+.hero-section {
+    /* Гарантируем ровно 100% высоты viewport */
+    height: 100vh !important;
+    min-height: 100vh !important;
+    padding: 0 !important;      /* Убираем любые паддинги */
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+
+.hero-background,
+.hero-video-container,
+.bg-video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Видео-элемент растягиваем по контейнеру */
+.bg-video {
+    object-fit: cover !important;
+    object-position: center center !important;
+    display: block !important;
+}
+
+/* ===== CUSTOM HERO SECTION ===== */
+.custom-hero-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+.custom-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.custom-bg-video {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.custom-hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.custom-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.custom-hero-text {
+    margin-bottom: 2rem;
+}
+
+.custom-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.custom-title-line {
+    display: block;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: custom-slideUp 0.8s ease-out forwards;
+}
+
+.custom-title-line:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.custom-title-line:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.custom-gradient-text {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.custom-hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    opacity: 0;
+    animation: custom-slideUp 0.8s ease-out 0.6s forwards;
+}
+
+.custom-hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    opacity: 0;
+    animation: custom-slideUp 0.8s ease-out 0.8s forwards;
+}
+
+.custom-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+/* Custom Buttons */
+.custom-btn-primary {
+    background-color: #0099cc;
+    color: white;
+    border: none;
+}
+
+.custom-btn-primary:hover {
+    background-color: #0077b3;
+}
+
+.custom-btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid #0099cc;
+}
+
+.custom-btn-secondary:hover {
+    background-color: #0099cc;
+    color: white;
+}
+
+.custom-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    animation: custom-bounce 2s infinite;
+}
+
+.custom-scroll-arrow {
+    font-size: 1.5rem;
+}
+
+@keyframes custom-slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes custom-bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}

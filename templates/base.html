@@ -100,11 +100,11 @@
     </nav>
 
     {% if request.resolver_match.url_name == 'home' %}
-<section class="hero-section" id="hero">
-    <div class="hero-background">
-        <div class="hero-video-container">
+<section class="custom-hero-section" id="custom-hero">
+    <div class="custom-hero-background">
+        <div class="custom-hero-video-container">
             <video
-                class="bg-video"
+                class="custom-bg-video"
                 autoplay
                 muted
                 loop
@@ -118,28 +118,28 @@
         </div>
     </div>
 
-    <div class="hero-content">
-        <div class="hero-overlay"></div>
+    <div class="custom-hero-content">
+        <div class="custom-hero-overlay"></div>
 
-        <div class="hero-container">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    <span class="title-line">Создаем</span>
-                    <span class="title-line gradient-text">Водные Шедевры</span>
-                    <span class="title-line">Для Вашего Дома</span>
+        <div class="custom-hero-container">
+            <div class="custom-hero-text">
+                <h1 class="custom-hero-title">
+                    <span class="custom-title-line">Создаем</span>
+                    <span class="custom-title-line custom-gradient-text">Водные Шедевры</span>
+                    <span class="custom-title-line">Для Вашего Дома</span>
                 </h1>
-                <p class="hero-subtitle gradient-text">
+                <p class="custom-hero-subtitle custom-gradient-text">
                     Превращаем мечты о роскошном бассейне в реальность с помощью
                     передовых технологий и безупречного дизайна. Мы создаем уникальные
                     водные комплексы, которые становятся центром комфорта и роскоши в вашем доме.
                     Каждый проект разрабатывается индивидуально с учётом всех ваших пожеланий.
                 </p>
-                <div class="hero-buttons">
-                    <a href="{% url 'product_list' %}" class="btn btn-primary ">
+                <div class="custom-hero-buttons">
+                    <a href="{% url 'product_list' %}" class="custom-btn custom-btn-primary">
                         <span>Смотреть каталог</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="{% url 'order_create' %}" class="btn btn-secondary ">
+                    <a href="{% url 'order_create' %}" class="custom-btn custom-btn-secondary">
                         <span>Консультация</span>
                         <i class="fas fa-phone"></i>
                     </a>
@@ -148,13 +148,14 @@
         </div>
     </div>
 
-    <div class="scroll-indicator">
-        <div class="scroll-arrow">
+    <div class="custom-scroll-indicator">
+        <div class="custom-scroll-arrow">
             <i class="fas fa-chevron-down"></i>
         </div>
     </div>
 </section>
 {% endif %}
+
 
     <!-- Main Content -->
     <main class="main-content">
@@ -225,7 +226,7 @@
                 {% if contact and contact.email %}
                     {{ contact.email }}
                 {% else %}
-                    info@vodopaddov.uz
+                    vd@vodopadov.ru
                 {% endif %}
             </span>
         </div>
