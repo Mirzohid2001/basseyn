@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-0bg5^n)p)bivg8gw&mu*di*u(uj%n9+w2u!qrv1n4in@0e@t7=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["vodopadov.ru","www.vodopadov.ru"]
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'products',
     'services',
     'captcha',
+
 ]
 
 MIDDLEWARE = [
@@ -120,10 +121,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"  # или os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / "static",  # где твоя исходная статика (может быть путь типа Path или str)
 ]
 
 MEDIA_URL = '/media/'
@@ -133,3 +134,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

@@ -73,11 +73,7 @@
                     
                     <p class="service-description">{{ service.description|truncatechars:120 }}</p>
                     
-                    <div class="service-features">
-                        <div class="feature-tag">Профессионально</div>
-                        <div class="feature-tag">Качественно</div>
-                        <div class="feature-tag">Быстро</div>
-                    </div>
+                   
                     
                     <div class="service-actions">
                         <a href="{% url 'service_detail' service.id %}" class="btn-service btn-primary">
@@ -105,48 +101,6 @@
 </section>
 
 <!-- Process Section -->
-<section class="process-section">
-    <div class="container">
-        <div class="section-header text-center fade-in">
-            <h2 class="section-title">Как мы работаем</h2>
-            <p class="section-subtitle">Простой и прозрачный процесс от заявки до завершения проекта</p>
-        </div>
-        
-        <div class="process-timeline">
-            <div class="process-step fade-in">
-                <div class="step-number"></div>
-                <div class="step-content">
-                    <h3>Консультация</h3>
-                    <p>Бесплатная консультация и обсуждение ваших потребностей</p>
-                </div>
-            </div>
-            
-            <div class="process-step fade-in">
-                <div class="step-number"></div>
-                <div class="step-content">
-                    <h3>Планирование</h3>
-                    <p>Разработка индивидуального плана и сметы работ</p>
-                </div>
-            </div>
-            
-            <div class="process-step fade-in">
-                <div class="step-number"></div>
-                <div class="step-content">
-                    <h3>Выполнение</h3>
-                    <p>Профессиональное выполнение работ в согласованные сроки</p>
-                </div>
-            </div>
-            
-            <div class="process-step fade-in">
-                <div class="step-number"></div>
-                <div class="step-content">
-                    <h3>Сдача</h3>
-                    <p>Проверка качества и передача готового проекта заказчику</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- CTA Section -->
 <section class="cta-section">
