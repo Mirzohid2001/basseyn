@@ -27,7 +27,7 @@
             <div class="service-images fade-in">
                 <div class="main-image">
                     {% if service.images.first %}
-                        <img src="{{ service.images.first.image.url }}" alt="{{ service.name }}" 
+                        <img src="{{ service.images.first.image.url }}" alt="{{ service.name }}"
                              class="main-service-image" id="main-image">
                     {% else %}
                         <div class="image-placeholder">
@@ -35,17 +35,17 @@
                             <p>Изображение недоступно</p>
                         </div>
                     {% endif %}
-                    
+
                     <div class="image-zoom-overlay">
                         <i class="fas fa-search-plus"></i>
                         <span>Увеличить</span>
                     </div>
                 </div>
-                
+
                 {% if service.images.count > 1 %}
                 <div class="image-thumbnails">
                     {% for image in service.images.all %}
-                        <div class="thumbnail {% if forloop.first %}active{% endif %}" 
+                        <div class="thumbnail {% if forloop.first %}active{% endif %}"
                              onclick="changeMainImage('{{ image.image.url }}')">
                             <img src="{{ image.image.url }}" alt="{{ service.name }}">
                         </div>
@@ -53,7 +53,7 @@
                 </div>
                 {% endif %}
             </div>
-            
+
             <!-- Service Info -->
             <div class="service-info fade-in">
                 <div class="service-header">
@@ -70,7 +70,7 @@
                         <span class="rating-text">5.0 (98 отзывов)</span>
                     </div>
                 </div>
-                
+
                 <div class="service-price">
                     <span class="price-label">Стоимость:</span>
                     {% if service.price %}
@@ -80,14 +80,14 @@
                     {% endif %}
                     <span class="price-note">* Точная стоимость рассчитывается индивидуально</span>
                 </div>
-                
+
                 <div class="service-description">
                     {{ service.description|linebreaks }}
                 </div>
-                
-                                
+
+
                 <div class="service-actions">
-                    <a href="{% url 'order_create' %}?service={{ service.id }}" 
+                    <a href="{% url 'order_create' %}?service={{ service.id }}"
                        class="btn btn-outline btn-large">
                         <i class="fas fa-phone"></i>
                         <span>Заказать услугу</span>
@@ -125,7 +125,7 @@
             <h2 class="section-title">Этапы выполнения услуги</h2>
             <p class="section-subtitle">Пошаговый процесс от начала до завершения</p>
         </div>
-        
+
         <div class="process-steps">
             <div class="process-step fade-in">
                 <div class="step-icon">
@@ -137,9 +137,9 @@
                 </div>
                 <div class="step-number"></div>
             </div>
-            
+
             <div class="step-connector"></div>
-            
+
             <div class="process-step fade-in">
                 <div class="step-icon">
                     <i class="fas fa-clipboard-list"></i>
@@ -150,9 +150,9 @@
                 </div>
                 <div class="step-number"></div>
             </div>
-            
+
             <div class="step-connector"></div>
-            
+
             <div class="process-step fade-in">
                 <div class="step-icon">
                     <i class="fas fa-cogs"></i>
@@ -163,9 +163,9 @@
                 </div>
                 <div class="step-number"></div>
             </div>
-            
+
             <div class="step-connector"></div>
-            
+
             <div class="process-step fade-in">
                 <div class="step-icon">
                     <i class="fas fa-check-circle"></i>
@@ -186,7 +186,7 @@
         <div class="section-header text-center fade-in">
             <h2 class="section-title">Преимущества нашей услуги</h2>
         </div>
-        
+
         <div class="benefits-grid">
             <div class="benefit-item fade-in">
                 <div class="benefit-icon">
@@ -195,7 +195,7 @@
                 <h3>Опыт и экспертиза</h3>
                 <p>Более 15 лет успешной работы в области обслуживания бассейнов</p>
             </div>
-            
+
             <div class="benefit-item fade-in">
                 <div class="benefit-icon">
                     <i class="fas fa-clock"></i>
@@ -203,7 +203,7 @@
                 <h3>Соблюдение сроков</h3>
                 <p>Гарантируем выполнение работ в оговоренные сроки</p>
             </div>
-            
+
             <div class="benefit-item fade-in">
                 <div class="benefit-icon">
                     <i class="fas fa-shield-alt"></i>
@@ -211,7 +211,7 @@
                 <h3>Гарантия качества</h3>
                 <p>Предоставляем расширенную гарантию на все выполненные работы</p>
             </div>
-            
+
             <div class="benefit-item fade-in">
                 <div class="benefit-icon">
                     <i class="fas fa-headset"></i>
@@ -229,7 +229,7 @@
         <div class="section-header text-center fade-in">
             <h2 class="section-title">Часто задаваемые вопросы</h2>
         </div>
-        
+
         <div class="faq-list">
             <div class="faq-item fade-in">
                 <div class="faq-question" onclick="toggleFaq(this)">
@@ -240,7 +240,7 @@
                     <p>Время выполнения зависит от сложности проекта. Обычно от 1 до 7 рабочих дней. Точные сроки обсуждаются на этапе консультации.</p>
                 </div>
             </div>
-            
+
             <div class="faq-item fade-in">
                 <div class="faq-question" onclick="toggleFaq(this)">
                     <h3>Предоставляете ли вы гарантию на работы?</h3>
@@ -250,7 +250,7 @@
                     <p>Да, мы предоставляем гарантию на все виды работ от 1 до 5 лет в зависимости от типа услуги.</p>
                 </div>
             </div>
-            
+
             <div class="faq-item fade-in">
                 <div class="faq-question" onclick="toggleFaq(this)">
                     <h3>Можно ли заказать услугу в выходные дни?</h3>
@@ -343,6 +343,9 @@
     position: sticky;
     top: 100px;
     height: fit-content;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .main-image {
@@ -352,6 +355,7 @@
     box-shadow: var(--shadow-xl);
     margin-bottom: 2rem;
     cursor: zoom-in;
+
 }
 
 .main-service-image {
@@ -787,36 +791,36 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .service-images {
         position: static;
     }
-    
+
     .service-title {
         font-size: 2rem;
     }
-    
+
     .price-value {
         font-size: 2rem;
     }
-    
+
     .service-actions {
         flex-direction: column;
     }
-    
+
     .process-steps {
         flex-direction: column;
         gap: 2rem;
     }
-    
+
     .step-connector {
         display: none;
     }
-    
+
     .benefits-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .cta-buttons {
         flex-direction: column;
         align-items: center;
@@ -827,15 +831,15 @@
 
 {% block extra_js %}
 <script>
-function changeMainImage(imageUrl) {
+function changeMainImage(imageUrl, el) {
     const mainImage = document.getElementById('main-image');
     mainImage.src = imageUrl;
-    
+
     // Update active thumbnail
     document.querySelectorAll('.thumbnail').forEach(thumb => {
         thumb.classList.remove('active');
     });
-    event.target.closest('.thumbnail').classList.add('active');
+    if (el) el.closest('.thumbnail').classList.add('active');
 }
 
 function shareService() {
@@ -854,66 +858,85 @@ function shareService() {
 function toggleFaq(element) {
     const faqItem = element.parentElement;
     const isActive = faqItem.classList.contains('active');
-    
-    // Close all FAQ items
+
     document.querySelectorAll('.faq-item').forEach(item => {
         item.classList.remove('active');
     });
-    
-    // Open clicked item if it wasn't active
+
     if (!isActive) {
         faqItem.classList.add('active');
     }
 }
 
-// Image zoom functionality
-document.querySelector('.main-image').addEventListener('click', function() {
-    const img = this.querySelector('img');
-    if (img) {
-        const modal = document.createElement('div');
-        modal.className = 'image-modal';
-        modal.innerHTML = `
-            <div class="modal-backdrop" tabindex="0">
-                <div class="modal-content">
-                    <img src="${img.src}" alt="${img.alt}">
-                    <button class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove(); document.body.style.overflow='';">
-                        <i class="fas fa-times"></i>
-                    </button>
+document.addEventListener('DOMContentLoaded', function () {
+    // main image zoom modal
+    const mainImageBlock = document.querySelector('.main-image');
+    if (mainImageBlock) {
+        mainImageBlock.addEventListener('click', function () {
+            const img = this.querySelector('img');
+            if (!img) return;
+
+            // Удаляем старые модалки если вдруг остались
+            document.querySelectorAll('.image-modal').forEach(m => m.remove());
+
+            // Создаём модалку
+            const modal = document.createElement('div');
+            modal.className = 'image-modal';
+            modal.innerHTML = `
+                <div class="modal-backdrop" tabindex="0">
+                    <div class="modal-content">
+                        <img src="${img.src}" alt="${img.alt}">
+                        <button class="modal-close" title="Закрыть">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        document.body.style.overflow = 'hidden';
+            `;
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
 
-        // Animate modal
-        gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
-        gsap.fromTo(modal.querySelector('.modal-content'), { scale: 0.8 }, { scale: 1, duration: 0.3, ease: 'power2.out' });
-
-        // --- Добавляем поддержку ESC и "назад" ---
-        function closeModal() {
-            if (modal.parentElement) {
-                modal.remove();
-                document.body.style.overflow = '';
-                window.removeEventListener('popstate', closeModal);
-                window.removeEventListener('keydown', escListener);
-                history.back(); // возвращаемся на предыдущую страницу, если была добавлена запись
+            // Анимация, если есть GSAP
+            if (typeof gsap !== 'undefined') {
+                gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+                gsap.fromTo(modal.querySelector('.modal-content'), { scale: 0.8 }, { scale: 1, duration: 0.3, ease: 'power2.out' });
             }
-        }
-        function escListener(e) {
-            if (e.key === "Escape") closeModal();
-        }
-        window.addEventListener('keydown', escListener);
 
-        // Добавляем в историю браузера (для кнопки "назад")
-        history.pushState({ modalOpen: true }, '');
-        window.addEventListener('popstate', closeModal);
+            let closedByHistory = false;
 
-        // Закрытие по клику вне картинки
-        modal.querySelector('.modal-backdrop').onclick = function(e) {
-            if (e.target === this) closeModal();
-        };
+            function closeModal() {
+                if (modal.parentElement) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                    window.removeEventListener('keydown', escListener);
+                    window.removeEventListener('popstate', popListener);
+                    // Если закрытие не через "назад" — откатываем историю
+                    if (!closedByHistory) history.back();
+                }
+            }
+            function escListener(e) {
+                if (e.key === "Escape") closeModal();
+            }
+            function popListener() {
+                closedByHistory = true;
+                closeModal();
+            }
+
+            window.addEventListener('keydown', escListener);
+            window.addEventListener('popstate', popListener);
+
+            // Добавляем запись в history только при открытии модалки
+            history.pushState({ modalOpen: true }, '');
+
+            modal.querySelector('.modal-backdrop').onclick = function (e) {
+                if (e.target === this) closeModal();
+            };
+            modal.querySelector('.modal-close').onclick = function () {
+                closeModal();
+            };
+        });
     }
 });
+
 </script>
 
 <style>

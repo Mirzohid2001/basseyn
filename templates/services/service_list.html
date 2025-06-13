@@ -239,6 +239,9 @@
     box-shadow: var(--shadow-md);
     transition: var(--transition-normal);
     position: relative;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .service-card:hover {
@@ -250,6 +253,7 @@
     position: relative;
     height: 300px;
     overflow: hidden;
+
 }
 
 .service-image img {
@@ -257,6 +261,7 @@
     height: 100%;
     object-fit: cover;
     transition: var(--transition-slow);
+
 }
 
 .service-card:hover .service-image img {
@@ -286,7 +291,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+
 }
 
 .service-card:hover .service-overlay {
@@ -298,6 +303,7 @@
     color: white;
     transform: translateY(20px);
     transition: var(--transition-normal);
+
 }
 
 .service-card:hover .service-overlay-content {

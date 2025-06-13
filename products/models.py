@@ -28,3 +28,11 @@ class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name="images", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="product_images/")
     alt_text = models.CharField(max_length=120, blank=True)
+
+class ProductCharacteristic(models.Model):
+    product = models.ForeignKey(Product, related_name='characteristics', on_delete=models.CASCADE)
+    name = models.CharField('Параметр', max_length=255)
+    value = models.CharField('Значение', max_length=255)
+
+    def __str__(self):
+        return f"{self.name}: {self.value}"

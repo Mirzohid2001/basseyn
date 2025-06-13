@@ -126,10 +126,11 @@
         </div>
 
         <div class="text-center fade-in" style="margin-top: 3rem;">
-            <a href="{% url 'product_list' %}" class="btn btn-secondary btn-large">
-                <span>Все категории</span>
-                <i class="fas fa-th-large"></i>
-            </a>
+            <a href="{% url 'product_list' %}" class="btn btn-secondary btn-large" style="background:#0099cc;color:#fff;border:none;">
+    <span>Все категории</span>
+    <i class="fas fa-th-large"></i>
+</a>
+
         </div>
     </div>
 </section>
@@ -298,7 +299,7 @@
         </div>
         
         <div class="text-center fade-in" style="margin-top: 3rem;">
-            <a href="{% url 'product_list' %}" class="btn btn-primary btn-large">
+            <a href="{% url 'product_list' %}" class="btn btn-primary btn-large" style="background:#0099cc;color:#fff;border:none;">
                 <span>Смотреть каталог</span>
                 <i class="fas fa-arrow-right"></i>
             </a>
@@ -895,5 +896,8 @@
     display: inline-block;
 }
 
+
+
 </style>
 {% endblock %}
+

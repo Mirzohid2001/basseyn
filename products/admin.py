@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Category, Product, ProductImage
+from .models import Category, Product, ProductImage, ProductCharacteristic
+
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -18,9 +19,14 @@ class CategoryAdmin(admin.ModelAdmin):
     image_preview.short_description = "Превью"
     image_preview.allow_tags = True
 
+class ProductCharacteristicInline(admin.TabularInline):
+    model = ProductCharacteristic
+    extra = 1
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "category", "price", "is_featured", "created_at")
     search_fields = ("name", "category__name")
     list_filter = ("category", "is_featured")
-    inlines = [ProductImageInline]
+    inlines = [ProductImageInline,ProductCharacteristicInline]
+

@@ -98,8 +98,34 @@
                 </div>
             </div>
         </div>
+            {% if product.characteristics.exists %}
+    <div class="product-characteristics fade-in" style="margin: 40px 0 30px;">
+        <h2 class="section-title" style="font-size: 2rem; margin-bottom: 1.5rem;">Характеристики</h2>
+        <table class="characteristics-table" style="width:100%; border-collapse:collapse;">
+            <tbody>
+                {% for ch in product.characteristics.all %}
+                <tr>
+                    <td style="padding: 10px 16px; border-bottom:1px solid #eee; font-weight:600; color:#444;">
+                        {{ ch.name }}
+                    </td>
+                    <td style="padding: 10px 16px; border-bottom:1px solid #eee; color:#444;">
+                        {{ ch.value }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+
     </div>
 </section>
+
+
+
+
+
 
 <!-- Product Specifications -->
 
@@ -711,6 +737,57 @@ document.querySelector('.main-image').addEventListener('click', function() {
         });
     }
 });
+document.addEventListener('DOMContentLoaded', function() {
+    // Функция для показа модального окна с изображением
+    function showImageModal(src, alt) {
+        // Удалить старую модалку, если есть
+        const oldModal = document.querySelector('.image-modal');
+        if (oldModal) oldModal.remove();
+
+        // Создаем разметку модального окна
+        const modal = document.createElement('div');
+        modal.className = 'image-modal';
+        modal.innerHTML = `
+            <div class="modal-backdrop">
+                <div class="modal-content">
+                    <img src="${src}" alt="${alt}">
+                    <button class="modal-close" title="Закрыть">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Клик по фону (не по .modal-content) — закрыть
+        modal.querySelector('.modal-backdrop').addEventListener('click', function(e) {
+            if (e.target === this) {
+                modal.remove();
+            }
+        });
+
+        // Клик по крестику — закрыть
+        modal.querySelector('.modal-close').addEventListener('click', function() {
+            modal.remove();
+        });
+
+        // Анимация с GSAP (если есть)
+        if (typeof gsap !== 'undefined') {
+            gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+            gsap.fromTo(modal.querySelector('.modal-content'), { scale: 0.8 }, { scale: 1, duration: 0.3, ease: 'power2.out' });
+        }
+    }
+
+    // Навешиваем обработчик на основное изображение товара
+    const mainImageBlock = document.querySelector('.main-image');
+    if (mainImageBlock) {
+        mainImageBlock.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            if (img) showImageModal(img.src, img.alt);
+        });
+    }
+});
+
 </script>
 
 <style>
@@ -770,5 +847,22 @@ document.querySelector('.main-image').addEventListener('click', function() {
 .modal-close:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
+.characteristics-table {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    background: #fff;
+    font-size: 1rem;
+}
+.characteristics-table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f3f3f3;
+}
+.characteristics-table tr:last-child td {
+    border-bottom: none;
+}
+
 </style>
 {% endblock %}
