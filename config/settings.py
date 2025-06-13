@@ -135,3 +135,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.timeweb.ru'  # или smtp.gmail.com и т.д.
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'vd@vodopadov.ru'
+EMAIL_HOST_PASSWORD = 'Vodopadov6269'
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+NOTIFY_EMAIL = 'amirbek.z799da@gmail.com'

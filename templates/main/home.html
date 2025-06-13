@@ -45,7 +45,7 @@
             <h2 class="section-title">Категории товаров</h2>
             <p class="section-subtitle">Выберите интересующую вас категорию</p>
         </div>
-        
+
         <div class="categories-grid card-container">
             {% for category in categories %}
             <div class="category-card card fade-in">
@@ -124,7 +124,7 @@
             </div>
             {% endfor %}
         </div>
-        
+
         <div class="text-center fade-in" style="margin-top: 3rem;">
             <a href="{% url 'product_list' %}" class="btn btn-secondary btn-large">
                 <span>Все категории</span>
@@ -645,6 +645,12 @@
     margin-bottom: 1.5rem;
 }
 
+.category-card {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .category-icon {
     width: 80px;
     height: 80px;
@@ -735,6 +741,28 @@
     transform: translateX(5px);
     border-color: transparent;
 }
+
+.category-image-large {
+    width: 100%;
+    height: 220px;         /* Или другая нужная тебе высота */
+    margin: 0;             /* Убирает внешние отступы */
+    padding: 0;            /* Убирает внутренние отступы */
+    border-radius: 0;      /* Убирает скругления */
+    overflow: hidden;
+    box-shadow: none;      /* Без тени, если не нужна */
+    background: #f7fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.category-image-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;      /* Убирает скругления у самой картинки */
+    display: block;
+}
+
 
 /* Promo Banners Section */
 .promo-banners-section {
