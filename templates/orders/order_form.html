@@ -58,7 +58,7 @@
                         <div class="form-group">
                             <label for="client_phone" class="form-label required">Номер телефона</label>
                             <input type="tel" id="client_phone" name="client_phone" class="form-input" 
-                                   placeholder="+7 123 123 123" required>
+                                   placeholder="+7 (912) 345-67-89" required>
                             <span class="form-error"></span>
                         </div>
                     </div>
@@ -719,38 +719,48 @@
         totalPrice.style.display = 'none';
     }
     
-    // Phone number formatting
+    // Phone number formatting for Russian numbers
     const phoneInput = document.getElementById('client_phone');
-phoneInput.addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-
-    // Обрезаем ведущие 8 или 7, если пользователь их вводит вручную
-    if (value.startsWith('8')) {
-        value = value.slice(1);
-    }
-    if (value.startsWith('7')) {
-        value = value.slice(1);
-    }
-
-    // Максимум 10 цифр после +7
-    value = value.slice(0, 10);
-
-    let formatted = '+7';
-    if (value.length > 0) {
-        formatted += ' (' + value.slice(0, 3);
-    }
-    if (value.length >= 4) {
-        formatted += ') ' + value.slice(3, 6);
-    }
-    if (value.length >= 7) {
-        formatted += '-' + value.slice(6, 8);
-    }
-    if (value.length >= 9) {
-        formatted += '-' + value.slice(8, 10);
-    }
-
-    e.target.value = formatted;
-});
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // Обрезаем ведущие 8 или 7, если пользователь их вводит вручную
+        if (value.startsWith('8') || value.startsWith('7')) {
+            value = value.slice(1);
+        }
+        
+        // Максимум 10 цифр после +7
+        value = value.slice(0, 10);
+        
+        // Форматирование российского номера телефона: +7 (XXX) XXX-XX-XX
+        if (value.length > 0) {
+            let formattedValue = '+7';
+            
+            if (value.length > 0) {
+                formattedValue += ' (';
+            }
+            
+            if (value.length > 0) {
+                formattedValue += value.slice(0, Math.min(3, value.length));
+            }
+            
+            if (value.length > 3) {
+                formattedValue += ') ' + value.slice(3, Math.min(6, value.length));
+            }
+            
+            if (value.length > 6) {
+                formattedValue += '-' + value.slice(6, Math.min(8, value.length));
+            }
+            
+            if (value.length > 8) {
+                formattedValue += '-' + value.slice(8, Math.min(10, value.length));
+            }
+            
+            e.target.value = formattedValue;
+        } else {
+            e.target.value = '';
+        }
+    });
 
     
     // Initialize with URL parameter

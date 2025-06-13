@@ -102,6 +102,22 @@
     </div>
 </section>
 
+{% if service.characteristics.all %}
+        <div class="service-characteristics fade-in" style="margin-top: 40px;">
+            <h2>Технические характеристики</h2>
+            <table class="characteristics-table">
+                <tbody>
+                    {% for ch in service.characteristics.all %}
+                    <tr>
+                        <td>{{ ch.name }}</td>
+                        <td>{{ ch.value }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
 <!-- Service Process -->
 <section class="process-section">
     <div class="container">
