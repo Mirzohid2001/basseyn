@@ -12,6 +12,7 @@ class ProjectImageInline(admin.TabularInline):
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ("name", "price", "is_featured")
+    fields = ("name", "price", "is_featured", "description", "characteristics")
     inlines = [ServiceImageInline]
 
 @admin.register(Project)

@@ -4,6 +4,7 @@ class Service(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    characteristics = models.TextField("Характеристики", blank=True)  # просто поле для текста
     is_featured = models.BooleanField(default=False)
 
     def __str__(self):

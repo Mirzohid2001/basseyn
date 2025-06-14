@@ -60,14 +60,8 @@
                     <div class="service-badge">Профессиональная услуга</div>
                     <h1 class="service-title">{{ service.name }}</h1>
                     <div class="service-rating">
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="rating-text">5.0 (98 отзывов)</span>
+
+                        <span class="rating-text">★★★★★ 5.0 (98 отзывов)</span>
                     </div>
                 </div>
 
@@ -86,6 +80,7 @@
                 </div>
 
 
+
                 <div class="service-actions">
                     <a href="{% url 'order_create' %}?service={{ service.id }}"
                        class="btn btn-outline btn-large">
@@ -97,26 +92,20 @@
                         <span>Поделиться</span>
                     </button>
                 </div>
+            {% if service.characteristics %}
+<div class="service-characteristics">
+    <h3>Технические характеристики</h3>
+    <div class="characteristics-text">
+        {{ service.characteristics|linebreaks }}
+    </div>
+</div>
+{% endif %}
             </div>
         </div>
     </div>
 </section>
 
-{% if service.characteristics.all %}
-        <div class="service-characteristics fade-in" style="margin-top: 40px;">
-            <h2>Технические характеристики</h2>
-            <table class="characteristics-table">
-                <tbody>
-                    {% for ch in service.characteristics.all %}
-                    <tr>
-                        <td>{{ ch.name }}</td>
-                        <td>{{ ch.value }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
+
 
 <!-- Service Process -->
 <section class="process-section">
@@ -291,7 +280,7 @@
 <style>
 /* Page Header */
 .page-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     color: white;
     padding: 6rem 0 2rem;
     position: relative;
@@ -331,21 +320,22 @@
 }
 
 .service-detail-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    max-width: 1200px;
+
+    grid-template-columns: 350px 1fr;
+    gap: 3rem;
+    max-width: 1050px;
     margin: 0 auto;
 }
 
 /* Service Images */
 .service-images {
     position: sticky;
-    top: 100px;
+
     height: fit-content;
-    padding-top: 0;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
+    margin: 0;
+    background: none;
+
 }
 
 .main-image {
@@ -353,16 +343,18 @@
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-xl);
-    margin-bottom: 2rem;
+    margin-bottom: 1.3rem;
     cursor: zoom-in;
 
 }
 
 .main-service-image {
     width: 100%;
-    height: 500px;
+    max-height: 370px;
+    min-height: 240px;
     object-fit: cover;
     transition: var(--transition-slow);
+    background: #f8fafc;
 }
 
 .main-image:hover .main-service-image {
@@ -439,13 +431,13 @@
 .service-badge {
     background: var(--primary-gradient);
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 0.8rem;
     border-radius: var(--radius-md);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
     display: inline-block;
 }
 
@@ -475,12 +467,21 @@
 }
 
 .service-price {
-    background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
-    padding: 2rem;
-    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, #f5fbff 0%, #e8f1ff 100%);
+    padding: 1.2rem 2rem;
+    border-radius: var(--radius-md);
     border-left: 4px solid var(--primary-color);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    max-width: 350px;
 }
+.price-value {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 0.25rem;
+}
+
 
 .price-label {
     color: var(--text-secondary);
@@ -489,14 +490,7 @@
     margin-bottom: 0.5rem;
 }
 
-.price-value {
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    font-family: 'Playfair Display', serif;
-    display: block;
-    margin-bottom: 0.5rem;
-}
+
 
 .price-note {
     color: var(--text-light);
@@ -996,5 +990,63 @@ document.addEventListener('DOMContentLoaded', function () {
 .modal-close:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+.service-info {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px 0 rgba(0,60,120,0.08);
+    padding: 2.5rem 2rem 2rem 2.5rem;
+    min-width: 340px;
+}
+.service-main-flex {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.service-description {
+    flex: 2;
+    min-width: 0;
+    font-size: 1.08rem;
+    color: #234;
+}
+
+.service-characteristics {
+    flex: 1.1;
+    min-width: 220px;
+    background: #f8fafc;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0,153,204,0.07);
+    padding: 1.5rem 1.2rem;
+    font-size: 1.02rem;
+    color: #226;
+    margin-left: auto;
+}
+
+.service-characteristics h3 {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    color: #0099cc;
+    font-weight: 700;
+}
+
+.characteristics-text {
+    white-space: pre-line;
+    color: #234;
+    line-height: 1.6;
+}
+@media (max-width: 900px) {
+    .service-main-flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .service-characteristics {
+        margin-left: 0;
+        margin-top: 1.2rem;
+        width: 100%;
+    }
+}
+
+
 </style>
 {% endblock %}

@@ -1,0 +1,7 @@
+
+
+User-agent: *
+Allow: /
+
+Sitemap: https://vodopadov.ru/sitemap.xml
+Host: vodopadov.ru

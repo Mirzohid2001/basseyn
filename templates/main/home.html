@@ -151,59 +151,64 @@
         </div>
         
         <div class="services-grid card-container">
-            <div class="service-card card fade-in">
-                <div class="service-number"></div>
-                <h3 class="service-title">Проектирование</h3>
-                <p class="service-description">
-                    3D моделирование, архитектурные решения, ландшафтный дизайн
-                </p>
-                <ul class="service-features">
-                    <li>3D визуализация</li>
-                    <li>Техническая документация</li>
-                    <li>Согласование проекта</li>
-                </ul>
-                <a href="{% url 'service_list' %}" class="service-link">
-                    <span>Узнать больше</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+            <!-- Проектирование -->
+            <div class="service-card card fade-in"
+                 style="background-image: url('{% static 'img/proekt.png' %}'); background-size:cover; background-position:center;">
+                <div class="service-overlay"></div>
+                <div class="service-content">
+                    <h3 class="service-title">Проектирование</h3>
+
+                    <ul class="service-features">
+                        <li>3D визуализация</li>
+                        <li>Техническая документация</li>
+                        <li>Согласование проекта</li>
+                    </ul>
+                    <a href="{% url 'service_list' %}" class="service-link">
+                        <span>Узнать больше</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
-            
-            <div class="service-card card fade-in">
-                <div class="service-number"></div>
-                <h3 class="service-title">Строительство</h3>
-                <p class="service-description">
-                    Земляные работы, монтаж конструкций, отделочные работы
-                </p>
-                <ul class="service-features">
-                    <li>Земляные работы</li>
-                    <li>Монтаж оборудования</li>
-                    <li>Отделка и декор</li>
-                </ul>
-                <a href="{% url 'service_list' %}" class="service-link">
-                    <span>Узнать больше</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+            <!-- Строительство -->
+            <div class="service-card card fade-in"
+                 style="background-image: url('{% static 'img/stroit.png' %}'); background-size:cover; background-position:center;">
+                <div class="service-overlay"></div>
+                <div class="service-content">
+                    <h3 class="service-title">Строительство</h3>
+
+                    <ul class="service-features">
+                        <li>Земляные работы</li>
+                        <li>Монтаж оборудования</li>
+                        <li>Отделка и декор</li>
+                    </ul>
+                    <a href="{% url 'service_list' %}" class="service-link">
+                        <span>Узнать больше</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
-            
-            <div class="service-card card fade-in">
-                <div class="service-number"></div>
-                <h3 class="service-title">Обслуживание</h3>
-                <p class="service-description">
-                    Регулярное обслуживание, ремонт, модернизация оборудования
-                </p>
-                <ul class="service-features">
-                    <li>Техническое обслуживание</li>
-                    <li>Химическая обработка</li>
-                    <li>Ремонт и модернизация</li>
-                </ul>
-                <a href="{% url 'service_list' %}" class="service-link">
-                    <span>Узнать больше</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+            <!-- Обслуживание -->
+            <div class="service-card card fade-in"
+                 style="background-image: url('{% static 'img/obslug.png' %}'); background-size:cover; background-position:center;">
+                <div class="service-overlay"></div>
+                <div class="service-content">
+                    <h3 class="service-title">Обслуживание</h3>
+
+                    <ul class="service-features">
+                        <li>Техническое обслуживание</li>
+                        <li>Химическая обработка</li>
+                        <li>Ремонт и модернизация</li>
+                    </ul>
+                    <a href="{% url 'service_list' %}" class="service-link">
+                        <span>Узнать больше</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
 
 <!-- Portfolio Section -->
 <section class="section portfolio-section" id="portfolio">
@@ -882,14 +887,15 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 .promo-banner.banner-bg {
     position: relative;
-    min-height: 240px;    /* Высота баннера */
+    min-height: 240px;
     display: flex;
-    align-items: flex-end; /* Текст к низу. Для центрирования по центру — используйте center */
+    align-items: stretch;
     justify-content: flex-start;
     overflow: hidden;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
 }
+
 
 .banner-bg-image {
     position: absolute;
@@ -904,20 +910,26 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 .promo-banner .banner-content {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;        /* Слева */
+    justify-content: flex-end;      /* Вниз */
+    text-align: left;
+    position: absolute;             /* !!! */
+    left: 0;
+    bottom: 0;
+    top: 0;
     z-index: 2;
     padding: 2rem 2.5rem;
     color: white;
-    /* Для тени вокруг текста: */
+    background: rgba(0,0,0,0.25);   /* затемнение только под текстом */
+    border-radius: 0 1rem 1rem 0;   /* скругление только справа если надо */
     text-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.25);
+    max-width: 65%; /* ограничиваем ширину блока с текстом */
+    min-height: 110px;
+    box-sizing: border-box;
 }
 
-/* Красивая полупрозрачная подложка под текст */
-.promo-banner .banner-content {
-    background: rgba(0,0,0,0.25);
-    border-radius: 1rem;
-    display: inline-block;
-}
 
 .banner-bg-image {
     position: absolute;
@@ -942,6 +954,67 @@ document.addEventListener("DOMContentLoaded", function () {
 .slider-image.active {
     opacity: 1;
     z-index: 2;
+}
+.service-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255,255,255,0.12) 0%,
+        rgba(0,80,120,0.7) 100%
+    );
+    backdrop-filter: blur(2px);  /* Стеклянный эффект! */
+    z-index: 1;
+    pointer-events: none;
+}
+.service-card {
+    border: 1.5px solid rgba(255,255,255,0.18);
+    box-shadow: 0 12px 48px 0 rgba(0,60,120,0.16), 0 1.5px 4.5px rgba(0,120,200,0.10);
+    overflow: hidden;
+}
+
+.service-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 2.5rem 2rem;
+    text-shadow: 0 4px 16px rgba(0,0,0,0.38), 0 1.5px 4.5px rgba(0,120,200,0.18);
+}
+.service-title, .service-description, .service-features, .service-link {
+    color: #fff !important;
+}
+.service-link {
+    margin-top: 1.5rem;
+    background: rgba(0,153,204,0.85);
+    color: #fff !important;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s, color 0.3s;
+}
+.service-link:hover {
+    background: #fff;
+    color: #0099cc !important;
+}
+@media (max-width: 768px) {
+    .service-card {
+        min-height: 280px;
+        padding: 1rem;
+    }
+    .service-content {
+        padding: 1rem;
+    }
+}
+.service-card:hover .service-overlay {
+    background: linear-gradient(
+        to top,
+        rgba(0, 85, 140, 0.93) 70%,
+        rgba(0, 120, 180, 0.54) 100%
+    );
 }
 
 
