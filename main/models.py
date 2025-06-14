@@ -38,7 +38,6 @@ class Banner(models.Model):
     subtitle = models.TextField('Подзаголовок', blank=True)
     link = models.CharField('Ссылка', max_length=255, blank=True)
     link_text = models.CharField('Текст кнопки', max_length=100, blank=True, default='Подробнее')
-    image = models.ImageField('Изображение', upload_to='banners/', blank=True)
     background_color = models.CharField('Цвет фона', max_length=20, blank=True, help_text='Например: #0099cc или rgba(0,153,204,0.9)')
     is_active = models.BooleanField('Активен', default=True)
     order = models.PositiveIntegerField('Порядок', default=0)
@@ -52,3 +51,19 @@ class Banner(models.Model):
         verbose_name = 'Рекламный баннер'
         verbose_name_plural = 'Рекламные баннеры'
         ordering = ['order', '-created_at']
+
+class BannerImage(models.Model):
+    banner = models.ForeignKey(
+        'Banner', related_name='images', on_delete=models.CASCADE, verbose_name='Баннер'
+    )
+    image = models.ImageField('Изображение', upload_to='banner_images/')
+    alt_text = models.CharField('Альтернативный текст', max_length=120, blank=True)
+    order = models.PositiveIntegerField('Порядок', default=0)
+
+    def __str__(self):
+        return f"Изображение для {self.banner.title}"
+
+    class Meta:
+        verbose_name = 'Изображение баннера'
+        verbose_name_plural = 'Изображения баннеров'
+        ordering = ['order', 'id']

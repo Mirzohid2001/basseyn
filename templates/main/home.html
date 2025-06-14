@@ -11,10 +11,17 @@
     <div class="container">
         <div class="promo-banners-grid">
             {% for banner in banners %}
-            <div class="promo-banner banner-bg fade-in"
-     {% if banner.background_color %}style="background-color: {{ banner.background_color }};"{% endif %}>
-    {% if banner.image %}
-        <div class="banner-bg-image" style="background-image: url('{{ banner.image.url }}');"></div>
+<div class="promo-banner banner-bg fade-in"
+     {% if banner.background_color %}style="background-color: {{ banner.background_color }};"{% endif %}
+     data-banner-id="{{ banner.id }}">
+    {% if banner.images.all %}
+        <div class="banner-bg-image banner-slider" data-banner-id="{{ banner.id }}">
+            {% for img in banner.images.all %}
+                <div class="slider-image{% if forloop.first %} active{% endif %}"
+                     style="background-image: url('{{ img.image.url }}');"
+                     alt="{{ img.alt_text }}"></div>
+            {% endfor %}
+        </div>
     {% endif %}
     <div class="banner-content">
         {% if banner.title %}
@@ -31,8 +38,8 @@
         {% endif %}
     </div>
 </div>
+{% endfor %}
 
-            {% endfor %}
         </div>
     </div>
 </section>
@@ -333,6 +340,22 @@
 {% endblock %}
 
 {% block extra_head %}
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.banner-slider').forEach(function(slider) {
+        let images = slider.querySelectorAll('.slider-image');
+        if (images.length < 2) return;
+
+        let current = 0;
+        setInterval(function() {
+            images[current].classList.remove('active');
+            current = (current + 1) % images.length;
+            images[current].classList.add('active');
+        }, 3500);
+    });
+});
+</script>
 <style>
 /* Portfolio Section */
 .portfolio-section {
@@ -896,6 +919,30 @@
     display: inline-block;
 }
 
+.banner-bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.slider-image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.7s;
+    z-index: 1;
+}
+
+.slider-image.active {
+    opacity: 1;
+    z-index: 2;
+}
 
 
 </style>

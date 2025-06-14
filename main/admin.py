@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import ContactInfo, InfoPage, About, Banner
+from .models import ContactInfo, InfoPage, About, Banner, BannerImage
+
 
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
@@ -16,6 +17,10 @@ class AboutAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
     readonly_fields = ('created_at', 'updated_at')
 
+class BannerImageInline(admin.TabularInline):
+    model = BannerImage
+    extra = 1
+
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('title', 'is_active', 'order', 'created_at')
@@ -23,3 +28,4 @@ class BannerAdmin(admin.ModelAdmin):
     search_fields = ('title', 'subtitle')
     list_editable = ('is_active', 'order')
     readonly_fields = ('created_at', 'updated_at')
+    inlines = [BannerImageInline]
