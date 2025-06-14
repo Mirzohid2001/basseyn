@@ -2181,3 +2181,9 @@ body {
         bottom: 1rem;
     }
 }
+
+@media (max-width: 390px) {
+    .hide-mobile {
+        display: none !important;
+    }
+}
