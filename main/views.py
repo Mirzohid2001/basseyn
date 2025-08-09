@@ -3,6 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
 from .models import InfoPage, ContactInfo, About, Banner
 from products.models import Category
+from django.template.loader import render_to_string
+from django.http import HttpResponse
 
 def home(request):
     # Получаем категории с количеством товаров
@@ -40,3 +42,12 @@ def about_view(request):
     return render(request, 'main/about.html', {
         'about': about
     })
+
+def robots_txt(request):
+    text = render_to_string('robots.txt')  # если в templates/robots.txt
+    return HttpResponse(text, content_type="text/plain")
+
+
+def sitemap_xml(request):
+    text = render_to_string('sitemap.xml')
+    return HttpResponse(text, content_type="application/xml")

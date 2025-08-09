@@ -144,4 +144,4 @@ EMAIL_HOST_PASSWORD = 'Vodopadov6269'
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-NOTIFY_EMAIL = 'amirbek.z799da@gmail.com'
+NOTIFY_EMAIL = 'novgrad@inbox.ru'

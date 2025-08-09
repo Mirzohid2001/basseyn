@@ -93,6 +93,18 @@ class ModernSite {
             });
         });
         
+        // Scroll down button in hero section
+        const scrollDownBtn = document.getElementById('scroll-down-btn');
+        if (scrollDownBtn) {
+            scrollDownBtn.addEventListener('click', () => {
+                const heroHeight = document.querySelector('.custom-hero-section').offsetHeight;
+                window.scrollTo({
+                    top: heroHeight - 50,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
