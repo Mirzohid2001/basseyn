@@ -67,3 +67,41 @@ class BannerImage(models.Model):
         verbose_name = 'Изображение баннера'
         verbose_name_plural = 'Изображения баннеров'
         ordering = ['order', 'id']
+
+class SEOSettings(models.Model):
+    page_name = models.CharField(
+        "URL name страницы",
+        max_length=100,
+        unique=True,
+        help_text="Имя маршрута (url_name) из urls.py. Например: home, product_list, product_detail, service_list, service_detail, contacts"
+    )
+    title = models.CharField("Title", max_length=255, blank=True,
+                             help_text="Заголовок страницы (<title>)")
+    description = models.TextField("Meta description", blank=True,
+                                   help_text="Описание страницы (meta description)")
+    canonical = models.URLField("Canonical URL", blank=True,
+                                help_text="Каноническая ссылка на страницу")
+
+    class Meta:
+        verbose_name = "SEO-настройка"
+        verbose_name_plural = "SEO-настройки"
+
+    def __str__(self):
+        return f"{self.page_name} — {self.title or 'Без title'}"
+
+class Projectt(models.Model):
+    title = models.CharField("Название", max_length=200)
+    description = models.TextField("Описание", blank=True)
+    image = models.ImageField("Фоновое фото", upload_to="projects/")
+    is_active = models.BooleanField("Показывать на сайте", default=True)
+    order = models.PositiveIntegerField("Порядок", default=0)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Проект"
+        verbose_name_plural = "Проекты"
+        ordering = ["order", "-created_at"]
+
+    def __str__(self):
+        return self.title

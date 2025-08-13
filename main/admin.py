@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import ContactInfo, InfoPage, About, Banner, BannerImage
+from django.db import models
+from django.forms import Textarea
+from django.utils.html import format_html
+
+from .models import ContactInfo, InfoPage, About, Banner, BannerImage, SEOSettings, Projectt
 
 
 @admin.register(ContactInfo)
@@ -29,3 +33,33 @@ class BannerAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'order')
     readonly_fields = ('created_at', 'updated_at')
     inlines = [BannerImageInline]
+
+@admin.register(SEOSettings)
+class SEOSettingsAdmin(admin.ModelAdmin):
+    # Явно показываем все поля — и на странице "Add", и на "Change"
+    fields = ("page_name", "title", "description", "canonical")
+
+    list_display = ("page_name", "title", "canonical")
+    search_fields = ("page_name", "title")
+    save_on_top = True
+
+
+@admin.register(Projectt)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ("thumb", "title", "order", "is_active")
+    list_editable = ("order", "is_active")
+    search_fields = ("title", "description")
+    list_filter = ("is_active",)
+    fields = ("title", "description", "image", "order", "is_active")
+    readonly_fields = ()
+
+    def thumb(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="height:40px;width:70px;object-fit:cover;border-radius:6px;" />',
+                obj.image.url
+            )
+        return "—"
+    thumb.short_description = "Превью"
+
+

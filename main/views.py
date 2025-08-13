@@ -1,7 +1,7 @@
 # main/views.py
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
-from .models import InfoPage, ContactInfo, About, Banner
+from .models import InfoPage, ContactInfo, About, Banner, Projectt
 from products.models import Category
 from django.template.loader import render_to_string
 from django.http import HttpResponse
@@ -15,11 +15,14 @@ def home(request):
     # Получаем активные баннеры
     banners = Banner.objects.filter(is_active=True)
     contact = ContactInfo.objects.first()
+    projects = Projectt.objects.filter(is_active=True).order_by("order", "-created_at")
+
 
     context = {
         'categories': categories,
         'banners': banners,
-        'contact':contact
+        'contact':contact,
+        "projects": projects
     }
     return render(request, "main/home.html", context)
 

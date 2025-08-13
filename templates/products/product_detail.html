@@ -71,6 +71,12 @@
                         </div>
                         <span class="rating-text">5.0 (124 отзыва)</span>
                     </div>
+                {% if product.availability == 'in_stock' %}
+  <span class="badge bg-success">В наличии</span>
+{% elif product.availability == 'on_order' %}
+  <span class="badge bg-warning">Под заказ</span>
+{% endif %}
+
                 </div>
                 
                 <div class="product-price">

@@ -1,0 +1,7 @@
+.model-seosettings .form-row.field-description,
+.model-seosettings textarea#id_description {
+    display: block !important;
+    visibility: visible !important;
+    min-height: 140px !important;
+    width: 100% !important;
+}

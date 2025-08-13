@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import Service, ServiceImage, Project, ProjectImage
 
 class ServiceImageInline(admin.TabularInline):
@@ -19,3 +20,4 @@ class ServiceAdmin(admin.ModelAdmin):
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ("title", "date_completed", "is_featured")
     inlines = [ProjectImageInline]
+

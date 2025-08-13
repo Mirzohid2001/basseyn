@@ -13,6 +13,10 @@ class Category(models.Model):
         verbose_name_plural = "Категории"
 
 class Product(models.Model):
+    class Availability(models.TextChoices):
+        IN_STOCK = "in_stock", "В наличии"
+        ON_ORDER = "on_order", "Под заказ"
+
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="products")
     short_description = models.CharField(max_length=255, blank=True)
@@ -20,6 +24,12 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    availability = models.CharField(
+        max_length=20,
+        choices=Availability.choices,
+        default=Availability.IN_STOCK,
+        verbose_name="Наличие"
+    )
 
     def __str__(self):
         return self.name
@@ -36,3 +46,34 @@ class ProductCharacteristic(models.Model):
 
     def __str__(self):
         return f"{self.name}: {self.value}"
+
+class SEOSettings(models.Model):
+    page_name = models.CharField(
+        "URL name страницы",
+        max_length=100,
+        unique=True,
+        help_text="Имя маршрута (url_name) из urls.py. Например: home, product_list, product_detail"
+    )
+    title = models.CharField(
+        "Title",
+        max_length=255,
+        blank=True,
+        help_text="Заголовок страницы (<title>)"
+    )
+    description = models.TextField(
+        "Meta description",
+        blank=True,
+        help_text="Описание страницы (meta description)"
+    )
+    canonical = models.URLField(
+        "Canonical URL",
+        blank=True,
+        help_text="Каноническая ссылка на страницу"
+    )
+
+    class Meta:
+        verbose_name = "SEO-настройка"
+        verbose_name_plural = "SEO-настройки"
+
+    def __str__(self):
+        return f"{self.page_name} — {self.title or 'Без title'}"

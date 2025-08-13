@@ -4,35 +4,40 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from .models import Product, Category
+from .models import Product, Category, SEOSettings
+
+
+def _seo_from_settings(page_name: str):
+    try:
+        s = SEOSettings.objects.get(page_name=page_name)
+        return {"title": s.title or None, "description": s.description or None, "canonical": s.canonical or None}
+    except SEOSettings.DoesNotExist:
+        return {"title": None, "description": None, "canonical": None}
+
+def _canonical_base(request):
+    # каноникал без параметров
+    return request.build_absolute_uri(request.path)
 
 def product_list(request):
     products = Product.objects.select_related("category").prefetch_related("images").all()
     categories = Category.objects.all()
-    
-    # Filter parameters
+
     q = request.GET.get("q", "")
     category = request.GET.get("category", "")
     min_price = request.GET.get("min_price")
     max_price = request.GET.get("max_price")
-    
-    # Apply filters
+
     if q:
         products = products.filter(Q(name__icontains=q) | Q(description__icontains=q))
     if category:
         products = products.filter(category__id=category)
     if min_price:
-        try:
-            products = products.filter(price__gte=float(min_price))
-        except ValueError:
-            pass
+        try: products = products.filter(price__gte=float(min_price))
+        except ValueError: pass
     if max_price:
-        try:
-            products = products.filter(price__lte=float(max_price))
-        except ValueError:
-            pass
-    
-    # Sorting
+        try: products = products.filter(price__lte=float(max_price))
+        except ValueError: pass
+
     sort = request.GET.get("sort", "")
     if sort == "price_asc":
         products = products.order_by("price")
@@ -46,12 +51,19 @@ def product_list(request):
         products = products.annotate(order_count=Count("order")).order_by("-order_count")
     else:
         products = products.order_by("-id")
-    
-    # Pagination
-    paginator = Paginator(products, 12)  # 12 products per page for better grid layout
+
+    paginator = Paginator(products, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    
+
+    # SEO для списка: из SEOSettings(product_list) с дефолтами
+    ss = _seo_from_settings("product_list")
+    seo_title = ss["title"] or "Каталог товаров — Водопадов"
+    seo_description = ss["description"] or "Каталог продукции для бассейнов: оборудование, химия, аксессуары."
+    # Если пагинация > 1, добавим ?page=n к каноникалу
+    base_canon = ss["canonical"] or _canonical_base(request)
+    seo_canonical = f"{base_canon}?page={page_obj.number}" if page_obj.number > 1 else base_canon
+
     context = {
         "products": page_obj,
         "categories": categories,
@@ -62,9 +74,12 @@ def product_list(request):
         "sort": sort,
         "paginator": paginator,
         "page_obj": page_obj,
+        # SEO
+        "seo_title": seo_title,
+        "seo_description": seo_description,
+        "seo_canonical": seo_canonical,
     }
-    
-    # AJAX request - return only the product grid
+
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         html = render_to_string('products/product_grid_partial.html', context, request=request)
         return JsonResponse({
@@ -76,20 +91,32 @@ def product_list(request):
             'has_next': page_obj.has_next(),
             'has_previous': page_obj.has_previous()
         })
-    
+
     return render(request, "products/product_list.html", context)
 
 def product_detail(request, pk):
     product = get_object_or_404(Product.objects.prefetch_related("images"), pk=pk)
-    
-    # Related products
-    related_products = Product.objects.filter(
-        category=product.category
-    ).exclude(pk=product.pk).prefetch_related("images")[:4]
-    
+    related_products = Product.objects.filter(category=product.category).exclude(pk=product.pk).prefetch_related("images")[:4]
+
+    # SEO для товара: title = name; description = short_description (или начало description)
+    seo_title = product.name
+    if getattr(product, "short_description", ""):
+        seo_description = product.short_description
+    else:
+        # возьмём первые 160 символов из полного описания
+        seo_description = (product.description or "")[:160]
+
+    # fallback из SEOSettings(product_detail), если хочешь переопределить дефолты
+    ss = _seo_from_settings("product_detail")
+    seo_title = ss["title"] or seo_title
+    seo_description = ss["description"] or seo_description
+    seo_canonical = ss["canonical"] or _canonical_base(request)
+
     context = {
         "product": product,
-        "related_products": related_products
+        "related_products": related_products,
+        "seo_title": seo_title,
+        "seo_description": seo_description,
+        "seo_canonical": seo_canonical,
     }
-    
     return render(request, "products/product_detail.html", context)
