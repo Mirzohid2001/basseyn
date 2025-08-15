@@ -6,6 +6,8 @@ class Service(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
     characteristics = models.TextField("Характеристики", blank=True)  # просто поле для текста
     is_featured = models.BooleanField(default=False)
+    seo_description = models.TextField("Meta description", blank=True)
+
 
     def __str__(self):
         return self.name

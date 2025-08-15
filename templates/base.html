@@ -8,8 +8,12 @@
 <meta name="description"
         content="{% block meta_description %}{{ seo_description|default:'Интернет-магазин по оборудованию бассейнов от «Водопадов». Звони!☎️ +7-812-716-30-00.' }}{% endblock %}">
     <title>
-    {% block title %}{{ seo_title|default:"Водопадов — Элитные Бассейны" }}{% endblock %}
-  </title>
+    {% if seo_title %}
+        {{ seo_title }}
+    {% else %}
+        {% block title %}Водопадов — Элитные Бассейны{% endblock %}
+    {% endif %}
+</title>
 <link rel="canonical" href="{{ seo_canonical|default:request.build_absolute_uri }}">
 
     

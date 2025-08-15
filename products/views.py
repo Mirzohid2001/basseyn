@@ -4,7 +4,9 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from .models import Product, Category, SEOSettings
+
+from main.models import SEOSettings
+from .models import Product, Category
 
 
 def _seo_from_settings(page_name: str):

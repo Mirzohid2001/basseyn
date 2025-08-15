@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-from .models import Category, Product, ProductImage, ProductCharacteristic, SEOSettings
+from .models import Category, Product, ProductImage, ProductCharacteristic
 
 from django.db import models
 from django.forms import Textarea
@@ -36,16 +36,3 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(SEOSettings)
-class SEOSettingsAdmin(admin.ModelAdmin):
-    save_on_top = True
-    list_display = ("page_name", "title", "canonical")
-    search_fields = ("page_name", "title")
-
-    # Показываем все поля
-    fields = ("page_name", "title", "description", "canonical")
-
-    # Делаем Textarea для description
-    formfield_overrides = {
-        models.TextField: {"widget": Textarea(attrs={"rows": 4, "style": "width:100%;"})},
-    }
