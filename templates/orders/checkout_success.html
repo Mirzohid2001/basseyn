@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Спасибо за заказ - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <div class="page-header-content fade-in">
+      <nav class="breadcrumbs">
+        <a href="{% url 'home' %}">Главная</a>
+        <span class="separator">•</span>
+        <a href="{% url 'product_list' %}">Каталог</a>
+        <span class="separator">•</span>
+        <span class="current">Спасибо за заказ</span>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<section class="success-section">
+  <div class="container">
+    <div class="success-card fade-in">
+      <div class="icon"><i class="fas fa-check-circle"></i></div>
+      <h1 class="title">Заявка отправлена!</h1>
+      {% if order %}
+        <p class="subtitle">Ваш номер заказа: <strong>#{{ order.id }}</strong></p>
+      {% endif %}
+      {% if phone or email %}
+        <p class="muted">Мы свяжемся с вами по
+          {% if phone %} телефону <strong>{{ phone }}</strong>{% endif %}
+          {% if phone and email %} и по {% endif %}
+          {% if email %}почте <strong>{{ email }}</strong>{% endif %}.
+        </p>
+      {% endif %}
+
+      <div class="actions">
+        <a href="{% url 'my_orders' %}" class="btn btn-primary btn-large">
+          Мои заказы
+          <i class="fas fa-list-ul"></i>
+        </a>
+        <a href="{% url 'product_list' %}" class="btn btn-secondary btn-large">
+          Вернуться в каталог
+        </a>
+      </div>
+
+      {% if order and order.items.all %}
+      <div class="summary">
+        <h2 class="h5">Состав заказа</h2>
+        <ul class="items">
+          {% for it in order.items.all %}
+            <li class="item">
+              <div class="thumb">
+                {% if it.product.images.first %}
+                  <img src="{{ it.product.images.first.image.url }}" alt="{{ it.product.name }}">
+                {% else %}
+                  <div class="thumb-placeholder"><i class="fas fa-swimming-pool"></i></div>
+                {% endif %}
+              </div>
+              <div class="meta">
+                <div class="name">{{ it.product.name }}</div>
+                <div class="muted">× {{ it.quantity }}</div>
+              </div>
+              <div class="price">₽{{ it.line_total|floatformat:0 }}</div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.page-header{background:linear-gradient(135deg,#00b8e6 0%,#0099cc 100%);color:#fff;padding:6rem 0 2rem}
+.breadcrumbs{display:flex;align-items:center;justify-content:center;gap:1rem;font-size:1rem}
+.breadcrumbs a{color:rgba(255,255,255,.8);text-decoration:none;transition:var(--transition-normal)}
+.breadcrumbs a:hover{color:#fff}.separator{opacity:.5}.current{color:#fff;font-weight:500}
+
+.success-section{padding:4rem 0;background:#fff}
+.success-card{max-width:900px;margin:0 auto;background:#fff;border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-xl);padding:2rem;text-align:center}
+.success-card .icon{font-size:3rem;color:#22c55e;margin-bottom:1rem}
+.title{font-size:1.75rem;font-weight:800;color:var(--text-primary);margin-bottom:.25rem}
+.subtitle{font-size:1.1rem;margin-bottom:.5rem}
+.muted{color:var(--text-secondary);margin-bottom:1.25rem}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.2rem;border-radius:var(--radius-md);
+  font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:var(--transition-normal)}
+.btn-large{padding:1.05rem 1.6rem;font-size:1.05rem}
+.btn-primary{background:var(--primary-gradient);color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.btn-secondary{background:#fff;border:1px solid #cbd5e1;color:#0f172a}
+.btn-secondary:hover{background:#f8fafc}
+
+.summary{margin-top:1rem;text-align:left}
+.summary .h5{font-weight:700;margin-bottom:.5rem}
+.items{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem}
+.item{display:flex;align-items:center;gap:.75rem;border:1px dashed #e5e7eb;border-radius:12px;padding:.5rem .75rem}
+.thumb{width:56px;height:56px;border-radius:12px;overflow:hidden;flex-shrink:0;background:#f1f5f9;display:flex;align-items:center;justify-content:center}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#8aa9bd}
+.meta{flex:1}
+.name{font-weight:600}
+.price{font-weight:700}
+</style>
+{% endblock %}

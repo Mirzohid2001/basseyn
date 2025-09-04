@@ -34,8 +34,9 @@ def service_list(request):
     else:
         services = services.order_by("id")
 
-    seo_title = "Услуги компании «Водопадов»"
+
     ss = _seo_from_settings("service_list")
+    seo_title = ss["title"] or "Услуги по бассейнам"
     seo_description = ss["description"] or "Проектирование, строительство, обслуживание и ремонт бассейнов."
     seo_canonical = ss["canonical"] or _canonical_base(request)
 

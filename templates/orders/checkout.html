@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Оформление заказа - Водопадов{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <div class="page-header-content fade-in">
+      <nav class="breadcrumbs">
+        <a href="{% url 'home' %}">Главная</a>
+        <span class="separator">•</span>
+        <a href="{% url 'product_list' %}">Каталог</a>
+        <span class="separator">•</span>
+        <a href="{% url 'cart_detail' %}">Корзина</a>
+        <span class="separator">•</span>
+        <span class="current">Оформление заказа</span>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- Checkout Section -->
+<section class="checkout-section">
+  <div class="container">
+    {% if cart.total_qty %}
+      <div class="checkout-grid">
+        <!-- Form -->
+        <div class="card form-card fade-in">
+          <div class="card-header">
+            <h1 class="title">Контактные данные</h1>
+            <p class="subtitle">Мы свяжемся с вами для уточнения деталей и выставления счёта.</p>
+          </div>
+
+          {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+          {% endif %}
+
+          <form method="post" class="form">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group">
+                <label>Имя*</label>
+                <input class="input" name="name" required placeholder="Как к вам обращаться">
+              </div>
+              <div class="form-group">
+  <label>Телефон*</label>
+  <input
+      class="input"
+      type="tel"
+      name="phone"
+      required
+      placeholder="+7 (___) ___-__-__"
+      inputmode="tel"
+      autocomplete="tel"
+      pattern="^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$"
+      title="Формат: +7 (XXX) XXX-XX-XX">
+</div>
+
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Почта</label>
+                <input class="input" type="email" name="email" placeholder="example@mail.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Комментарий</label>
+              <textarea class="textarea" name="comment" rows="4" placeholder="Удобное время для звонка, пожелания по заказу…"></textarea>
+            </div>
+
+            <div class="form-footer">
+              <a href="{% url 'cart_detail' %}" class="btn btn-secondary">Назад в корзину</a>
+              <button class="btn btn-primary" type="submit">
+                Отправить заявку
+              </button>
+            </div>
+
+            <p class="policy-note">
+              Нажимая «Отправить заявку», вы соглашаетесь с обработкой персональных данных.
+            </p>
+          </form>
+        </div>
+
+        <!-- Summary -->
+        <aside class="card summary-card fade-in">
+          <div class="card-header">
+            <h2 class="title">Ваш заказ</h2>
+          </div>
+          <div class="summary-items">
+            {% for item in cart %}
+              <div class="summary-item">
+                <div class="thumb">
+                  {% if item.product.images.first %}
+                    <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}">
+                  {% else %}
+                    <div class="thumb-placeholder"><i class="fas fa-swimming-pool"></i></div>
+                  {% endif %}
+                </div>
+                <div class="meta">
+                  <div class="name">{{ item.product.name }}</div>
+                  <div class="muted">Кол-во: {{ item.qty }}</div>
+                </div>
+                <div class="price">₽{{ item.line_total|floatformat:0 }}</div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="summary-total">
+            <span>Итого</span>
+            <strong>₽{{ cart.total_price|floatformat:0 }}</strong>
+          </div>
+          <p class="summary-note">* Стоимость ориентировочная. Менеджер подтвердит финальную сумму.</p>
+        </aside>
+      </div>
+    {% else %}
+      <div class="empty-card fade-in">
+        <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+        <h2 class="title">Корзина пуста</h2>
+        <p class="subtitle">Добавьте товары и вернитесь к оформлению.</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary btn-large">Смотреть каталог</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* header как на product detail */
+.page-header{background:linear-gradient(135deg,#00b8e6 0%,#0099cc 100%);color:#fff;padding:6rem 0 2rem}
+.breadcrumbs{display:flex;align-items:center;justify-content:center;gap:1rem;font-size:1rem}
+.breadcrumbs a{color:rgba(255,255,255,.8);text-decoration:none;transition:var(--transition-normal)}
+.breadcrumbs a:hover{color:#fff}.separator{opacity:.5}.current{color:#fff;font-weight:500}
+
+/* секция */
+.checkout-section{padding:4rem 0;background:#fff}
+.checkout-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr;gap:2rem}
+
+/* карточки */
+.card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);overflow:hidden}
+.card-header{padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9}
+.card-header .title{font-size:1.25rem;font-weight:700;color:var(--text-primary)}
+.card-header .subtitle{color:var(--text-secondary);margin-top:.25rem}
+
+/* форма */
+.form{padding:1.25rem 1.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+label{font-weight:600;color:#334155}
+.input,.textarea{
+  background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:.75rem 1rem;
+  font-size:1rem;color:#0f172a;outline:none;transition:border .2s, box-shadow .2s
+}
+.input:focus,.textarea:focus{border-color:#93c5fd;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.textarea{resize:vertical}
+
+/* алерты */
+.alert{margin:1rem 1.5rem 0;padding:.75rem 1rem;border-radius:10px}
+.alert-danger{background:#fee2e2;color:#991b1b}
+
+/* подвал формы */
+.form-footer{display:flex;justify-content:flex-end;gap:.75rem;margin-top:.5rem}
+.policy-note{color:var(--text-light);font-size:.9rem;margin-top:1rem}
+
+/* summary */
+.summary-card{display:flex;flex-direction:column}
+.summary-items{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.75rem;max-height:420px;overflow:auto}
+.summary-item{display:flex;align-items:center;gap:.75rem}
+.thumb{width:56px;height:56px;border-radius:12px;overflow:hidden;flex-shrink:0;background:#f1f5f9;display:flex;align-items:center;justify-content:center}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#8aa9bd}
+.meta{flex:1}
+.name{font-weight:600;color:var(--text-primary)}
+.muted{color:var(--text-secondary);font-size:.9rem}
+.price{font-weight:700;color:var(--text-primary)}
+.summary-total{padding:1rem 1.25rem;border-top:1px dashed #e5e7eb;display:flex;justify-content:space-between;align-items:center}
+.summary-total strong{font-size:1.25rem;color:var(--primary-color)}
+.summary-note{padding:0 1.25rem 1rem;color:var(--text-light);font-size:.9rem}
+
+/* кнопки */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.25rem;border-radius:var(--radius-md);
+     font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:var(--transition-normal)}
+.btn-primary{background:var(--primary-gradient);color:#fff;border-color:transparent}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.btn-secondary{background:#fff;border-color:#cbd5e1;color:#0f172a}
+.btn-secondary:hover{background:#f8fafc}
+.btn-large{padding:1.1rem 2rem;font-size:1.05rem}
+
+/* пустое состояние */
+.empty-card{
+  background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);
+  padding:4rem 2rem;text-align:center;max-width:720px;margin:0 auto
+}
+.empty-card .icon{font-size:3rem;color:#94a3b8;margin-bottom:1rem}
+.empty-card .title{font-size:1.5rem;font-weight:700;color:var(--text-primary);margin-bottom:.5rem}
+.empty-card .subtitle{color:var(--text-secondary);margin-bottom:1.5rem}
+
+/* адаптив */
+@media (max-width: 992px){
+  .checkout-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+{% endblock %}
+{% block extra_js %}
+<script>
+(function () {
+  const input = document.querySelector('input[name="phone"]');
+  if (!input) return;
+
+  // Оставляем только цифры и приводим к РФ (+7XXXXXXXXXX)
+  function normalizeDigits(raw) {
+    let d = String(raw || '').replace(/\D+/g, '');
+    if (!d) return '';
+    if (d[0] === '8') d = '7' + d.slice(1);      // 8XXXXXXXXXX -> 7XXXXXXXXXX
+    if (d[0] === '9') d = '7' + d;               // 9XXXXXXXXX… -> 7XXXXXXXXXX
+    if (d[0] !== '7') d = '7' + d.replace(/^7?/, '');
+    return d.slice(0, 11);                       // максимум 11 цифр
+  }
+
+  // Красивое отображение +7 (XXX) XXX-XX-XX по цифрам '7XXXXXXXXXX'
+  function formatPretty(d) {
+    if (!d) return '+7 ';
+    let r = d.slice(1); // без первой '7'
+    let out = '+7';
+    if (r.length > 0) out += ' (' + r.slice(0, 3);
+    if (r.length >= 3) out += ')';
+    if (r.length > 3) out += ' ' + r.slice(3, 6);
+    if (r.length > 6) out += '-' + r.slice(6, 8);
+    if (r.length > 8) out += '-' + r.slice(8, 10);
+    return out;
+  }
+
+  function renderPretty() {
+    const digits = normalizeDigits(input.value);
+    input.dataset.e164 = digits ? '+' + digits : '';
+    input.value = formatPretty(digits);
+  }
+
+  // Если пусто — подсказка-префикс
+  input.addEventListener('focus', function () {
+    if (!input.value.trim()) input.value = '+7 ';
+  });
+
+  // Нормализуем при вводе/вставке/уходе из поля
+  input.addEventListener('input', renderPretty);
+  input.addEventListener('blur', renderPretty);
+
+  // Перед отправкой отправляем каноничный +7XXXXXXXXXX
+  input.form && input.form.addEventListener('submit', function () {
+    if (input.dataset.e164) input.value = input.dataset.e164;
+  });
+
+  // Первичный рендер (на случай автозаполнения)
+  renderPretty();
+})();
+</script>
+{% endblock %}

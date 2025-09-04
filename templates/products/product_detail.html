@@ -44,13 +44,14 @@
                 
                 {% if product.images.count > 1 %}
                 <div class="image-thumbnails">
-                    {% for image in product.images.all %}
-                        <div class="thumbnail {% if forloop.first %}active{% endif %}" 
-                             onclick="changeMainImage('{{ image.image.url }}')">
-                            <img src="{{ image.image.url }}" alt="{{ product.name }}">
-                        </div>
-                    {% endfor %}
-                </div>
+  {% for image in product.images.all %}
+    <div class="thumbnail {% if forloop.first %}active{% endif %}"
+         onclick="changeMainImage('{{ image.image.url }}', this)">
+      <img src="{{ image.image.url }}" alt="{{ product.name }}">
+    </div>
+  {% endfor %}
+</div>
+
                 {% endif %}
             </div>
             
@@ -92,6 +93,19 @@
 
                 
                 <div class="product-actions">
+                    <form method="post" action="{% url 'cart_add' product.id %}" class="add-to-cart">
+    {% csrf_token %}
+    <div class="qty-control" data-qty>
+      <button type="button" class="qty-btn" data-step="-1" aria-label="Уменьшить">−</button>
+      <input class="qty-input" type="number" name="qty" value="1" min="1" inputmode="numeric" aria-label="Количество">
+      <button type="button" class="qty-btn" data-step="1" aria-label="Увеличить">+</button>
+    </div>
+    <button class="btn btn-outline btn-large" type="submit">
+      <i class="fas fa-cart-plus"></i>
+      <span>Добавить в корзину</span>
+    </button>
+
+  </form>
                     <a href="{% url 'order_create' %}?product={{ product.id }}" 
                        class="btn btn-outline btn-large">
                         <i class="fas fa-shopping-cart"></i>
@@ -101,6 +115,7 @@
                         <i class="fas fa-share-alt"></i>
                         <span>Поделиться</span>
                     </button>
+
                 </div>
             </div>
         </div>
@@ -683,16 +698,26 @@
 
 {% block extra_js %}
 <script>
-function changeMainImage(imageUrl) {
-    const mainImage = document.getElementById('main-image');
-    mainImage.src = imageUrl;
-    
-    // Update active thumbnail
-    document.querySelectorAll('.thumbnail').forEach(thumb => {
-        thumb.classList.remove('active');
-    });
-    event.target.closest('.thumbnail').classList.add('active');
+function changeMainImage(imageUrl, el) {
+  const mainImage = document.getElementById('main-image');
+  if (mainImage) mainImage.src = imageUrl;
+
+  document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
 }
+
+document.querySelectorAll('[data-qty]').forEach(control => {
+  const input = control.querySelector('.qty-input');
+  control.querySelectorAll('.qty-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const step = parseInt(btn.getAttribute('data-step'), 10) || 0;
+      let val = parseInt(input.value || '1', 10);
+      val = isNaN(val) ? 1 : val;
+      input.value = Math.max(1, val + step);
+    });
+  });
+});
+
 
 function shareProduct() {
     if (navigator.share) {
@@ -869,6 +894,16 @@ document.addEventListener('DOMContentLoaded', function() {
 .characteristics-table tr:last-child td {
     border-bottom: none;
 }
+
+/* actions */
+.product-actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.add-to-cart{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+
+/* qty control — как на корзине */
+.qty-control{display:flex;align-items:center;border:1px solid #e5e7eb;border-radius:999px;overflow:hidden;background:#fff;margin-left: 35px}
+.qty-btn{width:40px;height:44px;border:0;background:#f1f5f9;cursor:pointer;font-size:18px;line-height:1}
+.qty-btn:hover{background:#e2e8f0}
+.qty-input{width:70px;height:44px;border:0;text-align:center;outline:none;font-weight:600;color:#0f172a}
 
 </style>
 {% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Мои заказы - Водопадов{% endblock %}
+
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <div class="page-header-content fade-in">
+      <nav class="breadcrumbs">
+        <a href="{% url 'home' %}">Главная</a>
+        <span class="separator">•</span>
+        <span class="current">Мои заказы</span>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<section class="orders-section">
+  <div class="container">
+    <div class="orders-grid">
+      <!-- Форма поиска -->
+      <div class="card form-card fade-in">
+        <div class="card-header">
+          <h1 class="title">Найти мои заказы</h1>
+          <p class="subtitle">Введите телефон и/или почту, указанные при оформлении.</p>
+        </div>
+        <form method="post" action="{% url 'my_orders_set_lookup' %}" class="form">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group">
+              <label>Телефон</label>
+              <input class="input" type="tel" name="phone" value="{{ phone }}" placeholder="+7 (___) ___-__-__">
+            </div>
+            <div class="form-group">
+              <label>Почта</label>
+              <input class="input" type="email" name="email" value="{{ email }}" placeholder="example@mail.com">
+            </div>
+          </div>
+          <div class="form-footer">
+            <button class="btn btn-primary" type="submit">Показать заказы</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Список заказов -->
+      <div class="card list-card fade-in">
+        <div class="card-header">
+          <h2 class="title">Ваши заказы</h2>
+        </div>
+
+        {% if orders %}
+          <div class="orders-list">
+            {% for o in orders %}
+              <div class="order-row">
+                <div class="left">
+                  <div class="order-id">#{{ o.id }}</div>
+                  <div class="muted">{{ o.created_at|date:"d.m.Y H:i" }}</div>
+                </div>
+                <div class="center">
+                  {% with o.items.all as items %}
+                    {% for it in items|slice:":3" %}
+                      <div class="pill">{{ it.product.name }} × {{ it.quantity }}</div>
+                    {% endfor %}
+                    {% if items|length > 3 %}
+                      <div class="pill muted">+ ещё {{ items|length|add:"-3" }}</div>
+                    {% endif %}
+                  {% endwith %}
+                </div>
+                <div class="right">
+                  <a class="btn btn-outline" href="{% url 'order_detail' o.id %}">Подробнее</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty">
+            <p class="muted">Пока ничего не найдено. Уточните телефон/почту и нажмите «Показать заказы».</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+.page-header{background:linear-gradient(135deg,#00b8e6 0%,#0099cc 100%);color:#fff;padding:6rem 0 2rem}
+.breadcrumbs{display:flex;align-items:center;justify-content:center;gap:1rem;font-size:1rem}
+.breadcrumbs a{color:rgba(255,255,255,.8)}.breadcrumbs a:hover{color:#fff}
+.separator{opacity:.5}.current{color:#fff;font-weight:500}
+
+.orders-section{padding:4rem 0;background:#fff}
+.orders-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:2rem}
+.card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);overflow:hidden}
+.card-header{padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9}
+.card-header .title{font-size:1.25rem;font-weight:700}
+.card-header .subtitle{color:var(--text-secondary);margin-top:.25rem}
+
+.form{padding:1.25rem 1.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+label{font-weight:600;color:#334155}
+.input{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:.75rem 1rem;font-size:1rem}
+.form-footer{display:flex;justify-content:flex-end}
+
+.list-card .orders-list{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.75rem}
+.order-row{display:flex;gap:12px;align-items:center;border:1px dashed #e5e7eb;border-radius:12px;padding:.75rem 1rem}
+.order-id{font-weight:800}
+.left{min-width:160px}
+.center{flex:1;display:flex;gap:.5rem;flex-wrap:wrap}
+.pill{background:#f1f5f9;color:#0f172a;padding:.25rem .5rem;border-radius:999px;font-size:.9rem}
+.pill.muted{color:#64748b}
+.right{min-width:140px;text-align:right}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1rem;border-radius:10px;font-weight:600;border:1px solid #cbd5e1;background:#fff;color:#0f172a;text-decoration:none}
+.btn:hover{background:#f8fafc}
+.btn.btn-primary{background:var(--primary-gradient);border-color:transparent;color:#fff}
+.btn.btn-outline{background:#fff;border-color:#cbd5e1}
+
+.empty{padding:1rem 1.25rem}
+.muted{color:#64748b}
+
+@media (max-width: 992px){
+  .orders-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .right{text-align:left}
+}
+</style>
+{% endblock %}

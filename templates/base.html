@@ -85,6 +85,11 @@
                     <i class="fas fa-envelope"></i>
                     <span>Контакты</span>
                 </a>
+            <a href="{% url 'cart_detail' %}" class="nav-link {% if request.resolver_match.url_name == 'cart_detail' %}active{% endif %}">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Корзина</span>
+                </a>
+
             </div>
             
             <div class="nav-phone">
