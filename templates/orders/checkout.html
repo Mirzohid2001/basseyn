@@ -197,6 +197,41 @@ label{font-weight:600;color:#334155}
 .empty-card .icon{font-size:3rem;color:#94a3b8;margin-bottom:1rem}
 .empty-card .title{font-size:1.5rem;font-weight:700;color:var(--text-primary);margin-bottom:.5rem}
 .empty-card .subtitle{color:var(--text-secondary);margin-bottom:1.5rem}
+/* плавная прокрутка списка в summary на iOS */
+.summary-items { -webkit-overflow-scrolling: touch; }
+
+/* на мобильных: крупные поля/кнопки, липкий футер */
+@media (max-width: 576px){
+  .card-header .title{ font-size:1.1rem; }
+  .form{ padding:1rem; }
+  .input, .textarea{
+    font-size:16px;          /* предотвращает zoom на iOS */
+    min-height:48px;
+  }
+  .textarea{ line-height:1.35; }
+
+  /* футер формы (кнопки) всегда под рукой */
+  .form-footer{
+    position: sticky;
+    bottom: 0;
+    background:#fff;
+    padding:12px;
+    border-top:1px solid #eaeaea;
+    box-shadow: 0 -10px 30px rgba(2,6,23,.08);
+    z-index: 10;
+  }
+  .form-footer .btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  /* карточка-сводка — компактнее */
+  .summary-card { margin-top: 1rem; }
+  .summary-items{ max-height:none; padding: 0.75rem 1rem; }
+  .summary-item .thumb{ width:48px; height:48px; }
+  .summary-total{ padding: 0.75rem 1rem; }
+  .btn-large{ padding:1rem 1.2rem; }
+}
 
 /* адаптив */
 @media (max-width: 992px){
@@ -210,6 +245,9 @@ label{font-weight:600;color:#334155}
 (function () {
   const input = document.querySelector('input[name="phone"]');
   if (!input) return;
+
+  // Убираем pattern — иначе форма не уйдёт, т.к. мы подставляем E.164 на submit
+  input.removeAttribute('pattern');
 
   // Оставляем только цифры и приводим к РФ (+7XXXXXXXXXX)
   function normalizeDigits(raw) {
@@ -240,12 +278,12 @@ label{font-weight:600;color:#334155}
     input.value = formatPretty(digits);
   }
 
-  // Если пусто — подсказка-префикс
+  // если пусто — подсказываем префикс
   input.addEventListener('focus', function () {
     if (!input.value.trim()) input.value = '+7 ';
   });
 
-  // Нормализуем при вводе/вставке/уходе из поля
+  // нормализуем при вводе/вставке/уходе из поля
   input.addEventListener('input', renderPretty);
   input.addEventListener('blur', renderPretty);
 
@@ -259,3 +297,4 @@ label{font-weight:600;color:#334155}
 })();
 </script>
 {% endblock %}
+
