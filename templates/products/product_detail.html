@@ -179,7 +179,7 @@
                     <h3 class="product-name">{{ product.name }}</h3>
                     <div class="product-price">₽{{ product.price|floatformat:0 }}</div>
                     <div class="product-actions">
-                        <a href="{% url 'product_detail' product.id %}" class="btn-product btn-primary">
+                        <a href="{{ product.get_absolute_url }}" class="btn-product btn-primary">
                             Подробнее
                         </a>
                     </div>

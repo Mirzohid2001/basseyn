@@ -29,9 +29,10 @@ class ProductCharacteristicInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "category", "price", "availability", "is_featured", "created_at")
-    search_fields = ("name", "category__name")
+    list_display = ("name", "slug", "category", "price", "availability", "is_featured", "created_at")
+    search_fields = ("name", "slug", "category__name")
     list_filter = ("category", "is_featured", "availability")
+    fields = ("name", "slug", "category", "short_description", "description", "price", "availability", "is_featured")
     inlines = [ProductImageInline, ProductCharacteristicInline]
 
 

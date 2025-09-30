@@ -79,24 +79,32 @@ body {
 }
 
 /* ===== LOADING SCREEN ===== */
+/* по умолчанию скрыт: боты и браузер без JS сразу видят видео */
 #loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #0099cc 0%, #006699 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0099cc 0%, #006699 100%);
+  display: none;               /* <-- было flex */
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity .5s ease-out, visibility .5s ease-out;
+  opacity: 0;
+  visibility: hidden;
 }
 
-#loading-screen.hidden {
-    opacity: 0;
-    visibility: hidden;
+/* показываем только если страница помечена как is-loading */
+.is-loading #loading-screen {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
+
+#loading-screen.hidden {        /* как и раньше для плавного скрытия */
+  opacity: 0;
+  visibility: hidden;
+}
+
 
 .loader {
     text-align: center;

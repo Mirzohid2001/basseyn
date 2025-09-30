@@ -1,4 +1,7 @@
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
+
 
 class Category(models.Model):
     name = models.CharField(max_length=80)
@@ -18,6 +21,7 @@ class Product(models.Model):
         ON_ORDER = "on_order", "Под заказ"
 
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=160, unique=True, blank=True, help_text="По умолчанию = id; можно менять.")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="products")
     short_description = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
@@ -33,6 +37,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        creating = self.pk is None
+        super().save(*args, **kwargs)
+        if creating and not self.slug:
+            self.slug = str(self.pk)
+            super().save(update_fields=['slug'])
+
+    def get_absolute_url(self):
+        return reverse("product_detail", kwargs={"slug": self.slug})
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name="images", on_delete=models.CASCADE)

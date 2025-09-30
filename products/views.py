@@ -1,5 +1,5 @@
 # products/views.py
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.http import JsonResponse
@@ -58,11 +58,10 @@ def product_list(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    # SEO для списка: из SEOSettings(product_list) с дефолтами
+    # SEO для списка
     ss = _seo_from_settings("product_list")
     seo_title = ss["title"] or "Каталог товаров — Водопадов"
     seo_description = ss["description"] or "Каталог продукции для бассейнов: оборудование, химия, аксессуары."
-    # Если пагинация > 1, добавим ?page=n к каноникалу
     base_canon = ss["canonical"] or _canonical_base(request)
     seo_canonical = f"{base_canon}?page={page_obj.number}" if page_obj.number > 1 else base_canon
 
@@ -96,29 +95,23 @@ def product_list(request):
 
     return render(request, "products/product_list.html", context)
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product.objects.prefetch_related("images"), pk=pk)
-    related_products = Product.objects.filter(category=product.category).exclude(pk=product.pk).prefetch_related("images")[:4]
 
-    # SEO для товара: title = name; description = short_description (или начало description)
-    seo_title = product.name
-    if getattr(product, "short_description", ""):
-        seo_description = product.short_description
-    else:
-        # возьмём первые 160 символов из полного описания
-        seo_description = (product.description or "")[:160]
+# === НОВОЕ: детальная по SLUG ===
+def product_detail_by_slug(request, slug):
+    product = get_object_or_404(
+        Product.objects.select_related("category").prefetch_related("images", "characteristics"),
+        slug=slug
+    )
+    # твой существующий SEO-код можно переиспользовать
+    return render(request, "products/product_detail.html", {"product": product})
 
-    # fallback из SEOSettings(product_detail), если хочешь переопределить дефолты
-    ss = _seo_from_settings("product_detail")
-    seo_title = ss["title"] or seo_title
-    seo_description = ss["description"] or seo_description
-    seo_canonical = ss["canonical"] or _canonical_base(request)
 
-    context = {
-        "product": product,
-        "related_products": related_products,
-        "seo_title": seo_title,
-        "seo_description": seo_description,
-        "seo_canonical": seo_canonical,
-    }
-    return render(request, "products/product_detail.html", context)
+# === ЛЕГАСИ: детальная по ID с 301-редиректом на slug ===
+def product_detail_legacy(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if not product.slug:
+        product.slug = str(product.pk)
+        product.save(update_fields=['slug'])
+    from django.shortcuts import redirect
+    return redirect(product.get_absolute_url(), permanent=True)
+

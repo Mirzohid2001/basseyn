@@ -28,7 +28,7 @@
             <div class="product-price">₽{{ product.price|floatformat:0 }}</div>
             <div class="product-actions">
                 <div class="product-actions">
-    <a href="{% url 'product_detail' product.id %}" class="btn-product btn-detail">
+    <a href="{{ product.get_absolute_url }}" class="btn-product btn-detail">
         <i class="fas fa-info-circle"></i> Подробнее
     </a>
     <button class="btn-product btn-primary" onclick="quickOrder('{{ product.id }}')">
