@@ -1,7 +1,7 @@
 # orders/views.py
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseGone
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from .models import Order, ContactRequest
@@ -11,6 +11,10 @@ from captcha.models import CaptchaSession
 import json
 
 def order_create(request):
+    if request.method == "GET" and "product" in request.GET:
+        resp = HttpResponseGone("Старая страница заказа удалена")
+        resp["X-Robots-Tag"] = "noindex, nofollow"
+        return resp
     products = Product.objects.all()
     services = Service.objects.all()
     

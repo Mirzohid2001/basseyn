@@ -31,9 +31,13 @@
     <a href="{{ product.get_absolute_url }}" class="btn-product btn-detail">
         <i class="fas fa-info-circle"></i> Подробнее
     </a>
-    <button class="btn-product btn-primary" onclick="quickOrder('{{ product.id }}')">
-        <i class="fas fa-shopping-cart"></i> Заказать
+    <form method="post" action="{% url 'cart_add' product.id %}" style="flex:1;">
+    {% csrf_token %}
+    <input type="hidden" name="qty" value="1">
+    <button type="submit" class="btn-product btn-primary" style="width:100%;">
+      <i class="fas fa-cart-plus"></i> <br>Добавить
     </button>
+  </form>
 
 </div>
             </div>
@@ -85,11 +89,4 @@
 
 </style>
 
-<script>
-function quickOrder(productId) {
-    // Open quick order modal or redirect to order page
-    // productId string sifatida keladi, shuning uchun uni raqamga o'giramiz
-    const id = parseInt(productId);
-    window.location.href = `{% url 'order_create' %}?product=${id}`;
-}
-</script>
+
